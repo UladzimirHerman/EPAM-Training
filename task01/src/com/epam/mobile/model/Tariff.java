@@ -1,4 +1,4 @@
-package com.gmail.herman.uladzimir.model.entity;
+package com.epam.mobile.model;
 
 import java.util.Objects;
 
@@ -8,6 +8,7 @@ public class Tariff implements Comparable<Tariff> {
     private String description;
     private boolean inArchive;
     private double subscriptionFee;
+    private int numSubscriber;
     private int freeMinute;
     private double costMinute;
     private int freeSms;
@@ -19,31 +20,19 @@ public class Tariff implements Comparable<Tariff> {
     }
 
     public Tariff(String name, String description, boolean inArchive, double subscriptionFee,
-                  int freeMinute, double costMinute, int freeSms, double costSms, int freeInternet,
-                  double costInternet) {
+                  int numSubscriber, int freeMinute, double costMinute, int freeSms,
+                  double costSms, int freeInternet, double costInternet) {
         this.name = name;
         this.description = description;
         this.inArchive = inArchive;
         this.subscriptionFee = subscriptionFee;
+        this.numSubscriber = numSubscriber;
         this.freeMinute = freeMinute;
         this.costMinute = costMinute;
         this.freeSms = freeSms;
         this.costSms = costSms;
         this.freeInternet = freeInternet;
         this.costInternet = costInternet;
-    }
-
-    public Tariff(Tariff o) {
-        this.name = o.name;
-        this.description = o.description;
-        this.inArchive = o.inArchive;
-        this.subscriptionFee = o.subscriptionFee;
-        this.freeMinute = o.freeMinute;
-        this.costMinute = o.costMinute;
-        this.freeSms = o.freeSms;
-        this.costSms = o.costSms;
-        this.freeInternet = o.freeInternet;
-        this.costInternet = o.costInternet;
     }
 
     public String getName() {
@@ -74,8 +63,16 @@ public class Tariff implements Comparable<Tariff> {
         return subscriptionFee;
     }
 
-    public void setSubscriptionFee(float subscriptionFee) {
+    public void setSubscriptionFee(double subscriptionFee) {
         this.subscriptionFee = subscriptionFee;
+    }
+
+    public int getNumSubscriber() {
+        return numSubscriber;
+    }
+
+    public void setNumSubscriber(int numSubscriber) {
+        this.numSubscriber = numSubscriber;
     }
 
     public int getFreeMinute() {
@@ -90,7 +87,7 @@ public class Tariff implements Comparable<Tariff> {
         return costMinute;
     }
 
-    public void setCostMinute(float costMinute) {
+    public void setCostMinute(double costMinute) {
         this.costMinute = costMinute;
     }
 
@@ -106,7 +103,7 @@ public class Tariff implements Comparable<Tariff> {
         return costSms;
     }
 
-    public void setCostSms(float costSms) {
+    public void setCostSms(double costSms) {
         this.costSms = costSms;
     }
 
@@ -122,7 +119,7 @@ public class Tariff implements Comparable<Tariff> {
         return costInternet;
     }
 
-    public void setCostInternet(float costInternet) {
+    public void setCostInternet(double costInternet) {
         this.costInternet = costInternet;
     }
 
@@ -131,14 +128,16 @@ public class Tariff implements Comparable<Tariff> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tariff tariff = (Tariff) o;
-        return Objects.equals(name, tariff.name) &&
+        return Double.compare(tariff.subscriptionFee, subscriptionFee) == 0 &&
+                numSubscriber == tariff.numSubscriber &&
+                Objects.equals(name, tariff.name) &&
                 Objects.equals(description, tariff.description);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(name, description);
+        return Objects.hash(name, description, subscriptionFee, numSubscriber);
     }
 
     @Override

@@ -1,33 +1,28 @@
-package com.gmail.herman.uladzimir.model.functional;
-
-import com.gmail.herman.uladzimir.model.entity.Tariff;
+package com.epam.mobile.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class TariffWorker {
+public class Company {
 
-    private static TariffWorker unique;
-    private ArrayList<Tariff> tariffs;
+    public ArrayList<Tariff> tariffs = new ArrayList<>();
 
-    private TariffWorker() {
-        tariffs = new ArrayList<>();
+    public Company() {
     }
 
-    public static TariffWorker getInstance() {
-        if (null == unique) {
-            unique = new TariffWorker();
-        }
-        return unique;
+    public ArrayList<Tariff> getAllTariff() {
+        return tariffs;
     }
 
-    public Tariff[] getAllTariff() {
-        Tariff[] tariffArray = new Tariff[tariffs.size()];
+    public String showAllTariff() {
+        StringBuilder result = new StringBuilder();
 
-        for (int i = 0; i < tariffArray.length; i++) {
-            tariffArray[i] = tariffs.get(i);
+        for (Tariff tariff : tariffs) {
+            result.append(tariff.toString());
+            result.append("\n");
         }
 
-        return tariffArray;
+        return result.toString();
     }
 
     public int countTariff() {
@@ -58,6 +53,10 @@ public class TariffWorker {
 
     public void clear() {
         tariffs.clear();
+    }
+
+    public void sortTariff() {
+        Collections.sort(tariffs);
     }
 
 }
