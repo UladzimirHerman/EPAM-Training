@@ -2,6 +2,9 @@ package com.epam.mobile.model;
 
 import java.util.Objects;
 
+/**
+ * Entity class describes the corporate tariff
+ */
 public class CorporateTariff extends Tariff {
 
     private int freeColleagueMinute;

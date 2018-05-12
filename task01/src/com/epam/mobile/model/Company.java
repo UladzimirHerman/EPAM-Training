@@ -3,6 +3,9 @@ package com.epam.mobile.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Functional class for working with different tariffs
+ */
 public class Company {
 
     public ArrayList<Tariff> tariffs = new ArrayList<>();

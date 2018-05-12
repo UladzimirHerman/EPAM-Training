@@ -11,10 +11,17 @@ import java.util.ArrayList;
 public class Starter {
     public static void main(String[] args) {
 
-        //creating company
+        /**
+         * Creating company
+         * @see Company
+         */
         Company company = new Company();
 
-        //creating and adding tariffs in company
+        /**
+         * Creating and adding tariffs in company
+         * @see CorporateTariff
+         * @see PersonalTariff
+         */
         CorporateTariff corporateTariff = new CorporateTariff();
         corporateTariff.setName("Corporation");
         corporateTariff.setDescription("Maintain communication between colleagues");
@@ -63,18 +70,24 @@ public class Starter {
         personalTariff2.setCostInternationalMinute(0.8);
         company.addTariff(personalTariff2);
 
-        //company tariffs
+        /**
+         * View company tariffs
+         */
         StringBuilder tariffs = new StringBuilder("COMPANY TARIFFS:\n");
         tariffs.append(company.showAllTariff());
         System.out.println(tariffs);
 
-        //company tariffs sorted by subscription fee
+        /**
+         * Company tariffs sorted by subscription fee
+         */
         StringBuilder sortedTariffs = new StringBuilder("SORTED COMPANY TARIFFS:\n");
         company.sortTariff();
         sortedTariffs.append(company.showAllTariff());
         System.out.println(sortedTariffs);
 
-        //personal tariffs of the company in a given range of subscription fees
+        /**
+         * Personal tariffs of the company in a given range of subscription fees
+         */
         TariffSearcher tariffSearcher = new TariffSearcher();
         double min = 5, max = 11.5;
         ArrayList<Tariff> resultTariff =
@@ -90,7 +103,9 @@ public class Starter {
         }
         System.out.println(foundTariffs);
 
-        //company clients
+        /**
+         * Company clients
+         */
         StringBuilder clients = new StringBuilder("TOTAL NUMBER OF CLIENTS: ");
         clients.append(tariffSearcher.countClients(company.getAllTariff()));
         System.out.println(clients);

@@ -2,6 +2,9 @@ package com.epam.mobile.model;
 
 import java.util.Objects;
 
+/**
+ * Entity class describes the personal tariff
+ */
 public class PersonalTariff extends Tariff {
 
     private int freeInternationalMinute;

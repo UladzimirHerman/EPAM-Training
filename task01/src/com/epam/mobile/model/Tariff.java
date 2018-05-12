@@ -2,6 +2,12 @@ package com.epam.mobile.model;
 
 import java.util.Objects;
 
+/**
+ * Entity class, has two heirs
+ *
+ * @see CorporateTariff
+ * @see PersonalTariff
+ */
 public class Tariff implements Comparable<Tariff> {
 
     private String name;
@@ -140,6 +146,9 @@ public class Tariff implements Comparable<Tariff> {
         return Objects.hash(name, description, subscriptionFee, numSubscriber);
     }
 
+    /**
+     * Sorting by increasing the cost of a subscription fee
+     */
     @Override
     public int compareTo(Tariff o) {
         return Double.compare(subscriptionFee, o.subscriptionFee);
