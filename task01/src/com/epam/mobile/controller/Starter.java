@@ -5,23 +5,37 @@ import com.epam.mobile.model.CorporateTariff;
 import com.epam.mobile.model.PersonalTariff;
 import com.epam.mobile.model.Tariff;
 import com.epam.mobile.util.TariffSearcher;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 
 import java.util.ArrayList;
 
 public class Starter {
+
+    static {
+        new DOMConfigurator().doConfigure("resources/log4j.xml",
+                LogManager.getLoggerRepository());
+    }
+
+    private static final Logger LOG = Logger.getLogger(Starter.class);
+
     public static void main(String[] args) {
 
         /**
          * Creating company
          * @see Company
          */
+        LOG.error("The company doesn't exist");
         Company company = new Company();
+        LOG.debug("Successful creation of the company");
 
         /**
          * Creating and adding tariffs in company
          * @see CorporateTariff
          * @see PersonalTariff
          */
+        LOG.error("There is no tariff");
         CorporateTariff corporateTariff = new CorporateTariff();
         corporateTariff.setName("Corporation");
         corporateTariff.setDescription("Maintain communication between colleagues");
@@ -69,13 +83,14 @@ public class Starter {
         personalTariff2.setFreeInternationalMinute(0);
         personalTariff2.setCostInternationalMinute(0.8);
         company.addTariff(personalTariff2);
+        LOG.debug("Tariffs successfully added");
 
         /**
          * View company tariffs
          */
         StringBuilder tariffs = new StringBuilder("COMPANY TARIFFS:\n");
         tariffs.append(company.showAllTariff());
-        System.out.println(tariffs);
+        LOG.info(tariffs);
 
         /**
          * Company tariffs sorted by subscription fee
@@ -83,7 +98,7 @@ public class Starter {
         StringBuilder sortedTariffs = new StringBuilder("SORTED COMPANY TARIFFS:\n");
         company.sortTariff();
         sortedTariffs.append(company.showAllTariff());
-        System.out.println(sortedTariffs);
+        LOG.info(sortedTariffs);
 
         /**
          * Personal tariffs of the company in a given range of subscription fees
@@ -101,14 +116,14 @@ public class Starter {
             foundTariffs.append(tariff.toString());
             foundTariffs.append("\n");
         }
-        System.out.println(foundTariffs);
+        LOG.info(foundTariffs);
 
         /**
          * Company clients
          */
         StringBuilder clients = new StringBuilder("TOTAL NUMBER OF CLIENTS: ");
         clients.append(tariffSearcher.countClients(company.getAllTariff()));
-        System.out.println(clients);
+        LOG.info(clients);
 
     }
 }

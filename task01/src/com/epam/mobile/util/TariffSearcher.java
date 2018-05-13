@@ -1,7 +1,11 @@
 package com.epam.mobile.util;
 
+import com.epam.mobile.controller.Starter;
 import com.epam.mobile.model.PersonalTariff;
 import com.epam.mobile.model.Tariff;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 
 import java.util.ArrayList;
 
@@ -9,6 +13,13 @@ import java.util.ArrayList;
  * Functional class for information search
  */
 public class TariffSearcher {
+
+    static {
+        new DOMConfigurator().doConfigure("resources/log4j.xml",
+                LogManager.getLoggerRepository());
+    }
+
+    private static final Logger LOG = Logger.getLogger(Starter.class);
 
     /**
      * @param tariffs is all company's tariffs
@@ -30,6 +41,7 @@ public class TariffSearcher {
             }
         }
 
+        LOG.debug("Successful completion of searchPersonalTariffBySubscriptionFeeDiapason");
         return listTariff;
     }
 
@@ -44,6 +56,7 @@ public class TariffSearcher {
             total += tariff.getNumSubscriber();
         }
 
+        LOG.debug("Successful completion of countClients");
         return total;
     }
 
