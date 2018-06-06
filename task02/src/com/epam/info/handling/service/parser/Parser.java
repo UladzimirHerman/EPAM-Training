@@ -1,6 +1,6 @@
-package com.epam.info.handling.model.parser;
+package com.epam.info.handling.service.parser;
 
-import com.epam.info.handling.model.Content;
+import com.epam.info.handling.model.entity.Content;
 
 import java.util.ResourceBundle;
 
@@ -11,7 +11,7 @@ public abstract class Parser {
     private static final String REGEXP_SOURCE = "regexp";
     protected ResourceBundle resourceBundle = ResourceBundle.getBundle(REGEXP_SOURCE);
 
-    public Parser() {
+    public Parser(){
     }
 
     public Parser(String text) {

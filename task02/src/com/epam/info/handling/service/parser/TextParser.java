@@ -1,25 +1,12 @@
-package com.epam.info.handling.model.parser;
+package com.epam.info.handling.service.parser;
 
-import com.epam.info.handling.model.Content;
+import com.epam.info.handling.model.entity.Content;
 import com.epam.info.handling.model.entity.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TextParser extends Parser {
-
-    private Text allText;
-
-    public TextParser() {
-    }
-
-    public Text getAllText() {
-        return allText;
-    }
-
-    public void setAllText(Text allText) {
-        this.allText = allText;
-    }
 
     @Override
     public Content parse() {
@@ -30,7 +17,7 @@ public class TextParser extends Parser {
         Pattern paragraphPattern = Pattern.compile(resourceBundle.getString("PARAGRAPH"));
         Matcher paragraphMatcher;
 
-        allText = new Text();
+        Composite composite = new Composite();
 
         while (partTextMatcher.find()) {
             paragraphMatcher = paragraphPattern.matcher(partTextMatcher.group());
@@ -39,18 +26,18 @@ public class TextParser extends Parser {
 
                 if (next != null) {
                     next.setText(partTextMatcher.group());
-                    allText.addTextPart((Paragraph) next.parse());
+                    composite.add(next.parse());
                 } else {
-                    allText.addTextPart(new Paragraph(partTextMatcher.group()));
+                    composite.add(new Component(partTextMatcher.group()));
                 }
 
             } else {
-                allText.addTextPart(new Listing(partTextMatcher.group()));
+                composite.add(new Component(partTextMatcher.group()));
             }
 
         }
 
-        return allText;
+        return composite;
     }
 
 }

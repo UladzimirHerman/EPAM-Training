@@ -1,26 +1,19 @@
-package com.epam.info.handling.util;
+package com.epam.info.handling.service;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import java.io.*;
 
 public class FileWorker {
 
-    static {
-        new DOMConfigurator().doConfigure("resource/log4j.xml",
-                LogManager.getLoggerRepository());
-    }
-
     private static final Logger LOG = Logger.getLogger(FileWorker.class);
 
-    private static final String SOURCE_TEXT = "resource\\source_text.txt";
-    private static final String SOURCE_PATH = "output_files";
+    private static final String SOURCE_FILE = "resource\\source_text.txt";
+    private static final String OUTPUT_PATH = "output_files";
 
     public String readFile() throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(SOURCE_TEXT));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(SOURCE_FILE));
         String fileLine;
 
         while ((fileLine = bufferedReader.readLine()) != null) {
@@ -30,25 +23,25 @@ public class FileWorker {
 
         bufferedReader.close();
 
-        LOG.info("method readFile successfully completed");
+        LOG.info("Method readFile successfully completed");
 
         return stringBuilder.toString();
     }
 
     public void writeFile(String fileName, String text) throws IOException {
-        File directory = new File(SOURCE_PATH);
+        File directory = new File(OUTPUT_PATH);
 
         if (!directory.exists()) {
             directory.mkdir();
         }
 
         BufferedWriter bufferedWriter =
-                new BufferedWriter(new FileWriter(new File(SOURCE_PATH + "\\" + fileName)));
+                new BufferedWriter(new FileWriter(new File(OUTPUT_PATH + "\\" + fileName)));
 
         bufferedWriter.write(text);
         bufferedWriter.flush();
 
-        LOG.info("method writeFile successfully completed");
+        LOG.info("Method writeFile successfully completed");
     }
 
 }

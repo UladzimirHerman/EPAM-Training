@@ -1,32 +1,28 @@
 package com.epam.info.handling.controller;
 
-import com.epam.info.handling.model.entity.Text;
-import com.epam.info.handling.model.parser.ParagraphParser;
-import com.epam.info.handling.model.parser.SentenceParser;
-import com.epam.info.handling.model.parser.TextParser;
-import com.epam.info.handling.util.FileWorker;
-import com.epam.info.handling.util.TextWorker;
+import com.epam.info.handling.model.entity.Content;
+import com.epam.info.handling.service.FileWorker;
+import com.epam.info.handling.service.TextWorker;
+import com.epam.info.handling.service.parser.ParagraphParser;
+import com.epam.info.handling.service.parser.Parser;
+import com.epam.info.handling.service.parser.SentenceParser;
 
 import java.io.IOException;
-import org.apache.log4j.LogManager;
+import java.util.List;
+
+import com.epam.info.handling.service.parser.TextParser;
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 public class Starter {
-
-    static {
-        new DOMConfigurator().doConfigure("resource/log4j.xml",
-                LogManager.getLoggerRepository());
-    }
 
     private static final Logger LOG = Logger.getLogger(Starter.class);
 
     public static void main(String[] args) {
-        LOG.info("application startup");
+        LOG.info("Application startup");
 
         FileWorker fileWorker = new FileWorker();
 
-        TextParser textParser = new TextParser();
+        Parser textParser = new TextParser();
         ParagraphParser paragraphParser = new ParagraphParser();
         SentenceParser sentenceParser = new SentenceParser();
         textParser.setNext(paragraphParser);
@@ -35,18 +31,22 @@ public class Starter {
         try {
             textParser.setText(fileWorker.readFile());
 
-            Text text = (Text) textParser.parse();
-            fileWorker.writeFile("rebuild_text.txt", text.build());
+            Content content = textParser.parse();
+
+            fileWorker.writeFile("rebuild_text.txt", content.build());
 
             TextWorker textWorker = new TextWorker();
-            fileWorker.writeFile("words_by_alphabet.txt",
-                    textWorker.printWordsByAlphabet(textWorker.receiveWordsFromText(textParser)));
-            fileWorker.writeFile("words_by_vowels.txt",
-                    textWorker.printWordsByVowels(textWorker.receiveWordsFromText(textParser)));
+            List<String> words = textWorker.getWords(textWorker.getSentenceParts(textWorker.
+                    getSentences(textWorker.getParagraphs(textWorker.getTextParts(content)))));
 
-            LOG.info("application successfully completed");
+            fileWorker.writeFile("words_by_alphabet.txt",
+                    textWorker.printWordsByAlphabet(words));
+            fileWorker.writeFile("words_by_vowels.txt",
+                    textWorker.printWordsByVowels(words));
+
+            LOG.info("Application successfully completed");
         } catch (IOException e) {
-            LOG.error(e.getMessage());
+            LOG.error("There was a problem with the file system ", e);
         }
 
     }

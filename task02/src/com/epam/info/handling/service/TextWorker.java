@@ -1,44 +1,70 @@
-package com.epam.info.handling.util;
+package com.epam.info.handling.service;
 
 import com.epam.info.handling.model.entity.*;
-import com.epam.info.handling.model.parser.Parser;
-import com.epam.info.handling.model.parser.TextParser;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TextWorker {
-
-    static {
-        new DOMConfigurator().doConfigure("resource/log4j.xml",
-                LogManager.getLoggerRepository());
-    }
 
     private static final Logger LOG = Logger.getLogger(TextWorker.class);
 
     private static final String VOWELS = "aeiouy";
     private static final int CALCULATION_ACCURACY = 10_000;
 
-    public List<String> receiveWordsFromText(Parser parser) {
-        List<TextPart> textParts = ((TextParser) parser).getAllText().getTextParts();
-        List<Sentence> sentences;
-        List<SentencePart> sentenceParts;
+    private static final String REGEXP_SOURCE = "regexp";
+    private ResourceBundle resourceBundle = ResourceBundle.getBundle(REGEXP_SOURCE);
+
+    public List<Content> getTextParts(Content content) {
+        return ((Composite) content).getContentList();
+    }
+
+    public List<Content> getParagraphs(List<Content> textParts) {
+        List<Content> paragraphs = new ArrayList<>();
+
+        for (Content paragraph : textParts) {
+            if (paragraph instanceof Composite) {
+                paragraphs.add(paragraph);
+            }
+        }
+
+        return paragraphs;
+    }
+
+    public List<Content> getSentences(List<Content> paragraphs) {
+        List<Content> sentences = new ArrayList<>();
+
+        for (Content paragraph : paragraphs) {
+            sentences.addAll(((Composite) paragraph).getContentList());
+        }
+
+        return sentences;
+    }
+
+    public List<Content> getSentenceParts(List<Content> sentences) {
+        List<Content> sentenceParts = new ArrayList<>();
+
+        for (Content sentence : sentences) {
+            sentenceParts.addAll(((Composite) sentence).getContentList());
+        }
+
+        return sentenceParts;
+    }
+
+    public List<String> getWords(List<Content> sentenceParts) {
+        Pattern wordPattern = Pattern.compile(resourceBundle.getString("WORD"));
+        Matcher wordMatcher;
         List<String> words = new ArrayList<>();
 
-        for (TextPart textPart : textParts) {
-            if (textPart instanceof Paragraph) {
-                sentences = ((Paragraph) textPart).getSentences();
-                for (Sentence sentence : sentences) {
-                    sentenceParts = sentence.getSentenceParts();
-                    for (SentencePart sentencePart : sentenceParts) {
-                        if (sentencePart instanceof Word) {
-                            words.add(((Word) sentencePart).getWord());
-                        }
-                    }
-                }
+        for (Content part : sentenceParts) {
+            wordMatcher = wordPattern.matcher(((Component) part).getComponent());
+
+            if (wordMatcher.find()) {
+                words.add(((Component) part).getComponent());
             }
+
         }
 
         return words;
@@ -55,12 +81,12 @@ public class TextWorker {
             stringBuilder.append(System.getProperty("line.separator"));
         }
 
-        LOG.info("method printWordsByAlphabet successfully completed");
+        LOG.info("Method printWordsByAlphabet successfully completed");
 
         return stringBuilder.toString();
     }
 
-    private TreeMap<Character, TreeSet<String>> sortWordsByAlphabet(List<String> words){
+    private TreeMap<Character, TreeSet<String>> sortWordsByAlphabet(List<String> words) {
         TreeMap<Character, TreeSet<String>> treeMap = new TreeMap<>();
         char key;
 
@@ -98,7 +124,7 @@ public class TextWorker {
             stringBuilder.append(System.getProperty("line.separator"));
         }
 
-        LOG.info("method printWordsByVowels successfully completed");
+        LOG.info("Method printWordsByVowels successfully completed");
 
         return stringBuilder.toString();
     }
