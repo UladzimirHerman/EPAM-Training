@@ -20,6 +20,7 @@ public class Person implements Runnable {
     private List<Book> books;
 
     public Person() {
+        books = new ArrayList<>();
     }
 
     public Person(String name, Library library) {
