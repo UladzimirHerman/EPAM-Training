@@ -10,11 +10,6 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, boolean readingRoom) {
-        this.title = title;
-        this.readingRoom = readingRoom;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -42,7 +37,6 @@ public class Book {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(title, readingRoom);
     }
 
