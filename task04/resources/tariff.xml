@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tariffs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="tariff.xsd">
+    <tariff id="T101" currency="USD" type="corporate_tariff">
+        <name>Corporation</name>
+        <description>Maintain communication between colleagues</description>
+        <in_archive>false</in_archive>
+        <subscription_fee>50</subscription_fee>
+        <num_subscriber>5</num_subscriber>
+        <free_minute>100</free_minute>
+        <cost_minute>0.03</cost_minute>
+        <free_sms>0</free_sms>
+        <cost_sms>0.04</cost_sms>
+        <free_internet unit="MB">1024</free_internet>
+        <cost_internet>0.01</cost_internet>
+        <free_colleague_minute>10000</free_colleague_minute>
+        <cost_colleague_minute>0.05</cost_colleague_minute>
+    </tariff>
+    <tariff id="T201" currency="USD" type="personal_tariff">
+        <name>Comfort</name>
+        <description>For a better life</description>
+        <in_archive>true</in_archive>
+        <subscription_fee>11.5</subscription_fee>
+        <num_subscriber>7</num_subscriber>
+        <free_minute>500</free_minute>
+        <cost_minute>0.07</cost_minute>
+        <free_sms>50</free_sms>
+        <cost_sms>0.05</cost_sms>
+        <free_internet unit="MB">512</free_internet>
+        <cost_internet>0.08</cost_internet>
+        <free_international_minute>10</free_international_minute>
+        <cost_international_minute>0.95</cost_international_minute>
+    </tariff>
+    <tariff id="T202" currency="USD" type="personal_tariff">
+        <name>Online</name>
+        <description>For Internet users</description>
+        <in_archive>false</in_archive>
+        <subscription_fee>12</subscription_fee>
+        <num_subscriber>14</num_subscriber>
+        <free_minute>100</free_minute>
+        <cost_minute>0.08</cost_minute>
+        <free_sms>0</free_sms>
+        <cost_sms>0.01</cost_sms>
+        <free_internet unit="MB">5120</free_internet>
+        <cost_internet>0.02</cost_internet>
+        <free_international_minute>0</free_international_minute>
+        <cost_international_minute>0.8</cost_international_minute>
+    </tariff>
+</tariffs>

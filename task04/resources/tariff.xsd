@@ -1,0 +1,61 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="tariffs">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="tariff" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element type="xs:string" name="name"/>
+                            <xs:element type="xs:string" name="description"/>
+                            <xs:element name="in_archive">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="true"/>
+                                        <xs:enumeration value="false"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element type="xs:float" name="subscription_fee"/>
+                            <xs:element type="xs:byte" name="num_subscriber"/>
+                            <xs:element type="xs:short" name="free_minute"/>
+                            <xs:element type="xs:float" name="cost_minute"/>
+                            <xs:element type="xs:byte" name="free_sms"/>
+                            <xs:element type="xs:float" name="cost_sms"/>
+                            <xs:element name="free_internet">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:short">
+                                            <xs:attribute type="xs:string" name="unit" use="required"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element type="xs:float" name="cost_internet"/>
+                            <xs:element type="xs:short" name="free_colleague_minute" minOccurs="0"/>
+                            <xs:element type="xs:float" name="cost_colleague_minute" minOccurs="0"/>
+                            <xs:element type="xs:byte" name="free_international_minute" minOccurs="0"/>
+                            <xs:element type="xs:float" name="cost_international_minute" minOccurs="0"/>
+                        </xs:sequence>
+                        <xs:attribute name="id" use="required">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:ID">
+                                    <xs:pattern value="T\d{3}"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute type="xs:string" name="currency" use="required"/>
+                        <xs:attribute name="type" use="required">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="corporate_tariff"/>
+                                    <xs:enumeration value="personal_tariff"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
