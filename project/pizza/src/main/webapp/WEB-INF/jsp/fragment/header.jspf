@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="row" align="center">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10" style="background-color: #2f81d2">
+            <img src="${pageContext.request.contextPath}/resources/images/00_header_logo.png" alt="00_header_logo.png"
+                 style="width:100%">
+        </div>
+        <div class="col-sm-1">
+            <div class="btn-group btn-group-lg">
+                <form action="/registration" method="post">
+                    <input name="command" type="hidden" value="set_locale">
+                    <button name="locale" type="submit" class="btn btn-link" value="en_US">EN</button>
+                </form>
+                <form action="/registration" method="post">
+                    <input name="command" type="hidden" value="set_locale">
+                    <button name="locale" type="submit" class="btn btn-link" value="ru_RU">RU</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
