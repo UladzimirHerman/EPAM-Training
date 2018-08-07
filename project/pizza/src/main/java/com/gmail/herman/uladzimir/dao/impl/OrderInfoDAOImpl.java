@@ -58,6 +58,11 @@ public class OrderInfoDAOImpl extends AbstractDAO<OrderInfo> implements OrderInf
     }
 
     @Override
+    public String getCountQuery() {
+        return SQLManager.getInstance().getSQL(ORDER_INFO_QUERY_COUNT);
+    }
+
+    @Override
     public void getPreparedStatementInsert
             (PreparedStatement preparedStatement, OrderInfo orderInfo) throws DAOException {
 

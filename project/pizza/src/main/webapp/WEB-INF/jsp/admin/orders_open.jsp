@@ -34,10 +34,11 @@
                                         <fmt:message key="page.ordersOpen.table.attribute.id"/>
                                         <c:out value="${orders.id}"/></a>
                                     <c:out value="${orders.date}"/>
-                                    <p><fmt:message key="page.ordersOpen.table.attribute.customer"/>
-                                    <c:out value="${orders.user.userInfo.name}"/>
-                                    <c:out value="${orders.user.userInfo.surname}"/>
-                                    (<c:out value="${orders.user.login}"/>)
+                                    <p>
+                                            <fmt:message key="page.ordersOpen.table.attribute.customer"/>
+                                            <c:out value="${orders.user.userInfo.name}"/>
+                                            <c:out value="${orders.user.userInfo.surname}"/>
+                                        (<c:out value="${orders.user.login}"/>)
                                 </div>
                                 <div class="p-2">
                                     <fmt:message key="page.ordersOpen.table.attribute.status"/>
@@ -99,6 +100,20 @@
                     </div>
                 </div>
             </c:forEach>
+
+            <c:set var="pageCount" scope="page" value="${1}"/><p>
+            <form action="/admin/orders/open" method="get" class="form-inline">
+                <b><fmt:message key="page.common.pagination.page"/></b>
+                <select name="page" class="form-control" required>
+                    <c:forEach begin="${pageCount}" end="${pageQuantity}">
+                        <option value="${pageCount}" <c:if
+                                test="${pageCount == param.page}"> selected="selected" </c:if> >${pageCount}</option>
+                        <c:set var="pageCount" scope="page" value="${pageCount+1}"/>
+                    </c:forEach>
+                </select>
+                <input type="submit" class="btn btn-primary"
+                       value="<fmt:message key="page.common.pagination.button"/>"/>
+            </form><p>
 
         </div>
     </div>

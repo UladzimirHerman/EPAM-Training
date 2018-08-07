@@ -23,22 +23,19 @@
         <div class="col-sm-10" style="background-color:AliceBlue;"><br>
             <div class="row" align="center">
 
-                <div class="col-sm-6 py-2">
-                    <div class="card h-100" align="center">
-                        <img class="card-img-top"
-                             src="${pageContext.request.contextPath}/resources/images/<fmt:message key="page.newsView.example.photo"/>"
-                             alt="<fmt:message key="page.newsView.example.photo"/>">
-                        <div class="card-body">
-                            <h4 class="card-title"><fmt:message key="page.newsView.example.title"/></h4>
-                            <p class="card-text"><fmt:message key="page.newsView.example.content"/></p>
-                            <p class="card-text" align="right"><fmt:message key="page.newsView.example.date"/></p>
+                <table class="table table-borderless">
+                    <tbody>
+                    <tr>
+                        <td align="right">
                             <form action="/admin/news/create" method="post">
+                                <b><fmt:message key="page.newsView.phrase.create"/></b>
                                 <input type="submit" class="btn btn-primary"
                                        value="<fmt:message key="page.newsView.button.create"/>"/>
                             </form>
-                        </div>
-                    </div>
-                </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
                 <c:forEach var="newsList" items="${newsList}">
                     <div class="col-sm-6 py-2">
@@ -66,6 +63,28 @@
                         </div>
                     </div>
                 </c:forEach>
+
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <c:set var="pageCount" scope="page" value="${1}"/>
+                            <form action="/admin/news" method="get" class="form-inline">
+                                <b><fmt:message key="page.common.pagination.page"/></b>
+                                <select name="page" class="form-control" required>
+                                    <c:forEach begin="${pageCount}" end="${pageQuantity}">
+                                        <option value="${pageCount}" <c:if
+                                                test="${pageCount == param.page}"> selected="selected" </c:if> >${pageCount}</option>
+                                        <c:set var="pageCount" scope="page" value="${pageCount+1}"/>
+                                    </c:forEach>
+                                </select>
+                                <input type="submit" class="btn btn-primary"
+                                       value="<fmt:message key="page.common.pagination.button"/>"/>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
             </div>
         </div>

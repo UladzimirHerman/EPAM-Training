@@ -44,6 +44,11 @@ public class FeedbackDAOImpl extends AbstractDAO<Feedback> implements FeedbackDA
     }
 
     @Override
+    public String getCountQuery() {
+        return SQLManager.getInstance().getSQL(FEEDBACK_QUERY_COUNT);
+    }
+
+    @Override
     public void getPreparedStatementInsert
             (PreparedStatement preparedStatement, Feedback feedback) throws DAOException {
 

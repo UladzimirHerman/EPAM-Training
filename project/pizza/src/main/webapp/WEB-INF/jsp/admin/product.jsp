@@ -23,23 +23,19 @@
         <div class="col-sm-10" style="background-color:AliceBlue;"><br>
             <div class="row" align="center">
 
-                <div class="col-sm-3 py-2">
-                    <div class="card h-100" align="center">
-                        <img class="card-img-top"
-                             src="${pageContext.request.contextPath}/resources/images/<fmt:message key="page.productView.example.photo"/>"
-                             alt="<fmt:message key="page.productView.example.photo"/>">
-                        <div class="card-body">
-                            <h4 class="card-title"><fmt:message key="page.productView.example.name"/></h4>
-                            <p class="card-text"><fmt:message key="page.productView.example.description"/></p>
-                            <p class="card-text"><fmt:message key="page.productView.example.price"/></p>
-                            <p class="card-text"><fmt:message key="page.productView.example.sale"/></p>
+                <table class="table table-borderless">
+                    <tbody>
+                    <tr>
+                        <td align="right">
                             <form action="/admin/product/create" method="post">
+                                <b><fmt:message key="page.productView.phrase.create"/></b>
                                 <input type="submit" class="btn btn-primary"
                                        value="<fmt:message key="page.productView.button.create"/>"/>
                             </form>
-                        </div>
-                    </div>
-                </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
                 <c:forEach var="productList" items="${productList}">
                     <div class="col-sm-3 py-2">
@@ -50,9 +46,9 @@
                             <div class="card-body" align="center">
                                 <h4 class="card-title"><c:out value="${productList.name}"/></h4>
                                 <p class="card-text"><c:out value="${productList.description}"/></p>
-                                <p class="card-text"><fmt:message key="page.productView.example.price"/><c:out
+                                <p class="card-text"><fmt:message key="page.productView.card.price"/><c:out
                                         value="${productList.price}"/></p>
-                                <p class="card-text"><fmt:message key="page.productView.example.sale"/><c:out
+                                <p class="card-text"><fmt:message key="page.productView.card.sale"/><c:out
                                         value="${productList.sale}"/></p>
                                 <form action="/admin/product/edit" method="get">
                                     <input name="productId" type="hidden" value="<c:out value="${productList.id}"/>"/>
@@ -63,6 +59,28 @@
                         </div>
                     </div>
                 </c:forEach>
+
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <c:set var="pageCount" scope="page" value="${1}"/>
+                            <form action="/admin/product" method="get" class="form-inline">
+                                <b><fmt:message key="page.common.pagination.page"/></b>
+                                <select name="page" class="form-control" required>
+                                    <c:forEach begin="${pageCount}" end="${pageQuantity}">
+                                        <option value="${pageCount}" <c:if
+                                                test="${pageCount == param.page}"> selected="selected" </c:if> >${pageCount}</option>
+                                        <c:set var="pageCount" scope="page" value="${pageCount+1}"/>
+                                    </c:forEach>
+                                </select>
+                                <input type="submit" class="btn btn-primary"
+                                       value="<fmt:message key="page.common.pagination.button"/>"/>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
             </div>
         </div>

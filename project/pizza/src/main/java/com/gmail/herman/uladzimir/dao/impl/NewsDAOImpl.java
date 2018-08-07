@@ -44,6 +44,11 @@ public class NewsDAOImpl extends AbstractDAO<News> implements NewsDAO {
     }
 
     @Override
+    public String getCountQuery() {
+        return SQLManager.getInstance().getSQL(NEWS_QUERY_COUNT);
+    }
+
+    @Override
     public void getPreparedStatementInsert
             (PreparedStatement preparedStatement, News news) throws DAOException {
 

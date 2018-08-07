@@ -58,6 +58,11 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
     }
 
     @Override
+    public String getCountQuery() {
+        return SQLManager.getInstance().getSQL(USER_QUERY_COUNT);
+    }
+
+    @Override
     public void getPreparedStatementInsert
             (PreparedStatement preparedStatement, User user) throws DAOException {
 

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface FeedbackService extends GenericService<Feedback> {
 
-    List<Feedback> findAllInfo() throws ServiceException;
+    List<Feedback> findAllInfo(int offset, int limit) throws ServiceException;
 
     List<Feedback> fillFeedbackWithInfo(List<Feedback> feedbackList)
             throws ServiceException;

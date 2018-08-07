@@ -17,39 +17,45 @@
                         </li>
                     </form>
                     <c:if test="${sessionScope.user.userRole eq 'ADMIN'}">
-                        <form action="/admin/users" method="post">
+                        <form action="/admin/users" method="get">
                             <li class="nav-item">
+                                <input name="page" type="hidden" value="1">
                                 <input type="submit" class="btn btn-info"
                                        value="<fmt:message key="page.fragment.menu.users"/>">
                             </li>
                         </form>
                     </c:if>
-                    <form action="/${urlPart}/news" method="post">
+                    <form action="/${urlPart}/news" method="get">
                         <li class="nav-item">
+                            <input name="page" type="hidden" value="1">
                             <input type="submit" class="btn btn-info"
                                    value="<fmt:message key="page.fragment.menu.news"/>">
                         </li>
                     </form>
-                    <form action="/${urlPart}/product" method="post">
+                    <form action="/${urlPart}/product" method="get">
                         <li class="nav-item">
+                            <input name="page" type="hidden" value="1">
                             <input type="submit" class="btn btn-info"
                                    value="<fmt:message key="page.fragment.menu.products"/>">
                         </li>
                     </form>
-                    <form action="/${urlPart}/orders/open" method="post">
+                    <form action="/${urlPart}/orders/open" method="get">
                         <li class="nav-item">
+                            <input name="page" type="hidden" value="1">
                             <input type="submit" class="btn btn-info"
                                    value="<fmt:message key="page.fragment.menu.orders"/>">
                         </li>
                     </form>
-                    <form action="/${urlPart}/orders/archive" method="post">
+                    <form action="/${urlPart}/orders/archive" method="get">
                         <li class="nav-item">
+                            <input name="page" type="hidden" value="1">
                             <input type="submit" class="btn btn-info"
                                    value="<fmt:message key="page.fragment.menu.archive"/>">
                         </li>
                     </form>
-                    <form action="/${urlPart}/feedback" method="post">
+                    <form action="/${urlPart}/feedback" method="get">
                         <li class="nav-item">
+                            <input name="page" type="hidden" value="1">
                             <input type="submit" class="btn btn-info"
                                    value="<fmt:message key="page.fragment.menu.feedback"/>">
                         </li>

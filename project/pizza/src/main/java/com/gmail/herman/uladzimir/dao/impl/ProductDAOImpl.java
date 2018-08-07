@@ -53,6 +53,11 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO {
     }
 
     @Override
+    public String getCountQuery() {
+        return SQLManager.getInstance().getSQL(PRODUCT_QUERY_COUNT);
+    }
+
+    @Override
     public void getPreparedStatementInsert
             (PreparedStatement preparedStatement, Product product) throws DAOException {
 

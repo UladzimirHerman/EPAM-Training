@@ -63,7 +63,6 @@ public class AdminUploadPhotoCommand implements Command {
 
             }
 
-
         }
 
         return route;

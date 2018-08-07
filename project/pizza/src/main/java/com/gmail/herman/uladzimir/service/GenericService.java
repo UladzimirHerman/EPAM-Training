@@ -8,20 +8,32 @@ import java.util.List;
  * Interface {@link GenericService} contains common methods
  * for all service-classes.
  *
- * @author Uladzimir Herman
  * @param <T> type of entity
+ * @author Uladzimir Herman
  */
 public interface GenericService<T> {
 
     /**
      * Search all objects
+     *
      * @return list of objects of a particular type
      * @throws ServiceException exception of service level
      */
     List<T> findAll() throws ServiceException;
 
     /**
+     * Search all objects
+     *
+     * @param offset offset of the sample beginning
+     * @param limit  number of requested records
+     * @return list of objects of a particular type
+     * @throws ServiceException exception of service level
+     */
+    List<T> findAll(int offset, int limit) throws ServiceException;
+
+    /**
      * Search object by identifier
+     *
      * @param id identifier for searching
      * @return object of a particular type
      * @throws ServiceException exception of service level
@@ -30,6 +42,7 @@ public interface GenericService<T> {
 
     /**
      * Insert new object
+     *
      * @param object new object for inserting
      * @throws ServiceException exception of service level
      */
@@ -37,6 +50,7 @@ public interface GenericService<T> {
 
     /**
      * Update object
+     *
      * @param object updated object
      * @throws ServiceException exception of service level
      */
@@ -44,9 +58,18 @@ public interface GenericService<T> {
 
     /**
      * Delete object by identifier
+     *
      * @param id object's identifier for deleting
      * @throws ServiceException exception of service level
      */
     void deleteById(int id) throws ServiceException;
+
+    /**
+     * Records counting
+     *
+     * @return quantity of records
+     * @throws ServiceException exception of service level
+     */
+    int count() throws ServiceException;
 
 }

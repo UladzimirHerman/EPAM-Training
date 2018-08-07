@@ -13,9 +13,9 @@ import java.util.List;
  * service-methods. This class realizes the common methods of service-classes
  * and defines abstract method, which determines a particular DAO-object.
  *
- * @author Uladzimir Herman
  * @param <T> type of entity
  * @param <E> type of DAO-class
+ * @author Uladzimir Herman
  * @see AbstractDAO
  * @see GenericService
  */
@@ -24,6 +24,7 @@ public abstract class AbstractService<T, E extends AbstractDAO<T>>
 
     /**
      * Receive the particular DAO-object
+     *
      * @return particular DAO-object
      */
     public abstract E getObjectDAOImpl();
@@ -35,6 +36,20 @@ public abstract class AbstractService<T, E extends AbstractDAO<T>>
 
         try {
             objects = objectDAO.findAll();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
+        return objects;
+    }
+
+    @Override
+    public List<T> findAll(int offset, int limit) throws ServiceException {
+        GenericDAO<T> objectDAO = getObjectDAOImpl();
+        List<T> objects;
+
+        try {
+            objects = objectDAO.findAll(offset, limit);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -87,6 +102,20 @@ public abstract class AbstractService<T, E extends AbstractDAO<T>>
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
+    }
+
+    @Override
+    public int count() throws ServiceException {
+        GenericDAO<T> objectDAO = getObjectDAOImpl();
+        int count;
+
+        try {
+            count = objectDAO.count();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
+        return count;
     }
 
 }

@@ -22,6 +22,8 @@ public final class AttributeName {
     public static final String ORDERS = "orders";
     public static final String ORDER_ID = "orderId";
     public static final String ORDER_STATUS = "orderStatus";
+    public static final String PAGE = "page";
+    public static final String PAGE_QUANTITY = "pageQuantity";
     public static final String PASSWORD = "password";
     public static final String PHONE = "phone";
     public static final String PHOTO = "photo";

@@ -22,8 +22,8 @@ public class FeedbackServiceImpl extends AbstractService<Feedback, FeedbackDAOIm
 
 
     @Override
-    public List<Feedback> findAllInfo() throws ServiceException {
-        List<Feedback> feedbackList = findAll();
+    public List<Feedback> findAllInfo(int offset, int limit) throws ServiceException {
+        List<Feedback> feedbackList = findAll(offset, limit);
         feedbackList = fillFeedbackWithInfo(feedbackList);
         return feedbackList;
     }

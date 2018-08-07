@@ -24,12 +24,40 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDAOImpl>
     }
 
     @Override
-    public List<Order> findArchiveOrders() throws ServiceException {
+    public int countArchiveOrders() throws ServiceException {
+        OrderDAO orderDAO = new OrderDAOImpl();
+        int count;
+
+        try {
+            count = orderDAO.countArchiveOrders();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
+        return count;
+    }
+
+    @Override
+    public int countOpenOrders() throws ServiceException {
+        OrderDAO orderDAO = new OrderDAOImpl();
+        int count;
+
+        try {
+            count = orderDAO.countOpenOrders();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
+        return count;
+    }
+
+    @Override
+    public List<Order> findArchiveOrders(int offset, int limit) throws ServiceException {
         OrderDAO orderDAO = new OrderDAOImpl();
         List<Order> orders;
 
         try {
-            orders = orderDAO.findArchiveOrders();
+            orders = orderDAO.findArchiveOrders(offset, limit);
 
             if (!orders.isEmpty()) {
                 orders = fillOrdersWithInfo(orders);
@@ -44,12 +72,12 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDAOImpl>
     }
 
     @Override
-    public List<Order> findOpenOrders() throws ServiceException {
+    public List<Order> findOpenOrders(int offset, int limit) throws ServiceException {
         OrderDAO orderDAO = new OrderDAOImpl();
         List<Order> orders;
 
         try {
-            orders = orderDAO.findOpenOrders();
+            orders = orderDAO.findOpenOrders(offset, limit);
 
             if (!orders.isEmpty()) {
                 orders = fillOrdersWithInfo(orders);

@@ -4,6 +4,9 @@ public final class SQLElement {
 
     public static final String SQL_FILE_NAME = "sql_element";
 
+    public static final String COMMON_FIELD_TOTAL_ROWS = "common.field.totalRows";
+    public static final String COMMON_QUERY_PART_LIMIT = "common.queryPart.limit";
+
     public static final String FEEDBACK_FIELD_ID = "feedback.field.id";
     public static final String FEEDBACK_FIELD_USER_ID = "feedback.field.userId";
     public static final String FEEDBACK_FIELD_COMMENT = "feedback.field.comment";
@@ -14,6 +17,7 @@ public final class SQLElement {
     public static final String FEEDBACK_QUERY_INSERT = "feedback.query.insert";
     public static final String FEEDBACK_QUERY_UPDATE = "feedback.query.update";
     public static final String FEEDBACK_QUERY_DELETE_BY_ID = "feedback.query.deleteById";
+    public static final String FEEDBACK_QUERY_COUNT = "feedback.query.count";
 
     public static final String NEWS_FIELD_ID = "news.field.id";
     public static final String NEWS_FIELD_USER_ID = "news.field.userId";
@@ -26,6 +30,7 @@ public final class SQLElement {
     public static final String NEWS_QUERY_INSERT = "news.query.insert";
     public static final String NEWS_QUERY_UPDATE = "news.query.update";
     public static final String NEWS_QUERY_DELETE_BY_ID = "news.query.deleteById";
+    public static final String NEWS_QUERY_COUNT = "news.query.count";
 
     public static final String ORDER_FIELD_ID = "order.field.id";
     public static final String ORDER_FIELD_DATE = "order.field.date";
@@ -36,6 +41,9 @@ public final class SQLElement {
     public static final String ORDER_QUERY_INSERT = "order.query.insert";
     public static final String ORDER_QUERY_UPDATE = "order.query.update";
     public static final String ORDER_QUERY_DELETE_BY_ID = "order.query.deleteById";
+    public static final String ORDER_QUERY_COUNT = "order.query.count";
+    public static final String ORDER_QUERY_COUNT_ARCHIVE = "order.query.countArchive";
+    public static final String ORDER_QUERY_COUNT_OPEN = "order.query.countOpen";
     public static final String ORDER_QUERY_FIND_ARCHIVE = "order.query.findArchive";
     public static final String ORDER_QUERY_FIND_OPEN = "order.query.findOpen";
 
@@ -48,6 +56,7 @@ public final class SQLElement {
     public static final String ORDER_INFO_QUERY_INSERT = "orderInfo.query.insert";
     public static final String ORDER_INFO_QUERY_UPDATE = "orderInfo.query.update";
     public static final String ORDER_INFO_QUERY_DELETE_BY_ID = "orderInfo.query.deleteById";
+    public static final String ORDER_INFO_QUERY_COUNT = "orderInfo.query.count";
     public static final String ORDER_INFO_QUERY_FIND_BY_ORDER_ID = "orderInfo.query.findByOrderId";
 
     public static final String PRODUCT_FIELD_ID = "product.field.id";
@@ -61,6 +70,7 @@ public final class SQLElement {
     public static final String PRODUCT_QUERY_INSERT = "product.query.insert";
     public static final String PRODUCT_QUERY_UPDATE = "product.query.update";
     public static final String PRODUCT_QUERY_DELETE_BY_ID = "product.query.deleteById";
+    public static final String PRODUCT_QUERY_COUNT = "product.query.count";
     public static final String PRODUCT_QUERY_FIND_ALL_FOR_SALE = "product.query.findAllForSale";
 
     public static final String USER_FIELD_ID = "user.field.id";
@@ -72,6 +82,7 @@ public final class SQLElement {
     public static final String USER_QUERY_INSERT = "user.query.insert";
     public static final String USER_QUERY_UPDATE = "user.query.update";
     public static final String USER_QUERY_DELETE_BY_ID = "user.query.deleteById";
+    public static final String USER_QUERY_COUNT = "user.query.count";
     public static final String USER_QUERY_FIND_BY_LOGIN = "user.query.findByLogin";
 
     public static final String USER_INFO_FIELD_ID = "userInfo.field.id";
@@ -89,5 +100,6 @@ public final class SQLElement {
     public static final String USER_INFO_QUERY_INSERT = "userInfo.query.insert";
     public static final String USER_INFO_QUERY_UPDATE = "userInfo.query.update";
     public static final String USER_INFO_QUERY_DELETE_BY_ID = "userInfo.query.deleteById";
+    public static final String USER_INFO_QUERY_COUNT = "userInfo.query.count";
 
 }

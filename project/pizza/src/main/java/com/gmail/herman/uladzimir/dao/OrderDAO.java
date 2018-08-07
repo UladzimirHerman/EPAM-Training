@@ -14,13 +14,12 @@ import java.util.List;
  */
 public interface OrderDAO extends GenericDAO<Order> {
 
-    /**
-     * Search all orders in archive
-     * @return list of orders
-     * @throws DAOException exception of database level
-     */
-    List<Order> findArchiveOrders() throws DAOException;
+    int countArchiveOrders() throws DAOException;
 
-    List<Order> findOpenOrders() throws DAOException;
+    int countOpenOrders() throws DAOException;
+
+    List<Order> findArchiveOrders(int offset, int limit) throws DAOException;
+
+    List<Order> findOpenOrders(int offset, int limit) throws DAOException;
 
 }

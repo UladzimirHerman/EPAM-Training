@@ -69,12 +69,13 @@ public class UserServiceImpl extends AbstractService<User, UserDAOImpl>
     }
 
     @Override
-    public List<User> findAllUserAndUserInfo() throws ServiceException {
+    public List<User> findAllUserAndUserInfo(int offset, int limit)
+            throws ServiceException {
         UserDAO userDAO = new UserDAOImpl();
         List<User> users;
 
         try {
-            users = userDAO.findAll();
+            users = userDAO.findAll(offset, limit);
             UserInfoDAO userInfoDAO = new UserInfoDAOImpl();
 
             for (User user : users) {

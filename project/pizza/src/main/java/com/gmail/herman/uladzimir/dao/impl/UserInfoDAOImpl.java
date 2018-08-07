@@ -45,6 +45,11 @@ public class UserInfoDAOImpl extends AbstractDAO<UserInfo> implements UserInfoDA
     }
 
     @Override
+    public String getCountQuery() {
+        return SQLManager.getInstance().getSQL(USER_INFO_QUERY_COUNT);
+    }
+
+    @Override
     public void getPreparedStatementInsert
             (PreparedStatement preparedStatement, UserInfo userInfo) throws DAOException {
 
