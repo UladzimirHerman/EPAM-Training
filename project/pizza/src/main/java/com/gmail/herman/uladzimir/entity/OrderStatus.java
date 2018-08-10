@@ -6,5 +6,5 @@ package com.gmail.herman.uladzimir.entity;
  * @author Uladzimir Herman
  */
 public enum OrderStatus {
-    SHOPPING_CART, NEW, IN_PROGRESS, DELIVERED
+    BASKET, NEW, IN_PROGRESS, DELIVERED
 }

@@ -7,7 +7,7 @@
 <head>
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="content"/>
-    <title><fmt:message key="page.news.title"/></title>
+    <title><fmt:message key="page.newsView.title"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
@@ -37,6 +37,28 @@
                         </div>
                     </div>
                 </c:forEach>
+
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <c:set var="pageCount" scope="page" value="${1}"/>
+                            <form action="/user/news" method="get" class="form-inline">
+                                <b><fmt:message key="page.common.pagination.page"/></b>
+                                <select name="page" class="form-control" required>
+                                    <c:forEach begin="${pageCount}" end="${pageQuantity}">
+                                        <option value="${pageCount}" <c:if
+                                                test="${pageCount == param.page}"> selected="selected" </c:if> >${pageCount}</option>
+                                        <c:set var="pageCount" scope="page" value="${pageCount+1}"/>
+                                    </c:forEach>
+                                </select>
+                                <input type="submit" class="btn btn-primary"
+                                       value="<fmt:message key="page.common.pagination.button"/>"/>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
             </div>
         </div>

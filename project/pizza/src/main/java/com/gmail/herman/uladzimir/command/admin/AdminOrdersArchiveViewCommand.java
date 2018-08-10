@@ -37,12 +37,12 @@ public class AdminOrdersArchiveViewCommand implements Command {
 
             if (paginationValidator.isPageNumberCorrect(page)) {
                 OrderService orderService = new OrderServiceImpl();
-                List<Order> orders = orderService.findArchiveOrders
+                List<Order> orders = orderService.findArchive
                         (PaginationUtil.defineOffset(page, ITEMS_ON_THE_PAGE), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(ORDERS, orders);
 
                 int pageQuantity =
-                        PaginationUtil.definePageQuantity(orderService.countArchiveOrders(), ITEMS_ON_THE_PAGE);
+                        PaginationUtil.definePageQuantity(orderService.countArchive(), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(PAGE_QUANTITY, pageQuantity);
 
                 route.setResponseType(ResponseType.FORWARD);

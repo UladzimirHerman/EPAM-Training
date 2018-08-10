@@ -83,10 +83,8 @@ public class OrderInfoDAOImpl extends AbstractDAO<OrderInfo> implements OrderInf
             (PreparedStatement preparedStatement, OrderInfo orderInfo) throws DAOException {
 
         try {
-            preparedStatement.setInt(1, orderInfo.getOrder().getId());
-            preparedStatement.setInt(2, orderInfo.getProduct().getId());
-            preparedStatement.setInt(3, orderInfo.getQuantity());
-            preparedStatement.setInt(4, orderInfo.getId());
+            preparedStatement.setInt(1, orderInfo.getQuantity());
+            preparedStatement.setInt(2, orderInfo.getId());
         } catch (SQLException e) {
             LOGGER.error
                     ("SQLException occurred when working with prepared statement for updating: ", e);

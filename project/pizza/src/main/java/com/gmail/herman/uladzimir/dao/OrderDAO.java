@@ -14,12 +14,24 @@ import java.util.List;
  */
 public interface OrderDAO extends GenericDAO<Order> {
 
-    int countArchiveOrders() throws DAOException;
+    int countArchive() throws DAOException;
 
-    int countOpenOrders() throws DAOException;
+    int countArchive(int userId) throws DAOException;
 
-    List<Order> findArchiveOrders(int offset, int limit) throws DAOException;
+    int countOpen() throws DAOException;
 
-    List<Order> findOpenOrders(int offset, int limit) throws DAOException;
+    int countOpen(int userId) throws DAOException;
+
+    boolean isBasketExist(int userId) throws DAOException;
+
+    List<Order> findArchive(int offset, int limit) throws DAOException;
+
+    List<Order> findArchive(int offset, int limit, int userId) throws DAOException;
+
+    Order findBasket(int userId) throws DAOException;
+
+    List<Order> findOpen(int offset, int limit) throws DAOException;
+
+    List<Order> findOpen(int offset, int limit, int userId) throws DAOException;
 
 }

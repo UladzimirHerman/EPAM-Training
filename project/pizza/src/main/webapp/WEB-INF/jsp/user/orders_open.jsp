@@ -34,29 +34,14 @@
                                         <fmt:message key="page.ordersOpen.table.attribute.id"/>
                                         <c:out value="${orders.id}"/></a>
                                     <c:out value="${orders.date}"/>
-                                    <p>
-                                            <fmt:message key="page.ordersOpen.table.attribute.customer"/>
-                                            <c:out value="${orders.user.userInfo.name}"/>
-                                            <c:out value="${orders.user.userInfo.surname}"/>
-                                        (<c:out value="${orders.user.login}"/>)
+                                    <fmt:message key="page.ordersOpen.table.attribute.customer"/>
+                                    <c:out value="${orders.user.userInfo.name}"/>
+                                    <c:out value="${orders.user.userInfo.surname}"/>
+                                    (<c:out value="${orders.user.login}"/>)
                                 </div>
                                 <div class="p-2">
                                     <fmt:message key="page.ordersOpen.table.attribute.status"/>
                                     <c:out value="${orders.orderStatus}"/>
-                                </div>
-                                <div class="p-2">
-                                    <form action="/admin/orders/open" method="get" class="form-inline">
-                                        <select name="orderStatus" class="form-control" required>
-                                            <option value="IN_PROGRESS"><fmt:message
-                                                    key="page.ordersOpen.table.placeholder.status.inProgress"/></option>
-                                            <option value="DELIVERED"><fmt:message
-                                                    key="page.ordersOpen.table.placeholder.status.delivered"/></option>
-                                        </select>
-                                        <input name="orderId" type="hidden" value="<c:out value="${orders.id}"/>">
-                                        <input name="command" type="hidden" value="admin_update_order_status">
-                                        <input type="submit" class="btn btn-primary"
-                                               value="<fmt:message key="page.ordersOpen.button.statusEdit"/>"/>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -102,7 +87,7 @@
             </c:forEach>
 
             <c:set var="pageCount" scope="page" value="${1}"/><p>
-            <form action="/admin/orders/open" method="get" class="form-inline">
+            <form action="/user/orders/open" method="get" class="form-inline">
                 <b><fmt:message key="page.common.pagination.page"/></b>
                 <select name="page" class="form-control" required>
                     <c:forEach begin="${pageCount}" end="${pageQuantity}">
@@ -113,7 +98,8 @@
                 </select>
                 <input type="submit" class="btn btn-primary"
                        value="<fmt:message key="page.common.pagination.button"/>"/>
-            </form><p>
+            </form>
+            <p>
 
         </div>
     </div>

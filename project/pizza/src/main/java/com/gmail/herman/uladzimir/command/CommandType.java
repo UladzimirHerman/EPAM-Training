@@ -39,9 +39,21 @@ public enum CommandType {
     PROFILE_EDIT(new ProfileEditCommand()),
     REGISTRATION(new RegistrationCommand()),
     SET_LOCALE(new SetLocaleCommand()),
+    USER_ADD_FEEDBACK(new UserAddFeedbackCommand()),
+    USER_ADD_TO_BASKET(new UserAddToBasketCommand()),
+    USER_BASKET(new UserBasketViewCommand()),
+    USER_CREATE_ORDER(new UserCreateOrderCommand()),
+    USER_DELETE_ORDER_INFO(new UserDeleteOrderInfoCommand()),
+    USER_FEEDBACK(new UserFeedbackViewCommand()),
+    USER_FEEDBACK_CREATE(new UserFeedbackCreateViewCommand()),
+    USER_FEEDBACK_EDIT(new UserFeedbackEditViewCommand()),
     USER_NEWS(new UserNewsViewCommand()),
+    USER_ORDERS_ARCHIVE(new UserOrdersArchiveViewCommand()),
+    USER_ORDERS_OPEN(new UserOrdersOpenViewCommand()),
     USER_PRODUCT(new UserProductViewCommand()),
-    USER_PROFILE(new ProfileViewCommand());
+    USER_PROFILE(new ProfileViewCommand()),
+    USER_UPDATE_FEEDBACK(new UserUpdateFeedbackCommand()),
+    USER_UPDATE_ORDER_INFO(new UserUpdateOrderInfoCommand());
 
     private Command command;
 

@@ -19,7 +19,14 @@ public final class ResponsePath {
     public static final String FORWARD_TO_LOGIN_PAGE = "/WEB-INF/jsp/common/login.jsp";
     public static final String FORWARD_TO_PROFILE_PAGE = "/WEB-INF/jsp/common/profile.jsp";
     public static final String FORWARD_TO_REGISTRATION_PAGE = "/WEB-INF/jsp/common/registration.jsp";
+    public static final String FORWARD_TO_USER_BASKET_PAGE = "/WEB-INF/jsp/user/basket.jsp";
+    public static final String FORWARD_TO_USER_FEEDBACK_CREATE_PAGE = "/WEB-INF/jsp/user/feedback_create.jsp";
+    public static final String FORWARD_TO_USER_FEEDBACK_EDIT_PAGE = "/WEB-INF/jsp/user/feedback_edit.jsp";
+    public static final String FORWARD_TO_USER_FEEDBACK_PAGE = "/WEB-INF/jsp/user/feedback.jsp";
     public static final String FORWARD_TO_USER_NEWS_PAGE = "/WEB-INF/jsp/user/news.jsp";
+    public static final String FORWARD_TO_USER_ORDERS_ARCHIVE_PAGE = "/WEB-INF/jsp/user/orders_archive.jsp";
+    public static final String FORWARD_TO_USER_ORDERS_OPEN_PAGE = "/WEB-INF/jsp/user/orders_open.jsp";
+    public static final String FORWARD_TO_USER_PRODUCT_PAGE = "/WEB-INF/jsp/user/product.jsp";
 
     public static final String REDIRECT_TO_ADMIN_FEEDBACK_PAGE = "/admin/feedback";
     public static final String REDIRECT_TO_ADMIN_NEWS_CREATE_PAGE = "/admin/news/create";
@@ -37,7 +44,13 @@ public final class ResponsePath {
     public static final String REDIRECT_TO_ADMIN_USERS_EDIT_PAGE = "/admin/users/edit";
     public static final String REDIRECT_TO_ADMIN_USERS_PAGE = "/admin/users";
     public static final String REDIRECT_TO_LOGIN_PAGE = "/authentication";
+    public static final String REDIRECT_TO_USER_BASKET_PAGE = "/user/basket";
+    public static final String REDIRECT_TO_USER_FEEDBACK_CREATE_PAGE = "/user/feedback/create";
+    public static final String REDIRECT_TO_USER_FEEDBACK_EDIT_PAGE = "/user/feedback/edit";
+    public static final String REDIRECT_TO_USER_FEEDBACK_PAGE = "/user/feedback";
     public static final String REDIRECT_TO_USER_NEWS_PAGE = "/user/news";
+    public static final String REDIRECT_TO_USER_ORDERS_ARCHIVE_PAGE = "/user/orders/archive";
+    public static final String REDIRECT_TO_USER_ORDERS_OPEN_PAGE = "/user/orders/open";
     public static final String REDIRECT_TO_USER_PRODUCT_PAGE = "/user/product";
     public static final String REDIRECT_TO_USER_PROFILE_PAGE = "/user/profile";
 

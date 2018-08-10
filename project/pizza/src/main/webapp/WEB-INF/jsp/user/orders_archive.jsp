@@ -8,7 +8,7 @@
 <head>
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="content"/>
-    <title><fmt:message key="page.ordersOpen.title"/></title>
+    <title><fmt:message key="page.ordersArchive.title"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
@@ -28,35 +28,20 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex">
-                                <div class="p-2 mr-auto" align="left">
+                                <div class="p-2 mr-auto">
                                     <a class="card-link" data-toggle="collapse"
                                        href="#<c:out value="${orders.id}"/>">
-                                        <fmt:message key="page.ordersOpen.table.attribute.id"/>
+                                        <fmt:message key="page.ordersArchive.table.attribute.id"/>
                                         <c:out value="${orders.id}"/></a>
                                     <c:out value="${orders.date}"/>
-                                    <p>
-                                            <fmt:message key="page.ordersOpen.table.attribute.customer"/>
-                                            <c:out value="${orders.user.userInfo.name}"/>
-                                            <c:out value="${orders.user.userInfo.surname}"/>
-                                        (<c:out value="${orders.user.login}"/>)
+                                    <fmt:message key="page.ordersArchive.table.attribute.customer"/>
+                                    <c:out value="${orders.user.userInfo.name}"/>
+                                    <c:out value="${orders.user.userInfo.surname}"/>
+                                    (<c:out value="${orders.user.login}"/>)
                                 </div>
                                 <div class="p-2">
-                                    <fmt:message key="page.ordersOpen.table.attribute.status"/>
+                                    <fmt:message key="page.ordersArchive.table.attribute.status"/>
                                     <c:out value="${orders.orderStatus}"/>
-                                </div>
-                                <div class="p-2">
-                                    <form action="/admin/orders/open" method="get" class="form-inline">
-                                        <select name="orderStatus" class="form-control" required>
-                                            <option value="IN_PROGRESS"><fmt:message
-                                                    key="page.ordersOpen.table.placeholder.status.inProgress"/></option>
-                                            <option value="DELIVERED"><fmt:message
-                                                    key="page.ordersOpen.table.placeholder.status.delivered"/></option>
-                                        </select>
-                                        <input name="orderId" type="hidden" value="<c:out value="${orders.id}"/>">
-                                        <input name="command" type="hidden" value="admin_update_order_status">
-                                        <input type="submit" class="btn btn-primary"
-                                               value="<fmt:message key="page.ordersOpen.button.statusEdit"/>"/>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -66,10 +51,10 @@
                                 <table class="table text-center">
                                     <thead>
                                     <tr style="background-color:PowderBlue;">
-                                        <th><fmt:message key="page.ordersOpen.table.attribute.product"/></th>
-                                        <th><fmt:message key="page.ordersOpen.table.attribute.price"/></th>
-                                        <th><fmt:message key="page.ordersOpen.table.attribute.quantity"/></th>
-                                        <th><fmt:message key="page.ordersOpen.table.attribute.cost"/></th>
+                                        <th><fmt:message key="page.ordersArchive.table.attribute.product"/></th>
+                                        <th><fmt:message key="page.ordersArchive.table.attribute.price"/></th>
+                                        <th><fmt:message key="page.ordersArchive.table.attribute.quantity"/></th>
+                                        <th><fmt:message key="page.ordersArchive.table.attribute.cost"/></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -87,7 +72,7 @@
                                     </c:forEach>
                                     <tr>
                                         <td colspan="3" align="right">
-                                            <b><fmt:message key="page.ordersOpen.table.attribute.totalCost"/></b>
+                                            <b><fmt:message key="page.ordersArchive.table.attribute.totalCost"/></b>
                                         </td>
                                         <td>
                                             <b><c:out value="${total}"/></b>
@@ -102,7 +87,7 @@
             </c:forEach>
 
             <c:set var="pageCount" scope="page" value="${1}"/><p>
-            <form action="/admin/orders/open" method="get" class="form-inline">
+            <form action="/user/orders/archive" method="get" class="form-inline">
                 <b><fmt:message key="page.common.pagination.page"/></b>
                 <select name="page" class="form-control" required>
                     <c:forEach begin="${pageCount}" end="${pageQuantity}">

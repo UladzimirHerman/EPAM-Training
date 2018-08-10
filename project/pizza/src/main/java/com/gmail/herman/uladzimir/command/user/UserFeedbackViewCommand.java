@@ -1,13 +1,13 @@
-package com.gmail.herman.uladzimir.command.admin;
+package com.gmail.herman.uladzimir.command.user;
 
 import com.gmail.herman.uladzimir.command.Command;
 import com.gmail.herman.uladzimir.command.ResponseType;
 import com.gmail.herman.uladzimir.command.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
-import com.gmail.herman.uladzimir.entity.Order;
+import com.gmail.herman.uladzimir.entity.Feedback;
 import com.gmail.herman.uladzimir.exception.ServiceException;
-import com.gmail.herman.uladzimir.service.OrderService;
-import com.gmail.herman.uladzimir.service.impl.OrderServiceImpl;
+import com.gmail.herman.uladzimir.service.FeedbackService;
+import com.gmail.herman.uladzimir.service.impl.FeedbackServiceImpl;
 import com.gmail.herman.uladzimir.util.PaginationUtil;
 import com.gmail.herman.uladzimir.validator.PaginationValidator;
 import org.apache.log4j.LogManager;
@@ -15,14 +15,15 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-import static com.gmail.herman.uladzimir.command.AttributeName.ORDERS;
+import static com.gmail.herman.uladzimir.command.AttributeName.FEEDBACK_LIST;
 import static com.gmail.herman.uladzimir.command.AttributeName.PAGE;
 import static com.gmail.herman.uladzimir.command.AttributeName.PAGE_QUANTITY;
-import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_ADMIN_ORDERS_OPEN_PAGE;
+import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_USER_FEEDBACK_PAGE;
 
-public class AdminOrdersOpenViewCommand implements Command {
+public class UserFeedbackViewCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(AdminOrdersOpenViewCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(UserFeedbackViewCommand.class);
     private static final int ITEMS_ON_THE_PAGE = 8;
 
     @Override
@@ -36,17 +37,17 @@ public class AdminOrdersOpenViewCommand implements Command {
         try {
 
             if (paginationValidator.isPageNumberCorrect(page)) {
-                OrderService orderService = new OrderServiceImpl();
-                List<Order> orders = orderService.findOpen
+                FeedbackService feedbackService = new FeedbackServiceImpl();
+                List<Feedback> feedbackList = feedbackService.findAllInfo
                         (PaginationUtil.defineOffset(page, ITEMS_ON_THE_PAGE), ITEMS_ON_THE_PAGE);
-                requestWrapper.putRequestAttribute(ORDERS, orders);
+                requestWrapper.putRequestAttribute(FEEDBACK_LIST, feedbackList);
 
                 int pageQuantity =
-                        PaginationUtil.definePageQuantity(orderService.countOpen(), ITEMS_ON_THE_PAGE);
+                        PaginationUtil.definePageQuantity(feedbackService.count(), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(PAGE_QUANTITY, pageQuantity);
 
                 route.setResponseType(ResponseType.FORWARD);
-                route.setResponsePath(FORWARD_TO_ADMIN_ORDERS_OPEN_PAGE);
+                route.setResponsePath(FORWARD_TO_USER_FEEDBACK_PAGE);
             }
 
         } catch (ServiceException e) {

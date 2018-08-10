@@ -14,11 +14,13 @@ import java.util.List;
  */
 public interface ProductDAO extends GenericDAO<Product> {
 
-    /**
+    int countForSale() throws DAOException;
+
+    /**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      * Search all products, which are available for sale
      * @return list of products
      * @throws DAOException exception of database level
      */
-    List<Product> findAllForSale() throws DAOException;
+    List<Product> findForSale(int offset, int limit) throws DAOException;
 
 }

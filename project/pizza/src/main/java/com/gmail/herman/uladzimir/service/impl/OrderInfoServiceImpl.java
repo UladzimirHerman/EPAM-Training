@@ -38,6 +38,26 @@ public class OrderInfoServiceImpl extends AbstractService<OrderInfo, OrderInfoDA
     }
 
     @Override
+    public List<OrderInfo> findFullByOrderId(int id) throws ServiceException {
+        OrderInfoDAO orderInfoDAO = new OrderInfoDAOImpl();
+        List<OrderInfo> orderInfoList;
+
+        try {
+            orderInfoList = orderInfoDAO.findByOrderId(id);
+
+            if (!orderInfoList.isEmpty()) {
+                orderInfoList = fillOrderInfoWithInfo(orderInfoList);
+            }
+
+        } catch (DAOException e) {
+            LOGGER.error("DAOException occurred when finding full orders info by order id: ", e);
+            throw new ServiceException(e);
+        }
+
+        return orderInfoList;
+    }
+
+    @Override
     public List<OrderInfo> fillOrderInfoWithInfo(List<OrderInfo> orderInfoList)
             throws ServiceException {
         ProductService productService = new ProductServiceImpl();

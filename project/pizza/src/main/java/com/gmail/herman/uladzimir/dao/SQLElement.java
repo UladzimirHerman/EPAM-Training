@@ -43,9 +43,15 @@ public final class SQLElement {
     public static final String ORDER_QUERY_DELETE_BY_ID = "order.query.deleteById";
     public static final String ORDER_QUERY_COUNT = "order.query.count";
     public static final String ORDER_QUERY_COUNT_ARCHIVE = "order.query.countArchive";
+    public static final String ORDER_QUERY_COUNT_ARCHIVE_USER = "order.query.countArchiveUser";
+    public static final String ORDER_QUERY_COUNT_BASKET = "order.query.countBasket";
     public static final String ORDER_QUERY_COUNT_OPEN = "order.query.countOpen";
+    public static final String ORDER_QUERY_COUNT_OPEN_USER = "order.query.countOpenUser";
     public static final String ORDER_QUERY_FIND_ARCHIVE = "order.query.findArchive";
+    public static final String ORDER_QUERY_FIND_ARCHIVE_USER = "order.query.findArchiveUser";
+    public static final String ORDER_QUERY_FIND_BASKET = "order.query.findBasket";
     public static final String ORDER_QUERY_FIND_OPEN = "order.query.findOpen";
+    public static final String ORDER_QUERY_FIND_OPEN_USER = "order.query.findOpenUser";
 
     public static final String ORDER_INFO_FIELD_ID = "orderInfo.field.id";
     public static final String ORDER_INFO_FIELD_ORDER_ID = "orderInfo.field.orderId";
@@ -71,7 +77,8 @@ public final class SQLElement {
     public static final String PRODUCT_QUERY_UPDATE = "product.query.update";
     public static final String PRODUCT_QUERY_DELETE_BY_ID = "product.query.deleteById";
     public static final String PRODUCT_QUERY_COUNT = "product.query.count";
-    public static final String PRODUCT_QUERY_FIND_ALL_FOR_SALE = "product.query.findAllForSale";
+    public static final String PRODUCT_QUERY_COUNT_FOR_SALE = "product.query.countForSale";
+    public static final String PRODUCT_QUERY_FIND_FOR_SALE = "product.query.findForSale";
 
     public static final String USER_FIELD_ID = "user.field.id";
     public static final String USER_FIELD_LOGIN = "user.field.login";

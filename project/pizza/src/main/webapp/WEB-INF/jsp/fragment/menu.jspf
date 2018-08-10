@@ -39,6 +39,14 @@
                                    value="<fmt:message key="page.fragment.menu.products"/>">
                         </li>
                     </form>
+                    <c:if test="${sessionScope.user.userRole eq 'USER'}">
+                        <form action="/user/basket" method="post">
+                            <li class="nav-item">
+                                <input type="submit" class="btn btn-info"
+                                       value="<fmt:message key="page.fragment.menu.basket"/>">
+                            </li>
+                        </form>
+                    </c:if>
                     <form action="/${urlPart}/orders/open" method="get">
                         <li class="nav-item">
                             <input name="page" type="hidden" value="1">

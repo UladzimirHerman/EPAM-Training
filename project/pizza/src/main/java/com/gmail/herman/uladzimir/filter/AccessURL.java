@@ -31,7 +31,13 @@ public class AccessURL {
         adminURL.add(REDIRECT_TO_ADMIN_USERS_PAGE);
 
         userURL = new HashSet<>();
+        userURL.add(REDIRECT_TO_USER_BASKET_PAGE);
+        userURL.add(REDIRECT_TO_USER_FEEDBACK_CREATE_PAGE);
+        userURL.add(REDIRECT_TO_USER_FEEDBACK_EDIT_PAGE);
+        userURL.add(REDIRECT_TO_USER_FEEDBACK_PAGE);
         userURL.add(REDIRECT_TO_USER_NEWS_PAGE);
+        userURL.add(REDIRECT_TO_USER_ORDERS_ARCHIVE_PAGE);
+        userURL.add(REDIRECT_TO_USER_ORDERS_OPEN_PAGE);
         userURL.add(REDIRECT_TO_USER_PRODUCT_PAGE);
         userURL.add(REDIRECT_TO_USER_PROFILE_PAGE);
     }

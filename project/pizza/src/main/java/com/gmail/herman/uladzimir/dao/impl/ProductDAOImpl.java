@@ -119,14 +119,44 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO {
     }
 
     @Override
-    public List<Product> findAllForSale() throws DAOException {
-        List<Product> products = new ArrayList<>();
+    public int countForSale() throws DAOException {
         Connection connection = ConnectionPool.getInstance().takeConnection();
+        int count = 0;
 
         try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery
-                     (SQLManager.getInstance().getSQL(PRODUCT_QUERY_FIND_ALL_FOR_SALE))) {
-            products.addAll(parseResult(resultSet));
+             ResultSet resultSet = statement.executeQuery(SQLManager.getInstance().getSQL(PRODUCT_QUERY_COUNT_FOR_SALE))) {
+
+            if (resultSet.next()) {
+                count = resultSet.getInt(SQLManager.getInstance().getSQL(COMMON_FIELD_TOTAL_ROWS));
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("SQLException occurred when counting products for sale: ", e);
+            throw new DAOException("Error in counting records", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().returnConnection(connection);
+            }
+        }
+
+        return count;
+    }
+
+    @Override
+    public List<Product> findForSale(int offset, int limit) throws DAOException {
+        Connection connection = ConnectionPool.getInstance().takeConnection();
+        List<Product> products = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement
+                (SQLManager.getInstance().getSQL(PRODUCT_QUERY_FIND_FOR_SALE) + " " +
+                        SQLManager.getInstance().getSQL(COMMON_QUERY_PART_LIMIT))) {
+            preparedStatement.setInt(1, offset);
+            preparedStatement.setInt(2, limit);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                products.addAll(parseResult(resultSet));
+            }
+
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when finding products for sale: ", e);
             throw new DAOException("Error in searching records", e);

@@ -16,6 +16,8 @@ public interface OrderInfoService extends GenericService<OrderInfo> {
 
     List<OrderInfo> findByOrderId(int id) throws ServiceException;
 
+    List<OrderInfo> findFullByOrderId(int id) throws ServiceException;
+
     List<OrderInfo> fillOrderInfoWithInfo(List<OrderInfo> orderInfoList)
             throws ServiceException;
 

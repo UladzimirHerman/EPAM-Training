@@ -47,7 +47,6 @@ public class AdminNewsViewCommand implements Command {
 
                 route.setResponseType(ResponseType.FORWARD);
                 route.setResponsePath(FORWARD_TO_ADMIN_NEWS_PAGE);
-
             }
 
         } catch (ServiceException e) {

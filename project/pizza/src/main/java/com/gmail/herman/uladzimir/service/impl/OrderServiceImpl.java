@@ -24,12 +24,12 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDAOImpl>
     }
 
     @Override
-    public int countArchiveOrders() throws ServiceException {
+    public int countArchive() throws ServiceException {
         OrderDAO orderDAO = new OrderDAOImpl();
         int count;
 
         try {
-            count = orderDAO.countArchiveOrders();
+            count = orderDAO.countArchive();
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -38,12 +38,12 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDAOImpl>
     }
 
     @Override
-    public int countOpenOrders() throws ServiceException {
+    public int countArchive(int userId) throws ServiceException {
         OrderDAO orderDAO = new OrderDAOImpl();
         int count;
 
         try {
-            count = orderDAO.countOpenOrders();
+            count = orderDAO.countArchive(userId);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -52,12 +52,53 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDAOImpl>
     }
 
     @Override
-    public List<Order> findArchiveOrders(int offset, int limit) throws ServiceException {
+    public int countOpen() throws ServiceException {
+        OrderDAO orderDAO = new OrderDAOImpl();
+        int count;
+
+        try {
+            count = orderDAO.countOpen();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
+        return count;
+    }
+
+    @Override
+    public int countOpen(int userId) throws ServiceException {
+        OrderDAO orderDAO = new OrderDAOImpl();
+        int count;
+
+        try {
+            count = orderDAO.countOpen(userId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
+        return count;
+    }
+
+    @Override
+    public boolean isBasketExist(int userId) throws ServiceException {
+        OrderDAO orderDAO = new OrderDAOImpl();
+
+        try {
+            return orderDAO.isBasketExist(userId);
+        } catch (DAOException e) {
+            LOGGER.error("DAOException occurred when checking the existence of a basket: ", e);
+            throw new ServiceException(e);
+        }
+
+    }
+
+    @Override
+    public List<Order> findArchive(int offset, int limit) throws ServiceException {
         OrderDAO orderDAO = new OrderDAOImpl();
         List<Order> orders;
 
         try {
-            orders = orderDAO.findArchiveOrders(offset, limit);
+            orders = orderDAO.findArchive(offset, limit);
 
             if (!orders.isEmpty()) {
                 orders = fillOrdersWithInfo(orders);
@@ -72,12 +113,47 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDAOImpl>
     }
 
     @Override
-    public List<Order> findOpenOrders(int offset, int limit) throws ServiceException {
+    public List<Order> findArchive(int offset, int limit, int userId) throws ServiceException {
         OrderDAO orderDAO = new OrderDAOImpl();
         List<Order> orders;
 
         try {
-            orders = orderDAO.findOpenOrders(offset, limit);
+            orders = orderDAO.findArchive(offset, limit, userId);
+
+            if (!orders.isEmpty()) {
+                orders = fillOrdersWithInfo(orders);
+            }
+
+        } catch (DAOException e) {
+            LOGGER.error("DAOException occurred when finding archive orders by user id: ", e);
+            throw new ServiceException(e);
+        }
+
+        return orders;
+    }
+
+    @Override
+    public Order findBasket(int userId) throws ServiceException {
+        OrderDAO orderDAO = new OrderDAOImpl();
+        Order order;
+
+        try {
+            order = orderDAO.findBasket(userId);
+        } catch (DAOException e) {
+            LOGGER.error("DAOException occurred when finding user's basket: ", e);
+            throw new ServiceException(e);
+        }
+
+        return order;
+    }
+
+    @Override
+    public List<Order> findOpen(int offset, int limit) throws ServiceException {
+        OrderDAO orderDAO = new OrderDAOImpl();
+        List<Order> orders;
+
+        try {
+            orders = orderDAO.findOpen(offset, limit);
 
             if (!orders.isEmpty()) {
                 orders = fillOrdersWithInfo(orders);
@@ -85,6 +161,26 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDAOImpl>
 
         } catch (DAOException e) {
             LOGGER.error("DAOException occurred when finding open orders: ", e);
+            throw new ServiceException(e);
+        }
+
+        return orders;
+    }
+
+    @Override
+    public List<Order> findOpen(int offset, int limit, int userId) throws ServiceException {
+        OrderDAO orderDAO = new OrderDAOImpl();
+        List<Order> orders;
+
+        try {
+            orders = orderDAO.findOpen(offset, limit, userId);
+
+            if (!orders.isEmpty()) {
+                orders = fillOrdersWithInfo(orders);
+            }
+
+        } catch (DAOException e) {
+            LOGGER.error("DAOException occurred when finding open orders by user id: ", e);
             throw new ServiceException(e);
         }
 

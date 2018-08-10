@@ -21,13 +21,25 @@ public interface OrderService extends GenericService<Order> {
      * @throws ServiceException exception of service level
      */
 
-    int countArchiveOrders() throws ServiceException;
+    int countArchive() throws ServiceException;
 
-    int countOpenOrders() throws ServiceException;
+    int countArchive(int userId) throws ServiceException;
 
-    List<Order> findArchiveOrders(int offset, int limit) throws ServiceException;
+    int countOpen() throws ServiceException;
 
-    List<Order> findOpenOrders(int offset, int limit) throws ServiceException;
+    int countOpen(int userId) throws ServiceException;
+
+    boolean isBasketExist(int userId) throws ServiceException;
+
+    List<Order> findArchive(int offset, int limit) throws ServiceException;
+
+    List<Order> findArchive(int offset, int limit, int userId) throws ServiceException;
+
+    Order findBasket(int userId) throws ServiceException;
+
+    List<Order> findOpen(int offset, int limit) throws ServiceException;
+
+    List<Order> findOpen(int offset, int limit, int userId) throws ServiceException;
 
     List<Order> fillOrdersWithInfo(List<Order> orders) throws ServiceException;
 

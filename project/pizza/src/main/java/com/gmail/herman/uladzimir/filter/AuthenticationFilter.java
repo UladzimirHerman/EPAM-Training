@@ -36,7 +36,7 @@ public class AuthenticationFilter implements Filter {
                 response.sendRedirect(REDIRECT_TO_ADMIN_PRODUCT_PAGE + PAGE_ATTRIBUTE);
                 return;
             } else if (userRole == UserRole.USER) {
-                response.sendRedirect(REDIRECT_TO_USER_PRODUCT_PAGE);
+                response.sendRedirect(REDIRECT_TO_USER_PRODUCT_PAGE + PAGE_ATTRIBUTE);
                 return;
             }
 
