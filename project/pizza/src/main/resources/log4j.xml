@@ -7,7 +7,7 @@
         <param name="File" value="D:/logs/pizza.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                   value="%d{dd.MM.yyyy HH:mm:ss} [%t] %-5p %c - %m%n"/>
+                   value="%d{dd.MM.yyyy HH:mm:ss} [%t] %-5p %c.%M - %m%n"/>
         </layout>
     </appender>
 

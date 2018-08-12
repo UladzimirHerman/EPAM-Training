@@ -14,42 +14,50 @@ import java.util.List;
 
 import static com.gmail.herman.uladzimir.dao.SQLElement.*;
 
+/**
+ * Class {@link NewsDAOImpl} is used for interacting the entity {@link News}
+ * with database. This class implements common and its special methods.
+ *
+ * @author Uladzimir Herman
+ * @see AbstractDAO
+ * @see NewsDAO
+ */
 public class NewsDAOImpl extends AbstractDAO<News> implements NewsDAO {
 
     private static final Logger LOGGER = LogManager.getLogger(NewsDAOImpl.class);
 
     @Override
-    public String getFindAllQuery() {
+    protected String getFindAllQuery() {
         return SQLManager.getInstance().getSQL(NEWS_QUERY_FIND_ALL);
     }
 
     @Override
-    public String getFindByIdQuery() {
+    protected String getFindByIdQuery() {
         return SQLManager.getInstance().getSQL(NEWS_QUERY_FIND_BY_ID);
     }
 
     @Override
-    public String getInsertQuery() {
+    protected String getInsertQuery() {
         return SQLManager.getInstance().getSQL(NEWS_QUERY_INSERT);
     }
 
     @Override
-    public String getUpdateQuery() {
+    protected String getUpdateQuery() {
         return SQLManager.getInstance().getSQL(NEWS_QUERY_UPDATE);
     }
 
     @Override
-    public String getDeleteByIdQuery() {
+    protected String getDeleteByIdQuery() {
         return SQLManager.getInstance().getSQL(NEWS_QUERY_DELETE_BY_ID);
     }
 
     @Override
-    public String getCountQuery() {
+    protected String getCountQuery() {
         return SQLManager.getInstance().getSQL(NEWS_QUERY_COUNT);
     }
 
     @Override
-    public void getPreparedStatementInsert
+    protected void getPreparedStatementInsert
             (PreparedStatement preparedStatement, News news) throws DAOException {
 
         try {
@@ -67,7 +75,7 @@ public class NewsDAOImpl extends AbstractDAO<News> implements NewsDAO {
     }
 
     @Override
-    public void getPreparedStatementUpdate
+    protected void getPreparedStatementUpdate
             (PreparedStatement preparedStatement, News news) throws DAOException {
 
         try {
@@ -85,7 +93,7 @@ public class NewsDAOImpl extends AbstractDAO<News> implements NewsDAO {
     }
 
     @Override
-    public List<News> parseResult(ResultSet resultSet) throws DAOException {
+    protected List<News> parseResult(ResultSet resultSet) throws DAOException {
         List<News> newsList = new ArrayList<>();
         News news;
 

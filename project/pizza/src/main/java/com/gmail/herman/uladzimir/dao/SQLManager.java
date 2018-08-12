@@ -4,6 +4,12 @@ import java.util.ResourceBundle;
 
 import static com.gmail.herman.uladzimir.dao.SQLElement.SQL_FILE_NAME;
 
+/**
+ * Class {@link SQLManager} is used for getting specific SQL-elements
+ * from property-file. This class is a singleton.
+ *
+ * @author Uladzimir Herman
+ */
 public class SQLManager {
 
     private ResourceBundle resourceBundle;

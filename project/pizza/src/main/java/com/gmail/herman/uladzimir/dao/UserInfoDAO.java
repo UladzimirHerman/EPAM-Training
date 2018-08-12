@@ -3,7 +3,7 @@ package com.gmail.herman.uladzimir.dao;
 import com.gmail.herman.uladzimir.entity.UserInfo;
 
 /**
- * Interface {@link UserInfoDAO} contains specific methods
+ * Interface {@link UserInfoDAO} contains special methods
  * for entity {@link UserInfo}.
  *
  * @author Uladzimir Herman

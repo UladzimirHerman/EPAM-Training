@@ -20,9 +20,8 @@ import java.util.List;
 import static com.gmail.herman.uladzimir.dao.SQLElement.*;
 
 /**
- * Class {@link UserDAOImpl} is used for working with database.
- * This class realizes the specific methods of User entity
- * and abstract methods necessary for executing common methods.
+ * Class {@link UserDAOImpl} is used for interacting the entity {@link User}
+ * with database. This class implements common and its special methods.
  *
  * @author Uladzimir Herman
  * @see AbstractDAO
@@ -33,37 +32,37 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
     private static final Logger LOGGER = LogManager.getLogger(UserDAOImpl.class);
 
     @Override
-    public String getFindAllQuery() {
+    protected String getFindAllQuery() {
         return SQLManager.getInstance().getSQL(USER_QUERY_FIND_ALL);
     }
 
     @Override
-    public String getFindByIdQuery() {
+    protected String getFindByIdQuery() {
         return SQLManager.getInstance().getSQL(USER_QUERY_FIND_BY_ID);
     }
 
     @Override
-    public String getInsertQuery() {
+    protected String getInsertQuery() {
         return SQLManager.getInstance().getSQL(USER_QUERY_INSERT);
     }
 
     @Override
-    public String getUpdateQuery() {
+    protected String getUpdateQuery() {
         return SQLManager.getInstance().getSQL(USER_QUERY_UPDATE);
     }
 
     @Override
-    public String getDeleteByIdQuery() {
+    protected String getDeleteByIdQuery() {
         return SQLManager.getInstance().getSQL(USER_QUERY_DELETE_BY_ID);
     }
 
     @Override
-    public String getCountQuery() {
+    protected String getCountQuery() {
         return SQLManager.getInstance().getSQL(USER_QUERY_COUNT);
     }
 
     @Override
-    public void getPreparedStatementInsert
+    protected void getPreparedStatementInsert
             (PreparedStatement preparedStatement, User user) throws DAOException {
 
         try {
@@ -79,7 +78,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
     }
 
     @Override
-    public void getPreparedStatementUpdate
+    protected void getPreparedStatementUpdate
             (PreparedStatement preparedStatement, User user) throws DAOException {
 
         try {
@@ -95,7 +94,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
     }
 
     @Override
-    public List<User> parseResult(ResultSet resultSet) throws DAOException {
+    protected List<User> parseResult(ResultSet resultSet) throws DAOException {
         List<User> users = new ArrayList<>();
         User user;
 
@@ -121,6 +120,14 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
         return users;
     }
 
+    /**
+     * This method is override because there is an one-to-one relationship between
+     * entities {@link User} and {@link UserInfo}. Thus, the standard implementation
+     * of the method doesn't fit.
+     *
+     * @param user new user for inserting
+     * @throws DAOException exception of database level
+     */
     @Override
     public void insert(User user) throws DAOException {
         Connection connection = ConnectionPool.getInstance().takeConnection();
@@ -140,6 +147,8 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
 
             connection.commit();
             connection.setAutoCommit(true);
+
+            LOGGER.info("Successful insert");
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when inserting a record: ", e);
 
@@ -147,7 +156,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
                 connection.rollback();
             } catch (SQLException ex) {
                 LOGGER.error("SQLException occurred when trying to do rollback: ", ex);
-                throw new DAOException("Error in rollback", ex);
+                throw new DAOException("Error in inserting a record and rollback failed", ex);
             }
 
             throw new DAOException("Error in inserting a record", e);
@@ -159,6 +168,14 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
 
     }
 
+    /**
+     * This method is override because there is an one-to-one relationship between
+     * entities {@link User} and {@link UserInfo}. Thus, the standard implementation
+     * of the method doesn't fit.
+     *
+     * @param id user's identifier for deleting
+     * @throws DAOException exception of database level
+     */
     @Override
     public void deleteById(int id) throws DAOException {
         Connection connection = ConnectionPool.getInstance().takeConnection();
@@ -178,6 +195,8 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
 
             connection.commit();
             connection.setAutoCommit(true);
+
+            LOGGER.info("Successful delete");
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when deleting a record by id: ", e);
 
@@ -185,7 +204,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
                 connection.rollback();
             } catch (SQLException ex) {
                 LOGGER.error("SQLException occurred when trying to do rollback: ", ex);
-                throw new DAOException("Error in rollback", ex);
+                throw new DAOException("Error in deleting a record and rollback failed", ex);
             }
 
             throw new DAOException("Error in deleting a record", e);
@@ -199,8 +218,8 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
 
     @Override
     public boolean isUserExist(String login) throws DAOException {
-        List<User> users = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().takeConnection();
+        List<User> users = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement
                 (SQLManager.getInstance().getSQL(USER_QUERY_FIND_BY_LOGIN))) {
@@ -210,6 +229,7 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
                 users.addAll(parseResult(resultSet));
             }
 
+            LOGGER.info("Successful check the existence of a user");
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when checking the existence of a user: ", e);
             throw new DAOException("Error in checking the existence of a user", e);
@@ -224,8 +244,8 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
 
     @Override
     public User findByLogin(String login) throws DAOException {
-        List<User> users = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().takeConnection();
+        List<User> users = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement
                 (SQLManager.getInstance().getSQL(USER_QUERY_FIND_BY_LOGIN))) {
@@ -235,18 +255,20 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
                 users.addAll(parseResult(resultSet));
             }
 
+            if (users.size() != 1) {
+                LOGGER.error("Incorrect result returned when searching user by login. " +
+                        "Record doesn't exist or exist more than one record");
+                throw new DAOException("SQL-query return incorrect result");
+            }
+
+            LOGGER.info("Successful search user by login");
         } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when finding user by login: ", e);
-            throw new DAOException("Error in finding user by login", e);
+            LOGGER.error("SQLException occurred when searching user by login: ", e);
+            throw new DAOException("Error in searching user by login", e);
         } finally {
             if (connection != null) {
                 ConnectionPool.getInstance().returnConnection(connection);
             }
-        }
-
-        if (users.size() != 1) {
-            LOGGER.error("Incorrect result returned when finding by login");
-            throw new DAOException("SQL-query return incorrect result");
         }
 
         return users.get(0);

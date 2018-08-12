@@ -30,20 +30,6 @@ public abstract class AbstractService<T, E extends AbstractDAO<T>>
     public abstract E getObjectDAOImpl();
 
     @Override
-    public List<T> findAll() throws ServiceException {
-        GenericDAO<T> objectDAO = getObjectDAOImpl();
-        List<T> objects;
-
-        try {
-            objects = objectDAO.findAll();
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-
-        return objects;
-    }
-
-    @Override
     public List<T> findAll(int offset, int limit) throws ServiceException {
         GenericDAO<T> objectDAO = getObjectDAOImpl();
         List<T> objects;

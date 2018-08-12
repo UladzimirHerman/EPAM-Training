@@ -6,7 +6,7 @@ import com.gmail.herman.uladzimir.exception.DAOException;
 import java.util.List;
 
 /**
- * Interface {@link OrderInfoDAO} contains specific methods
+ * Interface {@link OrderInfoDAO} contains special methods
  * for entity {@link OrderInfo}.
  *
  * @author Uladzimir Herman
@@ -16,10 +16,11 @@ public interface OrderInfoDAO extends GenericDAO<OrderInfo> {
 
     /**
      * Search order information by order's identifier
-     * @param id identifier for searching
+     *
+     * @param orderId order's identifier for searching
      * @return list of orders information
      * @throws DAOException exception of database level
      */
-    List<OrderInfo> findByOrderId(int id) throws DAOException;
+    List<OrderInfo> findByOrderId(int orderId) throws DAOException;
 
 }

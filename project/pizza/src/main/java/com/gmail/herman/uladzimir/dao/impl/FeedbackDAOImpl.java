@@ -14,42 +14,50 @@ import java.util.List;
 
 import static com.gmail.herman.uladzimir.dao.SQLElement.*;
 
+/**
+ * Class {@link FeedbackDAOImpl} is used for interacting the entity {@link Feedback}
+ * with database. This class implements common and its special methods.
+ *
+ * @author Uladzimir Herman
+ * @see AbstractDAO
+ * @see FeedbackDAO
+ */
 public class FeedbackDAOImpl extends AbstractDAO<Feedback> implements FeedbackDAO {
 
     private static final Logger LOGGER = LogManager.getLogger(FeedbackDAOImpl.class);
 
     @Override
-    public String getFindAllQuery() {
+    protected String getFindAllQuery() {
         return SQLManager.getInstance().getSQL(FEEDBACK_QUERY_FIND_ALL);
     }
 
     @Override
-    public String getFindByIdQuery() {
+    protected String getFindByIdQuery() {
         return SQLManager.getInstance().getSQL(FEEDBACK_QUERY_FIND_BY_ID);
     }
 
     @Override
-    public String getInsertQuery() {
+    protected String getInsertQuery() {
         return SQLManager.getInstance().getSQL(FEEDBACK_QUERY_INSERT);
     }
 
     @Override
-    public String getUpdateQuery() {
+    protected String getUpdateQuery() {
         return SQLManager.getInstance().getSQL(FEEDBACK_QUERY_UPDATE);
     }
 
     @Override
-    public String getDeleteByIdQuery() {
+    protected String getDeleteByIdQuery() {
         return SQLManager.getInstance().getSQL(FEEDBACK_QUERY_DELETE_BY_ID);
     }
 
     @Override
-    public String getCountQuery() {
+    protected String getCountQuery() {
         return SQLManager.getInstance().getSQL(FEEDBACK_QUERY_COUNT);
     }
 
     @Override
-    public void getPreparedStatementInsert
+    protected void getPreparedStatementInsert
             (PreparedStatement preparedStatement, Feedback feedback) throws DAOException {
 
         try {
@@ -66,7 +74,7 @@ public class FeedbackDAOImpl extends AbstractDAO<Feedback> implements FeedbackDA
     }
 
     @Override
-    public void getPreparedStatementUpdate
+    protected void getPreparedStatementUpdate
             (PreparedStatement preparedStatement, Feedback feedback) throws DAOException {
 
         try {
@@ -82,7 +90,7 @@ public class FeedbackDAOImpl extends AbstractDAO<Feedback> implements FeedbackDA
     }
 
     @Override
-    public List<Feedback> parseResult(ResultSet resultSet) throws DAOException {
+    protected List<Feedback> parseResult(ResultSet resultSet) throws DAOException {
         List<Feedback> feedbackList = new ArrayList<>();
         Feedback feedback;
 

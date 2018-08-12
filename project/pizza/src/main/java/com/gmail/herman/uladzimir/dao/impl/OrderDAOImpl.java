@@ -16,42 +16,121 @@ import java.util.List;
 
 import static com.gmail.herman.uladzimir.dao.SQLElement.*;
 
+/**
+ * Class {@link OrderDAOImpl} is used for interacting the entity {@link Order}
+ * with database. This class implements common and its special methods.
+ *
+ * @author Uladzimir Herman
+ * @see AbstractDAO
+ * @see OrderDAO
+ */
 public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO {
 
     private static final Logger LOGGER = LogManager.getLogger(OrderDAOImpl.class);
 
+    /**
+     * Count orders by integer-condition
+     *
+     * @param query     particular query for counting
+     * @param condition condition for query
+     * @return quantity of records
+     * @throws DAOException exception of database level
+     */
+    private int countByCondition(String query, int condition) throws DAOException {
+        Connection connection = ConnectionPool.getInstance().takeConnection();
+        int count = 0;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, condition);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    count = resultSet.getInt(SQLManager.getInstance().getSQL(COMMON_FIELD_TOTAL_ROWS));
+                }
+            }
+
+            LOGGER.info("Successful count by condition");
+        } catch (SQLException e) {
+            LOGGER.error("SQLException occurred when counting by condition: ", e);
+            throw new DAOException("Error in counting records", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().returnConnection(connection);
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * Search orders by integer-condition
+     *
+     * @param query     particular query for searching
+     * @param condition condition for query
+     * @param offset    offset of the sample beginning
+     * @param limit     number of requested records
+     * @return list of orders
+     * @throws DAOException exception of database level
+     */
+    private List<Order> findByCondition(String query, int condition, int offset, int limit)
+            throws DAOException {
+        Connection connection = ConnectionPool.getInstance().takeConnection();
+        List<Order> orders = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, condition);
+            preparedStatement.setInt(2, offset);
+            preparedStatement.setInt(3, limit);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                orders.addAll(parseResult(resultSet));
+            }
+
+            LOGGER.info("Successful search orders by condition");
+        } catch (SQLException e) {
+            LOGGER.error("SQLException occurred when searching orders by condition: ", e);
+            throw new DAOException("Error in searching records", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().returnConnection(connection);
+            }
+        }
+
+        return orders;
+    }
+
     @Override
-    public String getFindAllQuery() {
+    protected String getFindAllQuery() {
         return SQLManager.getInstance().getSQL(ORDER_QUERY_FIND_ALL);
     }
 
     @Override
-    public String getFindByIdQuery() {
+    protected String getFindByIdQuery() {
         return SQLManager.getInstance().getSQL(ORDER_QUERY_FIND_BY_ID);
     }
 
     @Override
-    public String getInsertQuery() {
+    protected String getInsertQuery() {
         return SQLManager.getInstance().getSQL(ORDER_QUERY_INSERT);
     }
 
     @Override
-    public String getUpdateQuery() {
+    protected String getUpdateQuery() {
         return SQLManager.getInstance().getSQL(ORDER_QUERY_UPDATE);
     }
 
     @Override
-    public String getDeleteByIdQuery() {
+    protected String getDeleteByIdQuery() {
         return SQLManager.getInstance().getSQL(ORDER_QUERY_DELETE_BY_ID);
     }
 
     @Override
-    public String getCountQuery() {
+    protected String getCountQuery() {
         return SQLManager.getInstance().getSQL(ORDER_QUERY_COUNT);
     }
 
     @Override
-    public void getPreparedStatementInsert
+    protected void getPreparedStatementInsert
             (PreparedStatement preparedStatement, Order order) throws DAOException {
 
         try {
@@ -67,7 +146,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO {
     }
 
     @Override
-    public void getPreparedStatementUpdate
+    protected void getPreparedStatementUpdate
             (PreparedStatement preparedStatement, Order order) throws DAOException {
 
         try {
@@ -83,7 +162,7 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO {
     }
 
     @Override
-    public List<Order> parseResult(ResultSet resultSet) throws DAOException {
+    protected List<Order> parseResult(ResultSet resultSet) throws DAOException {
         List<Order> orders = new ArrayList<>();
         Order order;
 
@@ -112,104 +191,24 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO {
 
     @Override
     public int countArchive() throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        int count = 0;
-
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(SQLManager.getInstance().getSQL(ORDER_QUERY_COUNT_ARCHIVE))) {
-
-            if (resultSet.next()) {
-                count = resultSet.getInt(SQLManager.getInstance().getSQL(COMMON_FIELD_TOTAL_ROWS));
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when counting archive orders: ", e);
-            throw new DAOException("Error in counting records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        return count;
+        return countObjects(SQLManager.getInstance().getSQL(ORDER_QUERY_COUNT_ARCHIVE));
     }
 
     @Override
     public int countArchive(int userId) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        int count = 0;
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                (SQLManager.getInstance().getSQL(ORDER_QUERY_COUNT_ARCHIVE_USER))) {
-            preparedStatement.setInt(1, userId);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    count = resultSet.getInt(SQLManager.getInstance().getSQL(COMMON_FIELD_TOTAL_ROWS));
-                }
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when counting archive orders by user id: ", e);
-            throw new DAOException("Error in counting records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        return count;
+        return countByCondition
+                (SQLManager.getInstance().getSQL(ORDER_QUERY_COUNT_ARCHIVE_USER), userId);
     }
 
     @Override
     public int countOpen() throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        int count = 0;
-
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(SQLManager.getInstance().getSQL(ORDER_QUERY_COUNT_OPEN))) {
-
-            if (resultSet.next()) {
-                count = resultSet.getInt(SQLManager.getInstance().getSQL(COMMON_FIELD_TOTAL_ROWS));
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when counting open orders: ", e);
-            throw new DAOException("Error in counting records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        return count;
+        return countObjects(SQLManager.getInstance().getSQL(ORDER_QUERY_COUNT_OPEN));
     }
 
     @Override
     public int countOpen(int userId) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        int count = 0;
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                (SQLManager.getInstance().getSQL(ORDER_QUERY_COUNT_OPEN_USER))) {
-            preparedStatement.setInt(1, userId);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    count = resultSet.getInt(SQLManager.getInstance().getSQL(COMMON_FIELD_TOTAL_ROWS));
-                }
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when counting open orders by user id: ", e);
-            throw new DAOException("Error in counting records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        return count;
+        return countByCondition
+                (SQLManager.getInstance().getSQL(ORDER_QUERY_COUNT_OPEN_USER), userId);
     }
 
     @Override
@@ -227,6 +226,13 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO {
                 }
             }
 
+            if (count > 1) {
+                LOGGER.error("Incorrect result returned when counting basket by user id. " +
+                        "Exist more than one record");
+                throw new DAOException("SQL-query return incorrect result");
+            }
+
+            LOGGER.info("Successful check the existence of a basket");
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when counting basket by user id: ", e);
             throw new DAOException("Error in counting records", e);
@@ -236,152 +242,37 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO {
             }
         }
 
-        if (count > 1) {
-            LOGGER.error("Incorrect result returned when counting basket by user id");
-            throw new DAOException("SQL-query return incorrect result");
-        }
-
         return count == 1;
     }
 
     @Override
     public List<Order> findArchive(int offset, int limit) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        List<Order> orders = new ArrayList<>();
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                (SQLManager.getInstance().getSQL(ORDER_QUERY_FIND_ARCHIVE) + " " +
-                        SQLManager.getInstance().getSQL(COMMON_QUERY_PART_LIMIT))) {
-            preparedStatement.setInt(1, offset);
-            preparedStatement.setInt(2, limit);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                orders.addAll(parseResult(resultSet));
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when finding archive orders: ", e);
-            throw new DAOException("Error in searching records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        return orders;
+        return findObjects
+                (SQLManager.getInstance().getSQL(ORDER_QUERY_FIND_ARCHIVE), offset, limit);
     }
 
     @Override
-    public List<Order> findArchive(int offset, int limit, int userId) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        List<Order> orders = new ArrayList<>();
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                (SQLManager.getInstance().getSQL(ORDER_QUERY_FIND_ARCHIVE_USER) + " " +
-                        SQLManager.getInstance().getSQL(COMMON_QUERY_PART_LIMIT))) {
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, offset);
-            preparedStatement.setInt(3, limit);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                orders.addAll(parseResult(resultSet));
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when finding archive orders by user id: ", e);
-            throw new DAOException("Error in searching records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        return orders;
+    public List<Order> findArchive(int userId, int offset, int limit) throws DAOException {
+        return findByCondition
+                (SQLManager.getInstance().getSQL(ORDER_QUERY_FIND_ARCHIVE_USER), userId, offset, limit);
     }
 
     @Override
     public Order findBasket(int userId) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        List<Order> orders = new ArrayList<>();
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                (SQLManager.getInstance().getSQL(ORDER_QUERY_FIND_BASKET))) {
-            preparedStatement.setInt(1, userId);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                orders.addAll(parseResult(resultSet));
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when finding basket by user id: ", e);
-            throw new DAOException("Error in finding user's basket", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        if (orders.size() != 1) {
-            LOGGER.error("Incorrect result returned when finding user's basket");
-            throw new DAOException("SQL-query return incorrect result");
-        }
-
-        return orders.get(0);
+        return findObjectByCondition
+                (SQLManager.getInstance().getSQL(ORDER_QUERY_FIND_BASKET), userId);
     }
 
     @Override
     public List<Order> findOpen(int offset, int limit) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        List<Order> orders = new ArrayList<>();
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                (SQLManager.getInstance().getSQL(ORDER_QUERY_FIND_OPEN) + " " +
-                        SQLManager.getInstance().getSQL(COMMON_QUERY_PART_LIMIT))) {
-            preparedStatement.setInt(1, offset);
-            preparedStatement.setInt(2, limit);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                orders.addAll(parseResult(resultSet));
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when finding open orders: ", e);
-            throw new DAOException("Error in searching records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        return orders;
+        return findObjects
+                (SQLManager.getInstance().getSQL(ORDER_QUERY_FIND_OPEN), offset, limit);
     }
 
     @Override
-    public List<Order> findOpen(int offset, int limit, int userId) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        List<Order> orders = new ArrayList<>();
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                (SQLManager.getInstance().getSQL(ORDER_QUERY_FIND_OPEN_USER) + " " +
-                        SQLManager.getInstance().getSQL(COMMON_QUERY_PART_LIMIT))) {
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, offset);
-            preparedStatement.setInt(3, limit);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                orders.addAll(parseResult(resultSet));
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when finding open orders by user id: ", e);
-            throw new DAOException("Error in searching records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        return orders;
+    public List<Order> findOpen(int userId, int offset, int limit) throws DAOException {
+        return findByCondition
+                (SQLManager.getInstance().getSQL(ORDER_QUERY_FIND_OPEN_USER), userId, offset, limit);
     }
 
 }

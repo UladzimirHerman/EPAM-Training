@@ -16,14 +16,6 @@ public interface GenericService<T> {
     /**
      * Search all objects
      *
-     * @return list of objects of a particular type
-     * @throws ServiceException exception of service level
-     */
-    List<T> findAll() throws ServiceException;
-
-    /**
-     * Search all objects
-     *
      * @param offset offset of the sample beginning
      * @param limit  number of requested records
      * @return list of objects of a particular type

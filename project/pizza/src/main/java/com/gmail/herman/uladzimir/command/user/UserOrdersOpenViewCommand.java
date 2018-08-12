@@ -39,7 +39,7 @@ public class UserOrdersOpenViewCommand implements Command {
             if (paginationValidator.isPageNumberCorrect(page)) {
                 OrderService orderService = new OrderServiceImpl();
                 List<Order> orders = orderService.findOpen
-                        (PaginationUtil.defineOffset(page, ITEMS_ON_THE_PAGE), ITEMS_ON_THE_PAGE, user.getId());
+                        (user.getId(), PaginationUtil.defineOffset(page, ITEMS_ON_THE_PAGE), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(ORDERS, orders);
 
                 int pageQuantity = PaginationUtil.definePageQuantity

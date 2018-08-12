@@ -15,9 +15,8 @@ import java.util.List;
 import static com.gmail.herman.uladzimir.dao.SQLElement.*;
 
 /**
- * Class {@link ProductDAOImpl} is used for working with database.
- * This class realizes the specific methods of Product entity
- * and abstract methods necessary for executing common methods.
+ * Class {@link ProductDAOImpl} is used for interacting the entity {@link Product}
+ * with database. This class implements common and its special methods.
  *
  * @author Uladzimir Herman
  * @see AbstractDAO
@@ -28,37 +27,37 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO {
     private static final Logger LOGGER = LogManager.getLogger(ProductDAOImpl.class);
 
     @Override
-    public String getFindAllQuery() {
+    protected String getFindAllQuery() {
         return SQLManager.getInstance().getSQL(PRODUCT_QUERY_FIND_ALL);
     }
 
     @Override
-    public String getFindByIdQuery() {
+    protected String getFindByIdQuery() {
         return SQLManager.getInstance().getSQL(PRODUCT_QUERY_FIND_BY_ID);
     }
 
     @Override
-    public String getInsertQuery() {
+    protected String getInsertQuery() {
         return SQLManager.getInstance().getSQL(PRODUCT_QUERY_INSERT);
     }
 
     @Override
-    public String getUpdateQuery() {
+    protected String getUpdateQuery() {
         return SQLManager.getInstance().getSQL(PRODUCT_QUERY_UPDATE);
     }
 
     @Override
-    public String getDeleteByIdQuery() {
+    protected String getDeleteByIdQuery() {
         return SQLManager.getInstance().getSQL(PRODUCT_QUERY_DELETE_BY_ID);
     }
 
     @Override
-    public String getCountQuery() {
+    protected String getCountQuery() {
         return SQLManager.getInstance().getSQL(PRODUCT_QUERY_COUNT);
     }
 
     @Override
-    public void getPreparedStatementInsert
+    protected void getPreparedStatementInsert
             (PreparedStatement preparedStatement, Product product) throws DAOException {
 
         try {
@@ -76,7 +75,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO {
     }
 
     @Override
-    public void getPreparedStatementUpdate
+    protected void getPreparedStatementUpdate
             (PreparedStatement preparedStatement, Product product) throws DAOException {
 
         try {
@@ -95,7 +94,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO {
     }
 
     @Override
-    public List<Product> parseResult(ResultSet resultSet) throws DAOException {
+    protected List<Product> parseResult(ResultSet resultSet) throws DAOException {
         List<Product> products = new ArrayList<>();
         Product product;
 
@@ -103,11 +102,16 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO {
             while (resultSet.next()) {
                 product = new Product();
                 product.setId(resultSet.getInt(SQLManager.getInstance().getSQL(PRODUCT_FIELD_ID)));
-                product.setName(resultSet.getString(SQLManager.getInstance().getSQL(PRODUCT_FIELD_NAME)));
-                product.setDescription(resultSet.getString(SQLManager.getInstance().getSQL(PRODUCT_FIELD_DESCRIPTION)));
-                product.setPrice(resultSet.getBigDecimal(SQLManager.getInstance().getSQL(PRODUCT_FIELD_PRICE)));
-                product.setPhoto(resultSet.getString(SQLManager.getInstance().getSQL(PRODUCT_FIELD_PHOTO)));
-                product.setSale(resultSet.getBoolean(SQLManager.getInstance().getSQL(PRODUCT_FIELD_SALE)));
+                product.setName
+                        (resultSet.getString(SQLManager.getInstance().getSQL(PRODUCT_FIELD_NAME)));
+                product.setDescription
+                        (resultSet.getString(SQLManager.getInstance().getSQL(PRODUCT_FIELD_DESCRIPTION)));
+                product.setPrice
+                        (resultSet.getBigDecimal(SQLManager.getInstance().getSQL(PRODUCT_FIELD_PRICE)));
+                product.setPhoto
+                        (resultSet.getString(SQLManager.getInstance().getSQL(PRODUCT_FIELD_PHOTO)));
+                product.setSale
+                        (resultSet.getBoolean(SQLManager.getInstance().getSQL(PRODUCT_FIELD_SALE)));
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -120,53 +124,13 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO {
 
     @Override
     public int countForSale() throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        int count = 0;
-
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(SQLManager.getInstance().getSQL(PRODUCT_QUERY_COUNT_FOR_SALE))) {
-
-            if (resultSet.next()) {
-                count = resultSet.getInt(SQLManager.getInstance().getSQL(COMMON_FIELD_TOTAL_ROWS));
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when counting products for sale: ", e);
-            throw new DAOException("Error in counting records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        return count;
+        return countObjects(SQLManager.getInstance().getSQL(PRODUCT_QUERY_COUNT_FOR_SALE));
     }
 
     @Override
     public List<Product> findForSale(int offset, int limit) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        List<Product> products = new ArrayList<>();
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                (SQLManager.getInstance().getSQL(PRODUCT_QUERY_FIND_FOR_SALE) + " " +
-                        SQLManager.getInstance().getSQL(COMMON_QUERY_PART_LIMIT))) {
-            preparedStatement.setInt(1, offset);
-            preparedStatement.setInt(2, limit);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                products.addAll(parseResult(resultSet));
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when finding products for sale: ", e);
-            throw new DAOException("Error in searching records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        return products;
+        return findObjects
+                (SQLManager.getInstance().getSQL(PRODUCT_QUERY_FIND_FOR_SALE), offset, limit);
     }
 
 }

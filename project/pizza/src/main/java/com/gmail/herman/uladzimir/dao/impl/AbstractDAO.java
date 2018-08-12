@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.gmail.herman.uladzimir.dao.SQLElement.COMMON_FIELD_TOTAL_ROWS;
-import static com.gmail.herman.uladzimir.dao.SQLElement.COMMON_QUERY_PART_LIMIT;
 
 /**
  * Abstract class {@link AbstractDAO} is used for working with database.
@@ -32,42 +31,42 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
      *
      * @return particular query
      */
-    public abstract String getFindAllQuery();
+    protected abstract String getFindAllQuery();
 
     /**
      * Receive the query for searching object by identifier
      *
      * @return particular query
      */
-    public abstract String getFindByIdQuery();
+    protected abstract String getFindByIdQuery();
 
     /**
      * Receive the query for inserting object
      *
      * @return particular query
      */
-    public abstract String getInsertQuery();
+    protected abstract String getInsertQuery();
 
     /**
      * Receive the query for updating object
      *
      * @return particular query
      */
-    public abstract String getUpdateQuery();
+    protected abstract String getUpdateQuery();
 
     /**
      * Receive the query for deleting object by identifier
      *
      * @return particular query
      */
-    public abstract String getDeleteByIdQuery();
+    protected abstract String getDeleteByIdQuery();
 
     /**
      * Receive the query for records counting
      *
      * @return particular query
      */
-    public abstract String getCountQuery();
+    protected abstract String getCountQuery();
 
     /**
      * Define prepared statement for inserting a specific object
@@ -76,7 +75,7 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
      * @param object            specific object
      * @throws DAOException exception of database level
      */
-    public abstract void getPreparedStatementInsert
+    protected abstract void getPreparedStatementInsert
     (PreparedStatement preparedStatement, T object) throws DAOException;
 
     /**
@@ -86,7 +85,7 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
      * @param object            specific object
      * @throws DAOException exception of database level
      */
-    public abstract void getPreparedStatementUpdate
+    protected abstract void getPreparedStatementUpdate
     (PreparedStatement preparedStatement, T object) throws DAOException;
 
     /**
@@ -96,35 +95,23 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
      * @return list of objects
      * @throws DAOException exception of database level
      */
-    public abstract List<T> parseResult(ResultSet resultSet) throws DAOException;
+    protected abstract List<T> parseResult(ResultSet resultSet) throws DAOException;
 
-    @Override
-    public List<T> findAll() throws DAOException {
+    /**
+     * Search objects
+     *
+     * @param query  particular query for searching
+     * @param offset offset of the sample beginning
+     * @param limit  number of requested records
+     * @return list of objects
+     * @throws DAOException exception of database level
+     */
+    protected List<T> findObjects(String query, int offset, int limit)
+            throws DAOException {
         Connection connection = ConnectionPool.getInstance().takeConnection();
         List<T> objects = new ArrayList<>();
 
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(getFindAllQuery())) {
-            objects.addAll(parseResult(resultSet));
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when searching records: ", e);
-            throw new DAOException("Error in searching records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        return objects;
-    }
-
-    @Override
-    public List<T> findAll(int offset, int limit) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        List<T> objects = new ArrayList<>();
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                (getFindAllQuery() + " " + SQLManager.getInstance().getSQL(COMMON_QUERY_PART_LIMIT))) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, offset);
             preparedStatement.setInt(2, limit);
 
@@ -132,6 +119,7 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
                 objects.addAll(parseResult(resultSet));
             }
 
+            LOGGER.info("Successful search records");
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when searching records: ", e);
             throw new DAOException("Error in searching records", e);
@@ -144,34 +132,83 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
         return objects;
     }
 
-    @Override
-    public T findById(int id) throws DAOException {
+    /**
+     * Search object by integer-condition
+     *
+     * @param query     particular query for searching
+     * @param condition condition for query
+     * @return particular object
+     * @throws DAOException exception of database level
+     */
+    protected T findObjectByCondition(String query, int condition) throws DAOException {
         Connection connection = ConnectionPool.getInstance().takeConnection();
         List<T> objects = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement(getFindByIdQuery())) {
-            preparedStatement.setInt(1, id);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, condition);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 objects.addAll(parseResult(resultSet));
             }
 
+            if (objects.size() != 1) {
+                LOGGER.error("Incorrect result returned when searching by condition. " +
+                        "Record doesn't exist or exist more than one record");
+                throw new DAOException("SQL-query return incorrect result");
+            }
+
+            LOGGER.info("Successful search by condition");
         } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when searching a record by id: ", e);
-            throw new DAOException("Error in searching a record by id", e);
+            LOGGER.error("SQLException occurred when searching a record by condition: ", e);
+            throw new DAOException("Error in searching a record by condition", e);
         } finally {
             if (connection != null) {
                 ConnectionPool.getInstance().returnConnection(connection);
             }
         }
 
-        if (objects.size() != 1) {
-            LOGGER.error("Incorrect result returned when finding by id");
-            throw new DAOException("SQL-query return incorrect result");
+        return objects.get(0);
+    }
+
+    /**
+     * Count objects
+     *
+     * @param query particular query for counting
+     * @return quantity of records
+     * @throws DAOException exception of database level
+     */
+    protected int countObjects(String query) throws DAOException {
+        Connection connection = ConnectionPool.getInstance().takeConnection();
+        int count = 0;
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            if (resultSet.next()) {
+                count = resultSet.getInt(SQLManager.getInstance().getSQL(COMMON_FIELD_TOTAL_ROWS));
+            }
+
+            LOGGER.info("Successful count");
+        } catch (SQLException e) {
+            LOGGER.error("SQLException occurred when counting records: ", e);
+            throw new DAOException("Error in counting records", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().returnConnection(connection);
+            }
         }
 
-        return objects.get(0);
+        return count;
+    }
+
+    @Override
+    public List<T> findAll(int offset, int limit) throws DAOException {
+        return findObjects(getFindAllQuery(), offset, limit);
+    }
+
+    @Override
+    public T findById(int id) throws DAOException {
+        return findObjectByCondition(getFindByIdQuery(), id);
     }
 
     @Override
@@ -182,6 +219,7 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
                      connection.prepareStatement(getInsertQuery())) {
             getPreparedStatementInsert(preparedStatement, object);
             preparedStatement.executeUpdate();
+            LOGGER.info("Successful insert");
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when inserting a record: ", e);
             throw new DAOException("Error in inserting a record", e);
@@ -201,6 +239,7 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
                      connection.prepareStatement(getUpdateQuery())) {
             getPreparedStatementUpdate(preparedStatement, object);
             preparedStatement.executeUpdate();
+            LOGGER.info("Successful update");
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when updating a record: ", e);
             throw new DAOException("Error in updating a record", e);
@@ -220,6 +259,7 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
                      connection.prepareStatement(getDeleteByIdQuery())) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
+            LOGGER.info("Successful delete");
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when deleting a record by id: ", e);
             throw new DAOException("Error in deleting a record", e);
@@ -233,26 +273,7 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 
     @Override
     public int count() throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
-        int count = 0;
-
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(getCountQuery())) {
-
-            if (resultSet.next()) {
-                count = resultSet.getInt(SQLManager.getInstance().getSQL(COMMON_FIELD_TOTAL_ROWS));
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when counting records: ", e);
-            throw new DAOException("Error in counting records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
-        }
-
-        return count;
+        return countObjects(getCountQuery());
     }
 
 }

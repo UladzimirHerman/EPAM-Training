@@ -2,6 +2,7 @@ package com.gmail.herman.uladzimir.dao.impl;
 
 import com.gmail.herman.uladzimir.dao.SQLManager;
 import com.gmail.herman.uladzimir.dao.UserInfoDAO;
+import com.gmail.herman.uladzimir.entity.User;
 import com.gmail.herman.uladzimir.entity.UserInfo;
 import com.gmail.herman.uladzimir.exception.DAOException;
 import org.apache.log4j.LogManager;
@@ -15,42 +16,51 @@ import java.util.List;
 
 import static com.gmail.herman.uladzimir.dao.SQLElement.*;
 
+/**
+ * Class {@link UserInfoDAOImpl} is used for interacting the entity
+ * {@link UserInfo} with database. This class implements common and
+ * its special methods.
+ *
+ * @author Uladzimir Herman
+ * @see AbstractDAO
+ * @see UserInfoDAO
+ */
 public class UserInfoDAOImpl extends AbstractDAO<UserInfo> implements UserInfoDAO {
 
     private static final Logger LOGGER = LogManager.getLogger(UserInfoDAOImpl.class);
 
     @Override
-    public String getFindAllQuery() {
+    protected String getFindAllQuery() {
         return SQLManager.getInstance().getSQL(USER_INFO_QUERY_FIND_ALL);
     }
 
     @Override
-    public String getFindByIdQuery() {
+    protected String getFindByIdQuery() {
         return SQLManager.getInstance().getSQL(USER_INFO_QUERY_FIND_BY_ID);
     }
 
     @Override
-    public String getInsertQuery() {
+    protected String getInsertQuery() {
         return SQLManager.getInstance().getSQL(USER_INFO_QUERY_INSERT);
     }
 
     @Override
-    public String getUpdateQuery() {
+    protected String getUpdateQuery() {
         return SQLManager.getInstance().getSQL(USER_INFO_QUERY_UPDATE);
     }
 
     @Override
-    public String getDeleteByIdQuery() {
+    protected String getDeleteByIdQuery() {
         return SQLManager.getInstance().getSQL(USER_INFO_QUERY_DELETE_BY_ID);
     }
 
     @Override
-    public String getCountQuery() {
+    protected String getCountQuery() {
         return SQLManager.getInstance().getSQL(USER_INFO_QUERY_COUNT);
     }
 
     @Override
-    public void getPreparedStatementInsert
+    protected void getPreparedStatementInsert
             (PreparedStatement preparedStatement, UserInfo userInfo) throws DAOException {
 
         try {
@@ -72,7 +82,7 @@ public class UserInfoDAOImpl extends AbstractDAO<UserInfo> implements UserInfoDA
     }
 
     @Override
-    public void getPreparedStatementUpdate
+    protected void getPreparedStatementUpdate
             (PreparedStatement preparedStatement, UserInfo userInfo) throws DAOException {
 
         try {
@@ -95,7 +105,7 @@ public class UserInfoDAOImpl extends AbstractDAO<UserInfo> implements UserInfoDA
     }
 
     @Override
-    public List<UserInfo> parseResult(ResultSet resultSet) throws DAOException {
+    protected List<UserInfo> parseResult(ResultSet resultSet) throws DAOException {
         List<UserInfo> userInfoList = new ArrayList<>();
         UserInfo userInfo;
 
@@ -132,11 +142,23 @@ public class UserInfoDAOImpl extends AbstractDAO<UserInfo> implements UserInfoDA
         return userInfoList;
     }
 
+    /**
+     * This method is override in {@link UserDAOImpl} because there is an one-to-one
+     * relationship between entities {@link User} and {@link UserInfo}. Thus, the
+     * standard implementation of the method doesn't fit. So, insert-method doesn't
+     * supported here.
+     */
     @Override
     public void insert(UserInfo userInfo) {
         throw new UnsupportedOperationException("Operation not supported");
     }
 
+    /**
+     * This method is override in {@link UserDAOImpl} because there is an one-to-one
+     * relationship between entities {@link User} and {@link UserInfo}. Thus, the
+     * standard implementation of the method doesn't fit. So, delete-method doesn't
+     * supported here.
+     */
     @Override
     public void deleteById(int id) {
         throw new UnsupportedOperationException("Operation not supported");

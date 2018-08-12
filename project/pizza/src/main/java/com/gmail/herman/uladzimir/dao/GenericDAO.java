@@ -16,14 +16,6 @@ public interface GenericDAO<T> {
     /**
      * Search all objects
      *
-     * @return list of objects of a particular type
-     * @throws DAOException exception of database level
-     */
-    List<T> findAll() throws DAOException;
-
-    /**
-     * Search all objects
-     *
      * @param offset offset of the sample beginning
      * @param limit  number of requested records
      * @return list of objects of a particular type

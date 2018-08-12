@@ -113,12 +113,12 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDAOImpl>
     }
 
     @Override
-    public List<Order> findArchive(int offset, int limit, int userId) throws ServiceException {
+    public List<Order> findArchive(int userId, int offset, int limit) throws ServiceException {
         OrderDAO orderDAO = new OrderDAOImpl();
         List<Order> orders;
 
         try {
-            orders = orderDAO.findArchive(offset, limit, userId);
+            orders = orderDAO.findArchive(userId, offset, limit);
 
             if (!orders.isEmpty()) {
                 orders = fillOrdersWithInfo(orders);
@@ -168,12 +168,12 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDAOImpl>
     }
 
     @Override
-    public List<Order> findOpen(int offset, int limit, int userId) throws ServiceException {
+    public List<Order> findOpen(int userId, int offset, int limit) throws ServiceException {
         OrderDAO orderDAO = new OrderDAOImpl();
         List<Order> orders;
 
         try {
-            orders = orderDAO.findOpen(offset, limit, userId);
+            orders = orderDAO.findOpen(userId, offset, limit);
 
             if (!orders.isEmpty()) {
                 orders = fillOrdersWithInfo(orders);

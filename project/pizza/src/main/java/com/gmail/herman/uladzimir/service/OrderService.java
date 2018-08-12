@@ -33,13 +33,13 @@ public interface OrderService extends GenericService<Order> {
 
     List<Order> findArchive(int offset, int limit) throws ServiceException;
 
-    List<Order> findArchive(int offset, int limit, int userId) throws ServiceException;
+    List<Order> findArchive(int userId, int offset, int limit) throws ServiceException;
 
     Order findBasket(int userId) throws ServiceException;
 
     List<Order> findOpen(int offset, int limit) throws ServiceException;
 
-    List<Order> findOpen(int offset, int limit, int userId) throws ServiceException;
+    List<Order> findOpen(int userId, int offset, int limit) throws ServiceException;
 
     List<Order> fillOrdersWithInfo(List<Order> orders) throws ServiceException;
 

@@ -1,11 +1,16 @@
 package com.gmail.herman.uladzimir.dao;
 
+/**
+ * Class {@link SQLElement} is a final class, which contains only constant fields,
+ * which define keys from property-file.
+ *
+ * @author Uladzimir Herman
+ */
 public final class SQLElement {
 
     public static final String SQL_FILE_NAME = "sql_element";
 
     public static final String COMMON_FIELD_TOTAL_ROWS = "common.field.totalRows";
-    public static final String COMMON_QUERY_PART_LIMIT = "common.queryPart.limit";
 
     public static final String FEEDBACK_FIELD_ID = "feedback.field.id";
     public static final String FEEDBACK_FIELD_USER_ID = "feedback.field.userId";

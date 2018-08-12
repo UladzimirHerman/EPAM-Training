@@ -6,7 +6,7 @@ import com.gmail.herman.uladzimir.exception.DAOException;
 import java.util.List;
 
 /**
- * Interface {@link ProductDAO} contains specific methods
+ * Interface {@link ProductDAO} contains special methods
  * for entity {@link Product}.
  *
  * @author Uladzimir Herman
@@ -14,11 +14,20 @@ import java.util.List;
  */
 public interface ProductDAO extends GenericDAO<Product> {
 
+    /**
+     * Counting products, which are available for sale
+     *
+     * @return quantity of products on sale
+     * @throws DAOException exception of database level
+     */
     int countForSale() throws DAOException;
 
-    /**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    /**
      * Search all products, which are available for sale
-     * @return list of products
+     *
+     * @param offset offset of the sample beginning
+     * @param limit  number of requested records
+     * @return list of products on sale
      * @throws DAOException exception of database level
      */
     List<Product> findForSale(int offset, int limit) throws DAOException;

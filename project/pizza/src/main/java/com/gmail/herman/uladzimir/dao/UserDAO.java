@@ -4,7 +4,7 @@ import com.gmail.herman.uladzimir.entity.User;
 import com.gmail.herman.uladzimir.exception.DAOException;
 
 /**
- * Interface {@link UserDAO} contains specific methods
+ * Interface {@link UserDAO} contains special methods
  * for entity {@link User}.
  *
  * @author Uladzimir Herman
@@ -14,6 +14,7 @@ public interface UserDAO extends GenericDAO<User> {
 
     /**
      * Check the existence of a user by login
+     *
      * @param login user's login
      * @return true, if user exists or false, if user doesn't exist
      * @throws DAOException exception of database level
@@ -22,6 +23,7 @@ public interface UserDAO extends GenericDAO<User> {
 
     /**
      * Search user by login
+     *
      * @param login user's login
      * @return particular user
      * @throws DAOException exception of database level

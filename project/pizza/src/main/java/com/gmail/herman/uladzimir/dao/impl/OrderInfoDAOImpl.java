@@ -20,9 +20,9 @@ import java.util.List;
 import static com.gmail.herman.uladzimir.dao.SQLElement.*;
 
 /**
- * Class {@link OrderInfoDAOImpl} is used for working with database.
- * This class realizes the specific methods of OrderInfo entity
- * and abstract methods necessary for executing common methods.
+ * Class {@link OrderInfoDAOImpl} is used for interacting the entity
+ * {@link OrderInfo} with database. This class implements common and
+ * its special methods.
  *
  * @author Uladzimir Herman
  * @see AbstractDAO
@@ -33,37 +33,37 @@ public class OrderInfoDAOImpl extends AbstractDAO<OrderInfo> implements OrderInf
     private static final Logger LOGGER = LogManager.getLogger(OrderInfoDAOImpl.class);
 
     @Override
-    public String getFindAllQuery() {
+    protected String getFindAllQuery() {
         return SQLManager.getInstance().getSQL(ORDER_INFO_QUERY_FIND_ALL);
     }
 
     @Override
-    public String getFindByIdQuery() {
+    protected String getFindByIdQuery() {
         return SQLManager.getInstance().getSQL(ORDER_INFO_QUERY_FIND_BY_ID);
     }
 
     @Override
-    public String getInsertQuery() {
+    protected String getInsertQuery() {
         return SQLManager.getInstance().getSQL(ORDER_INFO_QUERY_INSERT);
     }
 
     @Override
-    public String getUpdateQuery() {
+    protected String getUpdateQuery() {
         return SQLManager.getInstance().getSQL(ORDER_INFO_QUERY_UPDATE);
     }
 
     @Override
-    public String getDeleteByIdQuery() {
+    protected String getDeleteByIdQuery() {
         return SQLManager.getInstance().getSQL(ORDER_INFO_QUERY_DELETE_BY_ID);
     }
 
     @Override
-    public String getCountQuery() {
+    protected String getCountQuery() {
         return SQLManager.getInstance().getSQL(ORDER_INFO_QUERY_COUNT);
     }
 
     @Override
-    public void getPreparedStatementInsert
+    protected void getPreparedStatementInsert
             (PreparedStatement preparedStatement, OrderInfo orderInfo) throws DAOException {
 
         try {
@@ -79,7 +79,7 @@ public class OrderInfoDAOImpl extends AbstractDAO<OrderInfo> implements OrderInf
     }
 
     @Override
-    public void getPreparedStatementUpdate
+    protected void getPreparedStatementUpdate
             (PreparedStatement preparedStatement, OrderInfo orderInfo) throws DAOException {
 
         try {
@@ -94,7 +94,7 @@ public class OrderInfoDAOImpl extends AbstractDAO<OrderInfo> implements OrderInf
     }
 
     @Override
-    public List<OrderInfo> parseResult(ResultSet resultSet) throws DAOException {
+    protected List<OrderInfo> parseResult(ResultSet resultSet) throws DAOException {
         List<OrderInfo> orderInfoList = new ArrayList<>();
         OrderInfo orderInfo;
 
@@ -127,20 +127,21 @@ public class OrderInfoDAOImpl extends AbstractDAO<OrderInfo> implements OrderInf
     }
 
     @Override
-    public List<OrderInfo> findByOrderId(int id) throws DAOException {
-        List<OrderInfo> orderInfoList = new ArrayList<>();
+    public List<OrderInfo> findByOrderId(int orderId) throws DAOException {
         Connection connection = ConnectionPool.getInstance().takeConnection();
+        List<OrderInfo> orderInfoList = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement
                 (SQLManager.getInstance().getSQL(ORDER_INFO_QUERY_FIND_BY_ORDER_ID))) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, orderId);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 orderInfoList.addAll(parseResult(resultSet));
             }
 
+            LOGGER.info("Successful search order info by order id");
         } catch (SQLException e) {
-            LOGGER.error("SQLException occurred when finding orderInfo by order id: ", e);
+            LOGGER.error("SQLException occurred when finding order info by order id: ", e);
             throw new DAOException("Error in searching records by order id", e);
         } finally {
             if (connection != null) {
