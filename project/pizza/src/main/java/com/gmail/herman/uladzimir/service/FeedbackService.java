@@ -6,7 +6,7 @@ import com.gmail.herman.uladzimir.exception.ServiceException;
 import java.util.List;
 
 /**
- * Interface {@link FeedbackService} contains specific methods
+ * Interface {@link FeedbackService} contains special methods
  * for entity {@link Feedback}.
  *
  * @author Uladzimir Herman
@@ -14,9 +14,14 @@ import java.util.List;
  */
 public interface FeedbackService extends GenericService<Feedback> {
 
-    List<Feedback> findAllInfo(int offset, int limit) throws ServiceException;
-
-    List<Feedback> fillFeedbackWithInfo(List<Feedback> feedbackList)
-            throws ServiceException;
+    /**
+     * Search full information about the feedback
+     *
+     * @param offset offset of the sample beginning
+     * @param limit  number of requested records
+     * @return feedback list
+     * @throws ServiceException exception of service level
+     */
+    List<Feedback> findFullInfo(int offset, int limit) throws ServiceException;
 
 }

@@ -6,7 +6,7 @@ import com.gmail.herman.uladzimir.exception.ServiceException;
 import java.util.List;
 
 /**
- * Interface {@link OrderInfoService} contains specific methods
+ * Interface {@link OrderInfoService} contains special methods
  * for entity {@link OrderInfo}.
  *
  * @author Uladzimir Herman
@@ -14,11 +14,22 @@ import java.util.List;
  */
 public interface OrderInfoService extends GenericService<OrderInfo> {
 
-    List<OrderInfo> findByOrderId(int id) throws ServiceException;
+    /**
+     * Search order information by order's identifier
+     *
+     * @param orderId order's identifier for searching
+     * @return list of orders information
+     * @throws ServiceException exception of service level
+     */
+    List<OrderInfo> findByOrderId(int orderId) throws ServiceException;
 
-    List<OrderInfo> findFullByOrderId(int id) throws ServiceException;
-
-    List<OrderInfo> fillOrderInfoWithInfo(List<OrderInfo> orderInfoList)
-            throws ServiceException;
+    /**
+     * Search full information about the orders information by order's identifier
+     *
+     * @param orderId order's identifier
+     * @return list of orders information
+     * @throws ServiceException exception of service level
+     */
+    List<OrderInfo> findFullInfoByOrderId(int orderId) throws ServiceException;
 
 }

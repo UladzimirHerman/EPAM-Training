@@ -11,13 +11,23 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Class {@link ProductServiceImpl} is used for interacting the entity
+ * {@link Product} with DAO level. This class implements common and
+ * its special methods.
+ *
+ * @author Uladzimir Herman
+ * @see AbstractService
+ * @see ProductDAOImpl
+ * @see ProductService
+ */
 public class ProductServiceImpl extends AbstractService<Product, ProductDAOImpl>
         implements ProductService {
 
     private static final Logger LOGGER = LogManager.getLogger(ProductServiceImpl.class);
 
     @Override
-    public ProductDAOImpl getObjectDAOImpl() {
+    protected ProductDAOImpl getObjectDAOImpl() {
         return new ProductDAOImpl();
     }
 
@@ -28,8 +38,10 @@ public class ProductServiceImpl extends AbstractService<Product, ProductDAOImpl>
 
         try {
             count = productDAO.countForSale();
+            LOGGER.info("Successful count products for sale");
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            LOGGER.error("DAOException occurred when counting products for sale: ", e);
+            throw new ServiceException("Error in counting products for sale", e);
         }
 
         return count;
@@ -42,11 +54,13 @@ public class ProductServiceImpl extends AbstractService<Product, ProductDAOImpl>
 
         try {
             products = productDAO.findForSale(offset, limit);
+            LOGGER.info("Successful search products for sale");
         } catch (DAOException e) {
-            LOGGER.error("DAOException occurred when finding products for sale: ", e);
-            throw new ServiceException(e);
+            LOGGER.error("DAOException occurred when searching products for sale: ", e);
+            throw new ServiceException("Error in searching products for sale", e);
         }
 
         return products;
     }
+
 }

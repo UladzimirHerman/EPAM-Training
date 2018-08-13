@@ -6,8 +6,7 @@ import com.gmail.herman.uladzimir.exception.ServiceException;
 import java.util.List;
 
 /**
- * Interface {@link UserService} contains specific methods
- * for entity {@link User}.
+ * Interface {@link UserService} contains special methods for entity {@link User}.
  *
  * @author Uladzimir Herman
  * @see GenericService
@@ -33,30 +32,22 @@ public interface UserService extends GenericService<User> {
     User findByLogin(String login) throws ServiceException;
 
     /**
-     * Search all information about user by user's identifier
-     *
-     * @param id user's identifier
-     * @return particular user
-     * @throws ServiceException exception of service level
-     */
-    User findUserAndUserInfoById(int id) throws ServiceException;
-
-    /**
-     * Search all information about all users
+     * Search full information about all users
      *
      * @param offset offset of the sample beginning
      * @param limit  number of requested records
      * @return list of users
      * @throws ServiceException exception of service level
      */
-    List<User> findAllUserAndUserInfo(int offset, int limit) throws ServiceException;
+    List<User> findFullInfo(int offset, int limit) throws ServiceException;
 
     /**
-     * Delete all information about user by user's identifier
+     * Search full information about user by user's identifier
      *
-     * @param id users's identifier for deleting
+     * @param userId user's identifier
+     * @return particular user
      * @throws ServiceException exception of service level
      */
-    void deleteUserAndUserInfoById(int id) throws ServiceException;
+    User findFullInfoById(int userId) throws ServiceException;
 
 }

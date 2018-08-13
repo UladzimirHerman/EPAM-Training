@@ -13,7 +13,6 @@ import com.gmail.herman.uladzimir.validator.PaginationValidator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.FEEDBACK_LIST;
@@ -38,7 +37,7 @@ public class AdminFeedbackViewCommand implements Command {
 
             if (paginationValidator.isPageNumberCorrect(page)) {
                 FeedbackService feedbackService = new FeedbackServiceImpl();
-                List<Feedback> feedbackList = feedbackService.findAllInfo
+                List<Feedback> feedbackList = feedbackService.findFullInfo
                         (PaginationUtil.defineOffset(page, ITEMS_ON_THE_PAGE), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(FEEDBACK_LIST, feedbackList);
 

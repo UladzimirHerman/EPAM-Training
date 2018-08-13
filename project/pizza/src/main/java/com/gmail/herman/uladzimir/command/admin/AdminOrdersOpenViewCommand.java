@@ -37,7 +37,7 @@ public class AdminOrdersOpenViewCommand implements Command {
 
             if (paginationValidator.isPageNumberCorrect(page)) {
                 OrderService orderService = new OrderServiceImpl();
-                List<Order> orders = orderService.findOpen
+                List<Order> orders = orderService.findFullInfoOpen
                         (PaginationUtil.defineOffset(page, ITEMS_ON_THE_PAGE), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(ORDERS, orders);
 

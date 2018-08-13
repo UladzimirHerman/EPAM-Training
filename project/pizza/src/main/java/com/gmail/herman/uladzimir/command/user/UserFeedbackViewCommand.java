@@ -38,7 +38,7 @@ public class UserFeedbackViewCommand implements Command {
 
             if (paginationValidator.isPageNumberCorrect(page)) {
                 FeedbackService feedbackService = new FeedbackServiceImpl();
-                List<Feedback> feedbackList = feedbackService.findAllInfo
+                List<Feedback> feedbackList = feedbackService.findFullInfo
                         (PaginationUtil.defineOffset(page, ITEMS_ON_THE_PAGE), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(FEEDBACK_LIST, feedbackList);
 

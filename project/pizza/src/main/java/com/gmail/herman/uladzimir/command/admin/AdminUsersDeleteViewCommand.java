@@ -26,7 +26,7 @@ public class AdminUsersDeleteViewCommand implements Command {
         UserService userService = new UserServiceImpl();
 
         try {
-            User user = userService.findUserAndUserInfoById
+            User user = userService.findFullInfoById
                     (Integer.parseInt(requestWrapper.getRequestParameter(USER_ID)));
             requestWrapper.putRequestAttribute(USER, user);
             route.setResponseType(ResponseType.FORWARD);

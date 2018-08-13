@@ -35,7 +35,7 @@ public class AdminUsersViewCommand implements Command {
 
             if (paginationValidator.isPageNumberCorrect(page)) {
                 UserService userService = new UserServiceImpl();
-                List<User> users = userService.findAllUserAndUserInfo
+                List<User> users = userService.findFullInfo
                         (PaginationUtil.defineOffset(page, ITEMS_ON_THE_PAGE), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(USERS, users);
 

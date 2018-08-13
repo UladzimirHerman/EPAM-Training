@@ -35,7 +35,7 @@ public class UserBasketViewCommand implements Command {
 
             if (orderService.isBasketExist(user.getId())) {
                 OrderInfoService orderInfoService = new OrderInfoServiceImpl();
-                List<OrderInfo> orderInfoList = orderInfoService.findFullByOrderId
+                List<OrderInfo> orderInfoList = orderInfoService.findFullInfoByOrderId
                         (orderService.findBasket(user.getId()).getId());
                 requestWrapper.putRequestAttribute(ORDER_INFO_LIST, orderInfoList);
             }

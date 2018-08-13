@@ -23,7 +23,7 @@ public class AdminDeleteUserCommand implements Command {
         UserService userService = new UserServiceImpl();
 
         try {
-            userService.deleteUserAndUserInfoById
+            userService.deleteById
                     (Integer.parseInt(requestWrapper.getRequestParameter(USER_ID)));
             route.setResponsePath(REDIRECT_TO_ADMIN_USERS_PAGE);
         } catch (ServiceException e) {

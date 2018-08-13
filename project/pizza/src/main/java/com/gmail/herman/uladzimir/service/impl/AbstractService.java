@@ -5,13 +5,15 @@ import com.gmail.herman.uladzimir.dao.impl.AbstractDAO;
 import com.gmail.herman.uladzimir.exception.DAOException;
 import com.gmail.herman.uladzimir.exception.ServiceException;
 import com.gmail.herman.uladzimir.service.GenericService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
 /**
- * Abstract class {@link AbstractService} is used for working with common
- * service-methods. This class realizes the common methods of service-classes
- * and defines abstract method, which determines a particular DAO-object.
+ * Abstract class {@link AbstractService} is used for working with common methods
+ * of DAO-level. This class realizes the common methods of service-classes and
+ * defines abstract method, which determines a particular DAO-object.
  *
  * @param <T> type of entity
  * @param <E> type of DAO-class
@@ -22,12 +24,14 @@ import java.util.List;
 public abstract class AbstractService<T, E extends AbstractDAO<T>>
         implements GenericService<T> {
 
+    private static final Logger LOGGER = LogManager.getLogger(AbstractService.class);
+
     /**
      * Receive the particular DAO-object
      *
      * @return particular DAO-object
      */
-    public abstract E getObjectDAOImpl();
+    protected abstract E getObjectDAOImpl();
 
     @Override
     public List<T> findAll(int offset, int limit) throws ServiceException {
@@ -36,8 +40,10 @@ public abstract class AbstractService<T, E extends AbstractDAO<T>>
 
         try {
             objects = objectDAO.findAll(offset, limit);
+            LOGGER.info("Successful search records");
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            LOGGER.error("DAOException occurred when searching records: ", e);
+            throw new ServiceException("Error in searching records", e);
         }
 
         return objects;
@@ -50,8 +56,10 @@ public abstract class AbstractService<T, E extends AbstractDAO<T>>
 
         try {
             object = objectDAO.findById(id);
+            LOGGER.info("Successful search by id");
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            LOGGER.error("DAOException occurred when searching a record by id: ", e);
+            throw new ServiceException("Error in searching a record by id", e);
         }
 
         return object;
@@ -63,9 +71,12 @@ public abstract class AbstractService<T, E extends AbstractDAO<T>>
 
         try {
             objectDAO.insert(object);
+            LOGGER.info("Successful insert");
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            LOGGER.error("DAOException occurred when inserting a record: ", e);
+            throw new ServiceException("Error in inserting a record", e);
         }
+
     }
 
     @Override
@@ -74,9 +85,12 @@ public abstract class AbstractService<T, E extends AbstractDAO<T>>
 
         try {
             objectDAO.update(object);
+            LOGGER.info("Successful update");
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            LOGGER.error("DAOException occurred when updating a record: ", e);
+            throw new ServiceException("Error in updating a record", e);
         }
+
     }
 
     @Override
@@ -85,9 +99,12 @@ public abstract class AbstractService<T, E extends AbstractDAO<T>>
 
         try {
             objectDAO.deleteById(id);
+            LOGGER.info("Successful delete");
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            LOGGER.error("DAOException occurred when deleting a record by id: ", e);
+            throw new ServiceException("Error in deleting a record", e);
         }
+
     }
 
     @Override
@@ -97,8 +114,10 @@ public abstract class AbstractService<T, E extends AbstractDAO<T>>
 
         try {
             count = objectDAO.count();
+            LOGGER.info("Successful count");
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            LOGGER.error("DAOException occurred when counting records: ", e);
+            throw new ServiceException("Error in counting records", e);
         }
 
         return count;
