@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.USER_ID;
 import static com.gmail.herman.uladzimir.command.AttributeName.USER_ROLE;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_USERS_PAGE;
+import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_USERS_FIRST_PAGE;
 
 public class AdminUpdateRoleCommand implements Command {
 
@@ -30,7 +30,7 @@ public class AdminUpdateRoleCommand implements Command {
                     findById(Integer.parseInt(requestWrapper.getRequestParameter(USER_ID)));
             user.setUserRole(UserRole.valueOf(requestWrapper.getRequestParameter(USER_ROLE)));
             userService.update(user);
-            route.setResponsePath(REDIRECT_TO_ADMIN_USERS_PAGE);
+            route.setResponsePath(REDIRECT_TO_ADMIN_USERS_FIRST_PAGE);
         } catch (ServiceException e) {
             LOGGER.error("ServiceException occurred when running the command: ", e);
         }

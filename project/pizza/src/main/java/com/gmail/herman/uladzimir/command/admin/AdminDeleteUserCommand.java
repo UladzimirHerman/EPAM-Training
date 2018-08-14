@@ -10,7 +10,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.USER_ID;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_USERS_PAGE;
+import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_USERS_FIRST_PAGE;
 
 public class AdminDeleteUserCommand implements Command {
 
@@ -25,7 +25,7 @@ public class AdminDeleteUserCommand implements Command {
         try {
             userService.deleteById
                     (Integer.parseInt(requestWrapper.getRequestParameter(USER_ID)));
-            route.setResponsePath(REDIRECT_TO_ADMIN_USERS_PAGE);
+            route.setResponsePath(REDIRECT_TO_ADMIN_USERS_FIRST_PAGE);
         } catch (ServiceException e) {
             LOGGER.error("ServiceException occurred when running the command: ", e);
         }

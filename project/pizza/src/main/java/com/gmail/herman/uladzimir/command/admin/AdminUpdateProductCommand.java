@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.*;
 import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_ADMIN_PRODUCT_EDIT_PAGE;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_PRODUCT_PAGE;
+import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_PRODUCT_FIRST_PAGE;
 
 public class AdminUpdateProductCommand implements Command {
 
@@ -41,7 +41,7 @@ public class AdminUpdateProductCommand implements Command {
             if (productValidator.isProductCorrect(product)) {
                 ProductService productService = new ProductServiceImpl();
                 productService.update(product);
-                route.setResponsePath(REDIRECT_TO_ADMIN_PRODUCT_PAGE);
+                route.setResponsePath(REDIRECT_TO_ADMIN_PRODUCT_FIRST_PAGE);
             } else {
                 requestWrapper.putRequestAttribute(MESSAGE, true);
                 requestWrapper.putRequestAttribute(PRODUCT, product);

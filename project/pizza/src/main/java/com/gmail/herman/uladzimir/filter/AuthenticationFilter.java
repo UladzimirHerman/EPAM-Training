@@ -10,12 +10,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.USER;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_PRODUCT_PAGE;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_USER_PRODUCT_PAGE;
+import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_PRODUCT_FIRST_PAGE;
+import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_USER_PRODUCT_FIRST_PAGE;
 
 public class AuthenticationFilter implements Filter {
-
-    public static final String PAGE_ATTRIBUTE = "?page=1";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -33,10 +31,10 @@ public class AuthenticationFilter implements Filter {
             UserRole userRole = ((User) session.getAttribute(USER)).getUserRole();
 
             if (userRole == UserRole.ADMIN) {
-                response.sendRedirect(REDIRECT_TO_ADMIN_PRODUCT_PAGE + PAGE_ATTRIBUTE);
+                response.sendRedirect(REDIRECT_TO_ADMIN_PRODUCT_FIRST_PAGE);
                 return;
             } else if (userRole == UserRole.USER) {
-                response.sendRedirect(REDIRECT_TO_USER_PRODUCT_PAGE + PAGE_ATTRIBUTE);
+                response.sendRedirect(REDIRECT_TO_USER_PRODUCT_FIRST_PAGE);
                 return;
             }
 

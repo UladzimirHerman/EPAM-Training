@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 import static com.gmail.herman.uladzimir.command.AttributeName.*;
 import static com.gmail.herman.uladzimir.command.AttributeName.FEEDBACK;
 import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_USER_FEEDBACK_EDIT_PAGE;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_USER_FEEDBACK_PAGE;
+import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_USER_FEEDBACK_FIRST_PAGE;
 
 public class UserUpdateFeedbackCommand implements Command {
 
@@ -38,7 +38,7 @@ public class UserUpdateFeedbackCommand implements Command {
             if (feedbackValidator.isFeedbackCorrect(feedback)) {
                 FeedbackService feedbackService = new FeedbackServiceImpl();
                 feedbackService.update(feedback);
-                route.setResponsePath(REDIRECT_TO_USER_FEEDBACK_PAGE);
+                route.setResponsePath(REDIRECT_TO_USER_FEEDBACK_FIRST_PAGE);
             } else {
                 requestWrapper.putRequestAttribute(MESSAGE, true);
                 requestWrapper.putRequestAttribute(FEEDBACK, feedback);

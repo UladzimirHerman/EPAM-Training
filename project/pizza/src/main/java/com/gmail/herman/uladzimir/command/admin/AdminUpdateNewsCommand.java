@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.*;
 import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_ADMIN_NEWS_EDIT_PAGE;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_NEWS_PAGE;
+import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_NEWS_FIRST_PAGE;
 
 public class AdminUpdateNewsCommand implements Command {
 
@@ -40,7 +40,7 @@ public class AdminUpdateNewsCommand implements Command {
             if (newsValidator.isNewsCorrect(news)) {
                 NewsService newsService = new NewsServiceImpl();
                 newsService.update(news);
-                route.setResponsePath(REDIRECT_TO_ADMIN_NEWS_PAGE);
+                route.setResponsePath(REDIRECT_TO_ADMIN_NEWS_FIRST_PAGE);
             } else {
                 requestWrapper.putRequestAttribute(MESSAGE, true);
                 requestWrapper.putRequestAttribute(NEWS, news);

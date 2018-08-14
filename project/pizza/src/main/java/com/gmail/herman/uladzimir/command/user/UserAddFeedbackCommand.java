@@ -17,7 +17,7 @@ import java.util.Date;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.*;
 import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_USER_FEEDBACK_CREATE_PAGE;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_USER_FEEDBACK_PAGE;
+import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_USER_FEEDBACK_FIRST_PAGE;
 
 public class UserAddFeedbackCommand implements Command {
 
@@ -41,7 +41,7 @@ public class UserAddFeedbackCommand implements Command {
             if (feedbackValidator.isFeedbackCorrect(feedback)) {
                 FeedbackService feedbackService = new FeedbackServiceImpl();
                 feedbackService.insert(feedback);
-                route.setResponsePath(REDIRECT_TO_USER_FEEDBACK_PAGE);
+                route.setResponsePath(REDIRECT_TO_USER_FEEDBACK_FIRST_PAGE);
             } else {
                 requestWrapper.putRequestAttribute(MESSAGE, true);
                 route.setResponseType(ResponseType.FORWARD);

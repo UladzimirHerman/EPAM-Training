@@ -17,7 +17,7 @@ import java.util.Date;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.*;
 import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_ADMIN_NEWS_CREATE_PAGE;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_NEWS_PAGE;
+import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_NEWS_FIRST_PAGE;
 
 public class AdminAddNewsCommand implements Command {
 
@@ -41,7 +41,7 @@ public class AdminAddNewsCommand implements Command {
             if (newsValidator.isNewsCorrect(news)) {
                 NewsService newsService = new NewsServiceImpl();
                 newsService.insert(news);
-                route.setResponsePath(REDIRECT_TO_ADMIN_NEWS_PAGE);
+                route.setResponsePath(REDIRECT_TO_ADMIN_NEWS_FIRST_PAGE);
             } else {
                 requestWrapper.putRequestAttribute(MESSAGE, true);
                 requestWrapper.putRequestAttribute(NEWS, news);

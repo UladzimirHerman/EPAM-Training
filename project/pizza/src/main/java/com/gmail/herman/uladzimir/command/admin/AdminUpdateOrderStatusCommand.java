@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.ORDER_ID;
 import static com.gmail.herman.uladzimir.command.AttributeName.ORDER_STATUS;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_ORDERS_OPEN_PAGE;
+import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_ORDERS_OPEN_FIRST_PAGE;
 
 public class AdminUpdateOrderStatusCommand implements Command {
 
@@ -31,7 +31,7 @@ public class AdminUpdateOrderStatusCommand implements Command {
             order.setOrderStatus
                     (OrderStatus.valueOf(requestWrapper.getRequestParameter(ORDER_STATUS)));
             orderService.update(order);
-            route.setResponsePath(REDIRECT_TO_ADMIN_ORDERS_OPEN_PAGE);
+            route.setResponsePath(REDIRECT_TO_ADMIN_ORDERS_OPEN_FIRST_PAGE);
         } catch (ServiceException e) {
             LOGGER.error("ServiceException occurred when running the command: ", e);
         }
