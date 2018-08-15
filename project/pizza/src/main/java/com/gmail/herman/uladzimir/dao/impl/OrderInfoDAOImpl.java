@@ -1,7 +1,7 @@
 package com.gmail.herman.uladzimir.dao.impl;
 
 import com.gmail.herman.uladzimir.dao.OrderInfoDAO;
-import com.gmail.herman.uladzimir.dao.SQLManager;
+import com.gmail.herman.uladzimir.manager.SQLManager;
 import com.gmail.herman.uladzimir.database.ConnectionPool;
 import com.gmail.herman.uladzimir.entity.Order;
 import com.gmail.herman.uladzimir.entity.OrderInfo;

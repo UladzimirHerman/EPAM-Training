@@ -2,7 +2,7 @@ package com.gmail.herman.uladzimir.dao;
 
 /**
  * Class {@link SQLElement} is a final class, which contains only constant fields,
- * which define keys from property-file.
+ * which define keys from property file.
  *
  * @author Uladzimir Herman
  */

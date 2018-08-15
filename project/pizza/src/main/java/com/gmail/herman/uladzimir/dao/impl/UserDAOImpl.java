@@ -1,6 +1,6 @@
 package com.gmail.herman.uladzimir.dao.impl;
 
-import com.gmail.herman.uladzimir.dao.SQLManager;
+import com.gmail.herman.uladzimir.manager.SQLManager;
 import com.gmail.herman.uladzimir.dao.UserDAO;
 import com.gmail.herman.uladzimir.database.ConnectionPool;
 import com.gmail.herman.uladzimir.entity.User;

@@ -1,7 +1,7 @@
 package com.gmail.herman.uladzimir.dao.impl;
 
 import com.gmail.herman.uladzimir.dao.GenericDAO;
-import com.gmail.herman.uladzimir.dao.SQLManager;
+import com.gmail.herman.uladzimir.manager.SQLManager;
 import com.gmail.herman.uladzimir.database.ConnectionPool;
 import com.gmail.herman.uladzimir.exception.DAOException;
 import org.apache.log4j.LogManager;

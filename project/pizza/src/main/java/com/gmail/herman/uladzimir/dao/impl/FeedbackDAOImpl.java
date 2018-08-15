@@ -1,7 +1,7 @@
 package com.gmail.herman.uladzimir.dao.impl;
 
 import com.gmail.herman.uladzimir.dao.FeedbackDAO;
-import com.gmail.herman.uladzimir.dao.SQLManager;
+import com.gmail.herman.uladzimir.manager.SQLManager;
 import com.gmail.herman.uladzimir.entity.Feedback;
 import com.gmail.herman.uladzimir.entity.User;
 import com.gmail.herman.uladzimir.exception.DAOException;
