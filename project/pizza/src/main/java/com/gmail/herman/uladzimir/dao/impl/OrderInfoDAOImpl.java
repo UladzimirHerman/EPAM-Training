@@ -128,10 +128,10 @@ public class OrderInfoDAOImpl extends AbstractDAO<OrderInfo> implements OrderInf
 
     @Override
     public List<OrderInfo> findByOrderId(int orderId) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
         List<OrderInfo> orderInfoList = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement
                 (SQLManager.getInstance().getSQL(ORDER_INFO_QUERY_FIND_BY_ORDER_ID))) {
             preparedStatement.setInt(1, orderId);
 
@@ -143,10 +143,6 @@ public class OrderInfoDAOImpl extends AbstractDAO<OrderInfo> implements OrderInf
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when finding order info by order id: ", e);
             throw new DAOException("Error in searching records by order id", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
         }
 
         return orderInfoList;

@@ -162,7 +162,11 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
             throw new DAOException("Error in inserting a record", e);
         } finally {
             if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    LOGGER.warn("SQLException occurred when trying to close connection: ", e);
+                }
             }
         }
 
@@ -210,7 +214,11 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
             throw new DAOException("Error in deleting a record", e);
         } finally {
             if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    LOGGER.warn("SQLException occurred when trying to close connection: ", e);
+                }
             }
         }
 
@@ -218,11 +226,11 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
 
     @Override
     public boolean isUserExist(String login) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
         List<User> users = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                (SQLManager.getInstance().getSQL(USER_QUERY_FIND_BY_LOGIN))) {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement
+                     (SQLManager.getInstance().getSQL(USER_QUERY_FIND_BY_LOGIN))) {
             preparedStatement.setString(1, login);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -233,10 +241,6 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when checking the existence of a user: ", e);
             throw new DAOException("Error in checking the existence of a user", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
         }
 
         return !users.isEmpty();
@@ -244,11 +248,11 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
 
     @Override
     public User findByLogin(String login) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
         List<User> users = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                (SQLManager.getInstance().getSQL(USER_QUERY_FIND_BY_LOGIN))) {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement
+                     (SQLManager.getInstance().getSQL(USER_QUERY_FIND_BY_LOGIN))) {
             preparedStatement.setString(1, login);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -265,10 +269,6 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when searching user by login: ", e);
             throw new DAOException("Error in searching user by login", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
         }
 
         return users.get(0);

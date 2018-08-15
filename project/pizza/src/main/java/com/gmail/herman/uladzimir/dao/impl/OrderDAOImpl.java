@@ -37,10 +37,10 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO {
      * @throws DAOException exception of database level
      */
     private int countByCondition(String query, int condition) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
         int count = 0;
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, condition);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -53,10 +53,6 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO {
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when counting by condition: ", e);
             throw new DAOException("Error in counting records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
         }
 
         return count;
@@ -74,10 +70,10 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO {
      */
     private List<Order> findByCondition(String query, int condition, int offset, int limit)
             throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
         List<Order> orders = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, condition);
             preparedStatement.setInt(2, offset);
             preparedStatement.setInt(3, limit);
@@ -90,10 +86,6 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO {
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when searching orders by condition: ", e);
             throw new DAOException("Error in searching records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
         }
 
         return orders;
@@ -213,11 +205,11 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO {
 
     @Override
     public boolean isBasketExist(int userId) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
         int count = 0;
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                (SQLManager.getInstance().getSQL(ORDER_QUERY_COUNT_BASKET))) {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement
+                     (SQLManager.getInstance().getSQL(ORDER_QUERY_COUNT_BASKET))) {
             preparedStatement.setInt(1, userId);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -236,10 +228,6 @@ public class OrderDAOImpl extends AbstractDAO<Order> implements OrderDAO {
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when counting basket by user id: ", e);
             throw new DAOException("Error in counting records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
         }
 
         return count == 1;

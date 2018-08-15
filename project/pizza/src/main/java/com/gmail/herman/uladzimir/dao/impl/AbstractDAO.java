@@ -108,10 +108,10 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
      */
     protected List<T> findObjects(String query, int offset, int limit)
             throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
         List<T> objects = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, offset);
             preparedStatement.setInt(2, limit);
 
@@ -123,10 +123,6 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when searching records: ", e);
             throw new DAOException("Error in searching records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
         }
 
         return objects;
@@ -141,10 +137,10 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
      * @throws DAOException exception of database level
      */
     protected T findObjectByCondition(String query, int condition) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
         List<T> objects = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, condition);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -161,10 +157,6 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when searching a record by condition: ", e);
             throw new DAOException("Error in searching a record by condition", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
         }
 
         return objects.get(0);
@@ -178,10 +170,10 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
      * @throws DAOException exception of database level
      */
     protected int countObjects(String query) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
         int count = 0;
 
-        try (Statement statement = connection.createStatement();
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
             if (resultSet.next()) {
@@ -192,10 +184,6 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when counting records: ", e);
             throw new DAOException("Error in counting records", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
         }
 
         return count;
@@ -213,9 +201,9 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
 
     @Override
     public void insert(T object) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
 
-        try (PreparedStatement preparedStatement =
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement preparedStatement =
                      connection.prepareStatement(getInsertQuery())) {
             getPreparedStatementInsert(preparedStatement, object);
             preparedStatement.executeUpdate();
@@ -223,19 +211,15 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when inserting a record: ", e);
             throw new DAOException("Error in inserting a record", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
         }
 
     }
 
     @Override
     public void update(T object) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
 
-        try (PreparedStatement preparedStatement =
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement preparedStatement =
                      connection.prepareStatement(getUpdateQuery())) {
             getPreparedStatementUpdate(preparedStatement, object);
             preparedStatement.executeUpdate();
@@ -243,19 +227,15 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when updating a record: ", e);
             throw new DAOException("Error in updating a record", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
         }
 
     }
 
     @Override
     public void deleteById(int id) throws DAOException {
-        Connection connection = ConnectionPool.getInstance().takeConnection();
 
-        try (PreparedStatement preparedStatement =
+        try (Connection connection = ConnectionPool.getInstance().takeConnection();
+             PreparedStatement preparedStatement =
                      connection.prepareStatement(getDeleteByIdQuery())) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
@@ -263,10 +243,6 @@ public abstract class AbstractDAO<T> implements GenericDAO<T> {
         } catch (SQLException e) {
             LOGGER.error("SQLException occurred when deleting a record by id: ", e);
             throw new DAOException("Error in deleting a record", e);
-        } finally {
-            if (connection != null) {
-                ConnectionPool.getInstance().returnConnection(connection);
-            }
         }
 
     }
