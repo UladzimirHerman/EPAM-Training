@@ -1,12 +1,14 @@
-package com.gmail.herman.uladzimir.dao;
+package com.gmail.herman.uladzimir.manager;
+
+import com.gmail.herman.uladzimir.dao.SQLElement;
 
 import java.util.ResourceBundle;
 
 import static com.gmail.herman.uladzimir.dao.SQLElement.SQL_FILE_NAME;
 
 /**
- * Class {@link SQLManager} is used for getting specific SQL-elements
- * from property-file. This class is a singleton.
+ * Class {@link SQLManager} is used for getting SQL elements from property file.
+ * This class is a singleton.
  *
  * @author Uladzimir Herman
  */
@@ -30,6 +32,12 @@ public class SQLManager {
         return instance;
     }
 
+    /**
+     * Getting particular SQL element by key
+     *
+     * @param key key for searching
+     * @see SQLElement
+     */
     public String getSQL(String key) {
         return resourceBundle.getString(key);
     }
