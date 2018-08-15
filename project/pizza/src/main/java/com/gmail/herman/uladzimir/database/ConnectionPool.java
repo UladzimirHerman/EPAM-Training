@@ -3,95 +3,131 @@ package com.gmail.herman.uladzimir.database;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Class {@link ConnectionPool} is used
- * for connecting and managing database connection between users.
+ * Class {@link ConnectionPool} is used for connecting and managing
+ * database connections between users. This class is a singleton.
  *
  * @author Uladzimir Herman
+ * @see ConnectionConfigurator
+ * @see PooledConnection
  */
 public class ConnectionPool {
 
     private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
-
-    private static ConnectionPool connectionPool;
-    private static AtomicBoolean connectionExist = new AtomicBoolean(false);
-    private static final ConnectionPoolConfiguration POOL_CONFIGURATION = ConnectionPoolConfiguration.getInstance();
-    private static ReentrantLock lock = new ReentrantLock();
-
-    private BlockingQueue<Connection> connectionQueue;
+    private static ConnectionConfigurator configuration =
+            ConnectionConfigurator.getInstance();
+    private static volatile ConnectionPool instance;
+    private BlockingQueue<PooledConnection> freeConnections;
+    private BlockingQueue<PooledConnection> busyConnections;
 
     private ConnectionPool() {
-        connectionQueue = new ArrayBlockingQueue<>(POOL_CONFIGURATION.getPoolSize());
 
         try {
-            Class.forName(POOL_CONFIGURATION.getDriverName());
-            Connection connection;
+            freeConnections = new ArrayBlockingQueue<>(configuration.getPoolSize());
+            busyConnections = new ArrayBlockingQueue<>(configuration.getPoolSize());
+            Class.forName(configuration.getDriverName());
+            PooledConnection connection;
 
-            for (int i = 0; i < POOL_CONFIGURATION.getPoolSize(); i++) {
-                connection = DriverManager.getConnection(POOL_CONFIGURATION.getUrl(),
-                        POOL_CONFIGURATION.getUser(), POOL_CONFIGURATION.getPassword());
-                connectionQueue.put(connection);
+            for (int i = 0; i < configuration.getPoolSize(); i++) {
+                connection = new PooledConnection(DriverManager.getConnection
+                        (configuration.getUrl(), configuration.getUser(), configuration.getPassword()));
+                freeConnections.add(connection);
             }
 
+            LOGGER.info("Successful creation connection pool");
+        } catch (IllegalArgumentException e) {
+            LOGGER.error("Exception occurred when creating queue: ", e);
         } catch (ClassNotFoundException e) {
-            LOGGER.error("An error occurred during loading SQL driver: ", e);
+            LOGGER.error("Exception occurred when loading SQL driver: ", e);
         } catch (SQLException e) {
-            LOGGER.error("An error occurred during getting connection: ", e);
-        } catch (InterruptedException e) {
-            LOGGER.error("An error occurred during adding connection in pool: ", e);
+            LOGGER.error("Exception occurred when getting connection: ", e);
         }
 
     }
 
     public static ConnectionPool getInstance() {
-        if (!connectionExist.get()) {
-            lock.lock();
-            if (connectionPool == null) {
-                connectionPool = new ConnectionPool();
-                connectionExist.set(true);
+
+        if (instance == null) {
+            synchronized (ConnectionPool.class) {
+                if (instance == null) {
+                    instance = new ConnectionPool();
+                }
             }
-            lock.unlock();
         }
-        return connectionPool;
+
+        return instance;
     }
 
-    public Connection takeConnection() {
-        Connection connection = null;
+    /**
+     * Getting connection from connection pool
+     *
+     * @return particular connection from connection pool
+     */
+    public PooledConnection takeConnection() {
+        PooledConnection connection = null;
+
         try {
-            connection = connectionQueue.take();
+            connection = freeConnections.take();
+            busyConnections.add(connection);
+            LOGGER.info("Successful taking connection");
         } catch (InterruptedException e) {
-            LOGGER.error("Couldn't get connection from pool: ", e);
+            LOGGER.error("InterruptedException occurred when taking connection from pool: ", e);
             Thread.currentThread().interrupt();
         }
+
         return connection;
     }
 
-    public void returnConnection(Connection connection) {
-        try {
-            connectionQueue.put(connection);
-        } catch (InterruptedException e) {
-            LOGGER.error("Couldn't close connection: ", e);
-            Thread.currentThread().interrupt();
-        }
+    /**
+     * Returning connection into connection pool
+     *
+     * @param connection connection for returning
+     */
+    public void returnConnection(PooledConnection connection) {
+        freeConnections.add(connection);
+        busyConnections.remove(connection);
+        LOGGER.info("Successful returning connection");
     }
 
+    /**
+     * Closing connection pool
+     */
     public void closePool() {
+
         try {
-            for (int i = 0; i < POOL_CONFIGURATION.getPoolSize(); i++) {
-                connectionQueue.take().close();
-            }
-        } catch (SQLException | InterruptedException e) {
-            LOGGER.error("Couldn't close connection pool: ", e);
-            Thread.currentThread().interrupt();
+            closeConnections(busyConnections);
+            closeConnections(freeConnections);
+            LOGGER.info("Successful closing connection pool");
+            instance = null;
+        } catch (SQLException e) {
+            LOGGER.error("SQLException occurred when closing connection pool: ", e);
         }
+
+    }
+
+    /**
+     * Closing all connections in queue
+     *
+     * @param queue connections queue
+     */
+    private void closeConnections(BlockingQueue<PooledConnection> queue)
+            throws SQLException {
+        PooledConnection connection;
+
+        while ((connection = queue.poll()) != null) {
+
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+
+            connection.reallyClose();
+        }
+
     }
 
 }
