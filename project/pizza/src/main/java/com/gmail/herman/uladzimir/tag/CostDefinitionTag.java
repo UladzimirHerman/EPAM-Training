@@ -33,7 +33,7 @@ public class CostDefinitionTag extends BodyTagSupport {
     /**
      * Determination of the total cost of goods
      *
-     * @return list of objects of a particular type
+     * @return total cost of a particular product
      * @throws JspException exception of view level
      */
     @Override
