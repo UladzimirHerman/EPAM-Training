@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * Class {@link News} is used to store news.
+ * Class {@link News} is used to store information about news.
  *
  * @author Uladzimir Herman
  */
@@ -88,13 +88,13 @@ public class News implements Serializable{
 
     @Override
     public String toString() {
-        return "News{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", photo='" + photo + '\'' +
-                ", date=" + date +
+        return News.class.getSimpleName() +
+                "{id=" + id +
                 ", userId=" + user.getId() +
+                ", title='" + title +
+                ", content='" + content +
+                ", photo='" + photo +
+                ", date=" + date +
                 '}';
     }
 

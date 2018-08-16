@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Class {@link UserInfo} is used to store additional information about users.
+ * Class {@link UserInfo} is used to store additional information about user.
  *
  * @author Uladzimir Herman
  */
@@ -127,17 +127,17 @@ public class UserInfo implements Serializable{
 
     @Override
     public String toString() {
-        return "UserInfo{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", phone='" + phone + '\'' +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", building='" + building + '\'' +
-                ", housing='" + housing + '\'' +
-                ", apartment='" + apartment + '\'' +
-                ", note='" + note + '\'' +
+        return UserInfo.class.getSimpleName() +
+                "{id=" + id +
+                ", name='" + name +
+                ", surname='" + surname +
+                ", phone='" + phone +
+                ", city='" + city +
+                ", street='" + street +
+                ", building='" + building +
+                ", housing='" + housing +
+                ", apartment='" + apartment +
+                ", note='" + note +
                 '}';
     }
 

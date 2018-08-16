@@ -67,8 +67,10 @@ public class OrderInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "OrderInfo{" +
-                "id=" + id +
+        return OrderInfo.class.getSimpleName() +
+                "{id=" + id +
+                ", order=" + order +
+                ", product=" + product +
                 ", quantity=" + quantity +
                 '}';
     }

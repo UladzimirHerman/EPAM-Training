@@ -1,12 +1,10 @@
 package com.gmail.herman.uladzimir.entity;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 /**
- * Class {@link User} is used to store information about users.
+ * Class {@link User} is used to store information about user.
  *
  * @author Uladzimir Herman
  */
@@ -79,11 +77,12 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
+        return User.class.getSimpleName() +
+                "{id=" + id +
+                ", login='" + login +
+                ", password='" + password +
                 ", userRole=" + userRole +
+                ", userInfoId=" + userInfo.getId() +
                 '}';
     }
 

@@ -2,12 +2,10 @@ package com.gmail.herman.uladzimir.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 /**
- * Class {@link Product} is used to store information about products.
+ * Class {@link Product} is used to store information about product.
  *
  * @author Uladzimir Herman
  */
@@ -90,12 +88,12 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+        return Product.class.getSimpleName() +
+                "{id=" + id +
+                ", name='" + name +
+                ", description='" + description +
                 ", price=" + price +
-                ", photo='" + photo + '\'' +
+                ", photo='" + photo +
                 ", sale=" + sale +
                 '}';
     }

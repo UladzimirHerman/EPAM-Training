@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * Class {@link Feedback} is used to store users feedback.
+ * Class {@link Feedback} is used to store information about users feedback.
  *
  * @author Uladzimir Herman
  */
@@ -78,12 +78,12 @@ public class Feedback implements Serializable {
 
     @Override
     public String toString() {
-        return "Feedback{" +
-                "id=" + id +
-                ", comment='" + comment + '\'' +
+        return Feedback.class.getSimpleName() +
+                "{id=" + id +
+                ", userId=" + user.getId() +
+                ", comment='" + comment +
                 ", rating=" + rating +
                 ", date=" + date +
-                ", userId=" + user.getId() +
                 '}';
     }
 

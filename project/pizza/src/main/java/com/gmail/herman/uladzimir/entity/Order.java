@@ -79,9 +79,12 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
+        return Order.class.getSimpleName() +
+                "{id=" + id +
+                ", date=" + date +
+                ", userId=" + user.getId() +
                 ", orderStatus=" + orderStatus +
+                ", orderInfoList=" + orderInfoList +
                 '}';
     }
 
