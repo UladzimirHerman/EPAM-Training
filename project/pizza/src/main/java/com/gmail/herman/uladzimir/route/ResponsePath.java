@@ -1,5 +1,11 @@
-package com.gmail.herman.uladzimir.command;
+package com.gmail.herman.uladzimir.route;
 
+/**
+ * Class {@link ResponsePath} is a final class, which contains only constant fields,
+ * which define page address.
+ *
+ * @author Uladzimir Herman
+ */
 public final class ResponsePath {
 
     public static final String FORWARD_TO_ADMIN_FEEDBACK_PAGE = "/WEB-INF/jsp/admin/feedback.jsp";
