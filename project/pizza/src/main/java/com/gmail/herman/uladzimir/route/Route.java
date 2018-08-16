@@ -1,6 +1,6 @@
 package com.gmail.herman.uladzimir.route;
 
-import static com.gmail.herman.uladzimir.route.ResponsePath.REDIRECT_TO_LOGIN_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.FORWARD_TO_ERROR_PAGE;
 
 /**
  * Class {@link Route} defines the answer type and page address.
@@ -18,12 +18,12 @@ public class Route {
      * Default constructor, which initializes the route with default values
      */
     public Route() {
-        responseType = ResponseType.REDIRECT;
-        responsePath = REDIRECT_TO_LOGIN_PAGE;
+        responseType = ResponseType.FORWARD;
+        responsePath = FORWARD_TO_ERROR_PAGE;
     }
 
     /**
-     * Additional constructor, which initializes the route with particular value
+     * Additional constructor, which initializes the route with particular values
      *
      * @param responseType answer type
      * @param responsePath page address
