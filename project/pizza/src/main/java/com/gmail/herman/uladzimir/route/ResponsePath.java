@@ -22,6 +22,7 @@ public final class ResponsePath {
     public static final String FORWARD_TO_ADMIN_USERS_PAGE = "/WEB-INF/jsp/admin/users.jsp";
     public static final String FORWARD_TO_ADMIN_USERS_DELETE_PAGE = "/WEB-INF/jsp/admin/users_delete.jsp";
     public static final String FORWARD_TO_ADMIN_USERS_EDIT_PAGE = "/WEB-INF/jsp/admin/users_edit.jsp";
+    public static final String FORWARD_TO_ERROR_PAGE = "/WEB-INF/jsp/common/error.jsp";
     public static final String FORWARD_TO_LOGIN_PAGE = "/WEB-INF/jsp/common/login.jsp";
     public static final String FORWARD_TO_PROFILE_PAGE = "/WEB-INF/jsp/common/profile.jsp";
     public static final String FORWARD_TO_REGISTRATION_PAGE = "/WEB-INF/jsp/common/registration.jsp";
