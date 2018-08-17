@@ -1,7 +1,6 @@
 package com.gmail.herman.uladzimir.filter;
 
 import com.gmail.herman.uladzimir.entity.User;
-import com.gmail.herman.uladzimir.entity.UserRole;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
