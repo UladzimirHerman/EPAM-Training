@@ -1,8 +1,8 @@
 package com.gmail.herman.uladzimir.command.common;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.ResponseType;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.ResponseType;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import com.gmail.herman.uladzimir.entity.User;
 import com.gmail.herman.uladzimir.entity.UserInfo;
@@ -16,12 +16,19 @@ import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.*;
-import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_REGISTRATION_PAGE;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_LOGIN_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.FORWARD_TO_REGISTRATION_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.REDIRECT_TO_LOGIN_PAGE;
 
+/**
+ * This class is used to create a new account.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class CreateAccountCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(CreateAccountCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(CreateAccountCommand.class);
 
     @Override
     public Route execute(RequestWrapper requestWrapper) {
@@ -48,16 +55,17 @@ public class CreateAccountCommand implements Command {
         try {
 
             if (!userService.isUserExist(user.getLogin()) &&
-                    userValidator.isUserCorrect(user) && userValidator.isUserInfoCorrect(userInfo)) {
+                    userValidator.isUserCorrect(user) &&
+                    userValidator.isUserInfoCorrect(userInfo)) {
                 user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
                 user.setUserRole(UserRole.USER);
                 user.setUserInfo(userInfo);
-
                 userService.insert(user);
+
+                route.setResponseType(ResponseType.REDIRECT);
                 route.setResponsePath(REDIRECT_TO_LOGIN_PAGE);
             } else {
                 requestWrapper.putRequestAttribute(MESSAGE, true);
-                route.setResponseType(ResponseType.FORWARD);
                 route.setResponsePath(FORWARD_TO_REGISTRATION_PAGE);
             }
 

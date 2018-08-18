@@ -1,8 +1,8 @@
 package com.gmail.herman.uladzimir.command.common;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.ResponseType;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.ResponseType;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import com.gmail.herman.uladzimir.entity.User;
 import com.gmail.herman.uladzimir.exception.ServiceException;
@@ -13,11 +13,18 @@ import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.*;
-import static com.gmail.herman.uladzimir.command.ResponsePath.*;
+import static com.gmail.herman.uladzimir.route.ResponsePath.*;
 
+/**
+ * This class is used for the authentication process.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class LoginCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(LoginCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(LoginCommand.class);
 
     @Override
     public Route execute(RequestWrapper requestWrapper) {
@@ -35,16 +42,15 @@ public class LoginCommand implements Command {
 
                 if (BCrypt.checkpw(password, user.getPassword())) {
                     requestWrapper.putSessionAttribute(USER, user);
+                    route.setResponseType(ResponseType.REDIRECT);
                     route.setResponsePath(REDIRECT_TO_LOGIN_PAGE);
                 } else {
                     requestWrapper.putRequestAttribute(MESSAGE, true);
-                    route.setResponseType(ResponseType.FORWARD);
                     route.setResponsePath(FORWARD_TO_LOGIN_PAGE);
                 }
 
             } else {
                 requestWrapper.putRequestAttribute(MESSAGE, true);
-                route.setResponseType(ResponseType.FORWARD);
                 route.setResponsePath(FORWARD_TO_LOGIN_PAGE);
             }
 

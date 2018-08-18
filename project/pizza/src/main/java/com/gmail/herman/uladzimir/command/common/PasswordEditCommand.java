@@ -1,8 +1,8 @@
 package com.gmail.herman.uladzimir.command.common;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.ResponseType;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.ResponseType;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import com.gmail.herman.uladzimir.entity.User;
 import com.gmail.herman.uladzimir.entity.UserInfo;
@@ -17,11 +17,18 @@ import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.*;
-import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_PROFILE_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.FORWARD_TO_PROFILE_PAGE;
 
+/**
+ * This class is used to change password.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class PasswordEditCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(PasswordEditCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(PasswordEditCommand.class);
 
     @Override
     public Route execute(RequestWrapper requestWrapper) {
@@ -45,6 +52,7 @@ public class PasswordEditCommand implements Command {
                 userService.update(user);
 
                 requestWrapper.putSessionAttribute(USER, user);
+                route.setResponseType(ResponseType.REDIRECT);
                 route.setResponsePath(requestWrapper.getReferer());
             } else {
                 UserInfoService userInfoService = new UserInfoServiceImpl();
@@ -52,7 +60,6 @@ public class PasswordEditCommand implements Command {
 
                 requestWrapper.putRequestAttribute(MESSAGE, true);
                 requestWrapper.putRequestAttribute(USER_INFO, userInfo);
-                route.setResponseType(ResponseType.FORWARD);
                 route.setResponsePath(FORWARD_TO_PROFILE_PAGE);
             }
 
