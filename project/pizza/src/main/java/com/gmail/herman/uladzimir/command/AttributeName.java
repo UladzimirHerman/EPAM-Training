@@ -1,5 +1,11 @@
 package com.gmail.herman.uladzimir.command;
 
+/**
+ * Class {@link AttributeName} is a final class, which contains only
+ * constant fields, which define attribute names of application.
+ *
+ * @author Uladzimir Herman
+ */
 public final class AttributeName {
 
     public static final String APARTMENT = "apartment";

@@ -4,6 +4,13 @@ import com.gmail.herman.uladzimir.command.admin.*;
 import com.gmail.herman.uladzimir.command.common.*;
 import com.gmail.herman.uladzimir.command.user.*;
 
+/**
+ * Enum {@link CommandType} contains the application commands
+ * available for execution.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public enum CommandType {
 
     ADMIN_ADD_NEWS(new AdminAddNewsCommand()),
@@ -57,6 +64,9 @@ public enum CommandType {
 
     private Command command;
 
+    /**
+     * Constructor, which initializes the command with particular value
+     */
     CommandType(Command command) {
         this.command = command;
     }
