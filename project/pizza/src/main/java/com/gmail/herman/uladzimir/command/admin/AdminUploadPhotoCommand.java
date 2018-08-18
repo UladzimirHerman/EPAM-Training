@@ -1,7 +1,8 @@
 package com.gmail.herman.uladzimir.command.admin;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.ResponseType;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -13,11 +14,19 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.PHOTO;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_UPLOAD_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.REDIRECT_TO_ADMIN_UPLOAD_PAGE;
 
+/**
+ * This class is used to upload the photo to the system.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class AdminUploadPhotoCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(AdminUploadPhotoCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(AdminUploadPhotoCommand.class);
+
     private static final String SAVE_DIRECTORY = "resources" + File.separator + "images";
     private static final String IMAGE_TYPE_JPG = "image/jpeg";
     private static final String IMAGE_TYPE_PNG = "image/png";
@@ -54,6 +63,8 @@ public class AdminUploadPhotoCommand implements Command {
 
                     try {
                         part.write(fileName);
+
+                        route.setResponseType(ResponseType.REDIRECT);
                         route.setResponsePath(REDIRECT_TO_ADMIN_UPLOAD_PAGE);
                     } catch (IOException e) {
                         LOGGER.error("IOException occurred when running the command: ", e);

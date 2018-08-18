@@ -1,8 +1,7 @@
 package com.gmail.herman.uladzimir.command.admin;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.ResponseType;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import com.gmail.herman.uladzimir.entity.Product;
 import com.gmail.herman.uladzimir.exception.ServiceException;
@@ -18,11 +17,19 @@ import java.util.List;
 import static com.gmail.herman.uladzimir.command.AttributeName.PAGE;
 import static com.gmail.herman.uladzimir.command.AttributeName.PAGE_QUANTITY;
 import static com.gmail.herman.uladzimir.command.AttributeName.PRODUCT_LIST;
-import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_ADMIN_PRODUCT_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.FORWARD_TO_ADMIN_PRODUCT_PAGE;
 
+/**
+ * This class is used to get the product page.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class AdminProductViewCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(AdminProductViewCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(AdminProductViewCommand.class);
+
     private static final int ITEMS_ON_THE_PAGE = 4;
 
     @Override
@@ -41,11 +48,10 @@ public class AdminProductViewCommand implements Command {
                         (PaginationUtil.defineOffset(page, ITEMS_ON_THE_PAGE), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(PRODUCT_LIST, products);
 
-                int pageQuantity =
-                        PaginationUtil.definePageQuantity(productService.count(), ITEMS_ON_THE_PAGE);
+                int pageQuantity = PaginationUtil.definePageQuantity
+                        (productService.count(), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(PAGE_QUANTITY, pageQuantity);
 
-                route.setResponseType(ResponseType.FORWARD);
                 route.setResponsePath(FORWARD_TO_ADMIN_PRODUCT_PAGE);
             }
 

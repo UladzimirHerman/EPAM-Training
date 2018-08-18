@@ -1,8 +1,8 @@
 package com.gmail.herman.uladzimir.command.admin;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.ResponseType;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.ResponseType;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import com.gmail.herman.uladzimir.entity.Product;
 import com.gmail.herman.uladzimir.exception.ServiceException;
@@ -15,12 +15,19 @@ import org.apache.log4j.Logger;
 import java.math.BigDecimal;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.*;
-import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_ADMIN_PRODUCT_EDIT_PAGE;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_PRODUCT_FIRST_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.FORWARD_TO_ADMIN_PRODUCT_EDIT_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.REDIRECT_TO_ADMIN_PRODUCT_FIRST_PAGE;
 
+/**
+ * This class is used to update the product.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class AdminUpdateProductCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(AdminUpdateProductCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(AdminUpdateProductCommand.class);
 
     @Override
     public Route execute(RequestWrapper requestWrapper) {
@@ -41,11 +48,13 @@ public class AdminUpdateProductCommand implements Command {
             if (productValidator.isProductCorrect(product)) {
                 ProductService productService = new ProductServiceImpl();
                 productService.update(product);
+
+                route.setResponseType(ResponseType.REDIRECT);
                 route.setResponsePath(REDIRECT_TO_ADMIN_PRODUCT_FIRST_PAGE);
             } else {
                 requestWrapper.putRequestAttribute(MESSAGE, true);
                 requestWrapper.putRequestAttribute(PRODUCT, product);
-                route.setResponseType(ResponseType.FORWARD);
+
                 route.setResponsePath(FORWARD_TO_ADMIN_PRODUCT_EDIT_PAGE);
             }
 

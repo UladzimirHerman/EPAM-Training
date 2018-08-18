@@ -1,7 +1,8 @@
 package com.gmail.herman.uladzimir.command.admin;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.ResponseType;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import com.gmail.herman.uladzimir.entity.User;
 import com.gmail.herman.uladzimir.entity.UserRole;
@@ -13,11 +14,18 @@ import org.apache.log4j.Logger;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.USER_ID;
 import static com.gmail.herman.uladzimir.command.AttributeName.USER_ROLE;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_USERS_FIRST_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.REDIRECT_TO_ADMIN_USERS_FIRST_PAGE;
 
+/**
+ * This class is used to update the user role.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class AdminUpdateRoleCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(AdminUpdateRoleCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(AdminUpdateRoleCommand.class);
 
     @Override
     public Route execute(RequestWrapper requestWrapper) {
@@ -26,10 +34,12 @@ public class AdminUpdateRoleCommand implements Command {
         UserService userService = new UserServiceImpl();
 
         try {
-            User user = userService.
-                    findById(Integer.parseInt(requestWrapper.getRequestParameter(USER_ID)));
+            User user = userService.findById
+                    (Integer.parseInt(requestWrapper.getRequestParameter(USER_ID)));
             user.setUserRole(UserRole.valueOf(requestWrapper.getRequestParameter(USER_ROLE)));
             userService.update(user);
+
+            route.setResponseType(ResponseType.REDIRECT);
             route.setResponsePath(REDIRECT_TO_ADMIN_USERS_FIRST_PAGE);
         } catch (ServiceException e) {
             LOGGER.error("ServiceException occurred when running the command: ", e);

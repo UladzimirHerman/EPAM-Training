@@ -1,8 +1,7 @@
 package com.gmail.herman.uladzimir.command.admin;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.ResponseType;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import com.gmail.herman.uladzimir.entity.Feedback;
 import com.gmail.herman.uladzimir.exception.ServiceException;
@@ -18,11 +17,19 @@ import java.util.List;
 import static com.gmail.herman.uladzimir.command.AttributeName.FEEDBACK_LIST;
 import static com.gmail.herman.uladzimir.command.AttributeName.PAGE;
 import static com.gmail.herman.uladzimir.command.AttributeName.PAGE_QUANTITY;
-import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_ADMIN_FEEDBACK_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.FORWARD_TO_ADMIN_FEEDBACK_PAGE;
 
+/**
+ * This class is used to get the feedback page.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class AdminFeedbackViewCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(AdminFeedbackViewCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(AdminFeedbackViewCommand.class);
+
     private static final int ITEMS_ON_THE_PAGE = 8;
 
     @Override
@@ -41,11 +48,10 @@ public class AdminFeedbackViewCommand implements Command {
                         (PaginationUtil.defineOffset(page, ITEMS_ON_THE_PAGE), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(FEEDBACK_LIST, feedbackList);
 
-                int pageQuantity =
-                        PaginationUtil.definePageQuantity(feedbackService.count(), ITEMS_ON_THE_PAGE);
+                int pageQuantity = PaginationUtil.definePageQuantity
+                        (feedbackService.count(), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(PAGE_QUANTITY, pageQuantity);
 
-                route.setResponseType(ResponseType.FORWARD);
                 route.setResponsePath(FORWARD_TO_ADMIN_FEEDBACK_PAGE);
             }
 

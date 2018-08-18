@@ -1,7 +1,8 @@
 package com.gmail.herman.uladzimir.command.admin;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.ResponseType;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import com.gmail.herman.uladzimir.entity.Order;
 import com.gmail.herman.uladzimir.entity.OrderStatus;
@@ -13,11 +14,18 @@ import org.apache.log4j.Logger;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.ORDER_ID;
 import static com.gmail.herman.uladzimir.command.AttributeName.ORDER_STATUS;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_ADMIN_ORDERS_OPEN_FIRST_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.REDIRECT_TO_ADMIN_ORDERS_OPEN_FIRST_PAGE;
 
+/**
+ * This class is used to update the order status.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class AdminUpdateOrderStatusCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(AdminUpdateOrderStatusCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(AdminUpdateOrderStatusCommand.class);
 
     @Override
     public Route execute(RequestWrapper requestWrapper) {
@@ -31,6 +39,8 @@ public class AdminUpdateOrderStatusCommand implements Command {
             order.setOrderStatus
                     (OrderStatus.valueOf(requestWrapper.getRequestParameter(ORDER_STATUS)));
             orderService.update(order);
+
+            route.setResponseType(ResponseType.REDIRECT);
             route.setResponsePath(REDIRECT_TO_ADMIN_ORDERS_OPEN_FIRST_PAGE);
         } catch (ServiceException e) {
             LOGGER.error("ServiceException occurred when running the command: ", e);

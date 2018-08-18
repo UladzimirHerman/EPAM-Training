@@ -1,8 +1,7 @@
 package com.gmail.herman.uladzimir.command.admin;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.ResponseType;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import com.gmail.herman.uladzimir.entity.News;
 import com.gmail.herman.uladzimir.exception.ServiceException;
@@ -13,11 +12,18 @@ import org.apache.log4j.Logger;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.NEWS;
 import static com.gmail.herman.uladzimir.command.AttributeName.NEWS_ID;
-import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_ADMIN_NEWS_DELETE_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.FORWARD_TO_ADMIN_NEWS_DELETE_PAGE;
 
+/**
+ * This class is used to get news delete page.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class AdminNewsDeleteViewCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(AdminNewsDeleteViewCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(AdminNewsDeleteViewCommand.class);
 
     @Override
     public Route execute(RequestWrapper requestWrapper) {
@@ -29,7 +35,7 @@ public class AdminNewsDeleteViewCommand implements Command {
             News news = newsService.
                     findById(Integer.parseInt(requestWrapper.getRequestParameter(NEWS_ID)));
             requestWrapper.putRequestAttribute(NEWS, news);
-            route.setResponseType(ResponseType.FORWARD);
+
             route.setResponsePath(FORWARD_TO_ADMIN_NEWS_DELETE_PAGE);
         } catch (ServiceException e) {
             LOGGER.error("ServiceException occurred when running the command: ", e);
