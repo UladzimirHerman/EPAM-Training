@@ -1,8 +1,7 @@
 package com.gmail.herman.uladzimir.command.user;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.ResponseType;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import com.gmail.herman.uladzimir.entity.OrderInfo;
 import com.gmail.herman.uladzimir.entity.User;
@@ -18,11 +17,18 @@ import java.util.List;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.ORDER_INFO_LIST;
 import static com.gmail.herman.uladzimir.command.AttributeName.USER;
-import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_USER_BASKET_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.FORWARD_TO_USER_BASKET_PAGE;
 
+/**
+ * This class is used to get the basket page.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class UserBasketViewCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(UserBasketViewCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(UserBasketViewCommand.class);
 
     @Override
     public Route execute(RequestWrapper requestWrapper) {
@@ -40,7 +46,6 @@ public class UserBasketViewCommand implements Command {
                 requestWrapper.putRequestAttribute(ORDER_INFO_LIST, orderInfoList);
             }
 
-            route.setResponseType(ResponseType.FORWARD);
             route.setResponsePath(FORWARD_TO_USER_BASKET_PAGE);
         } catch (ServiceException e) {
             LOGGER.error("ServiceException occurred when running the command: ", e);

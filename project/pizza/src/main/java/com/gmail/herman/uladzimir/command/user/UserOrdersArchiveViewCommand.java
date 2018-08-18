@@ -1,8 +1,7 @@
 package com.gmail.herman.uladzimir.command.user;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.ResponseType;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import com.gmail.herman.uladzimir.entity.Order;
 import com.gmail.herman.uladzimir.entity.User;
@@ -17,12 +16,19 @@ import org.apache.log4j.Logger;
 import java.util.List;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.*;
-import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_USER_ORDERS_ARCHIVE_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.FORWARD_TO_USER_ORDERS_ARCHIVE_PAGE;
 
+/**
+ * This class is used to get the user archive orders page.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class UserOrdersArchiveViewCommand implements Command {
 
     private static final Logger LOGGER =
             LogManager.getLogger(UserOrdersArchiveViewCommand.class);
+
     private static final int ITEMS_ON_THE_PAGE = 8;
 
     @Override
@@ -46,7 +52,6 @@ public class UserOrdersArchiveViewCommand implements Command {
                         (orderService.countArchive(user.getId()), ITEMS_ON_THE_PAGE);
                 requestWrapper.putRequestAttribute(PAGE_QUANTITY, pageQuantity);
 
-                route.setResponseType(ResponseType.FORWARD);
                 route.setResponsePath(FORWARD_TO_USER_ORDERS_ARCHIVE_PAGE);
             }
 

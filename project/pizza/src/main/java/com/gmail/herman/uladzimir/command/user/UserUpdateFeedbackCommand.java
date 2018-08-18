@@ -1,8 +1,8 @@
 package com.gmail.herman.uladzimir.command.user;
 
 import com.gmail.herman.uladzimir.command.Command;
-import com.gmail.herman.uladzimir.command.ResponseType;
-import com.gmail.herman.uladzimir.command.Route;
+import com.gmail.herman.uladzimir.route.ResponseType;
+import com.gmail.herman.uladzimir.route.Route;
 import com.gmail.herman.uladzimir.controller.RequestWrapper;
 import com.gmail.herman.uladzimir.entity.Feedback;
 import com.gmail.herman.uladzimir.exception.ServiceException;
@@ -14,9 +14,15 @@ import org.apache.log4j.Logger;
 
 import static com.gmail.herman.uladzimir.command.AttributeName.*;
 import static com.gmail.herman.uladzimir.command.AttributeName.FEEDBACK;
-import static com.gmail.herman.uladzimir.command.ResponsePath.FORWARD_TO_USER_FEEDBACK_EDIT_PAGE;
-import static com.gmail.herman.uladzimir.command.ResponsePath.REDIRECT_TO_USER_FEEDBACK_FIRST_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.FORWARD_TO_USER_FEEDBACK_EDIT_PAGE;
+import static com.gmail.herman.uladzimir.route.ResponsePath.REDIRECT_TO_USER_FEEDBACK_FIRST_PAGE;
 
+/**
+ * This class is used to update the feedback.
+ *
+ * @author Uladzimir Herman
+ * @see Command
+ */
 public class UserUpdateFeedbackCommand implements Command {
 
     private static final Logger LOGGER =
@@ -38,11 +44,13 @@ public class UserUpdateFeedbackCommand implements Command {
             if (feedbackValidator.isFeedbackCorrect(feedback)) {
                 FeedbackService feedbackService = new FeedbackServiceImpl();
                 feedbackService.update(feedback);
+
+                route.setResponseType(ResponseType.REDIRECT);
                 route.setResponsePath(REDIRECT_TO_USER_FEEDBACK_FIRST_PAGE);
             } else {
                 requestWrapper.putRequestAttribute(MESSAGE, true);
                 requestWrapper.putRequestAttribute(FEEDBACK, feedback);
-                route.setResponseType(ResponseType.FORWARD);
+
                 route.setResponsePath(FORWARD_TO_USER_FEEDBACK_EDIT_PAGE);
             }
 
