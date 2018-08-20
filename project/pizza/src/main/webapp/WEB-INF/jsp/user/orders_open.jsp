@@ -1,22 +1,19 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="ctg" uri="customtags" %>
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
-    <fmt:setLocale value="${sessionScope.locale}"/>
-    <fmt:setBundle basename="content"/>
-    <title><fmt:message key="page.ordersOpen.title"/></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
-    <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+    <c:set var="titleKey" scope="page" value="page.ordersOpen.title"/>
+    <%@ include file="/WEB-INF/jsp/fragment/common/resource.jspf" %>
 </head>
 <body>
-<%@ include file="/WEB-INF/jsp/fragment/header.jspf" %>
-<%@ include file="/WEB-INF/jsp/fragment/menu.jspf" %>
+
+<%@ include file="/WEB-INF/jsp/fragment/common/header.jspf" %>
+<%@ include file="/WEB-INF/jsp/fragment/common/menu.jspf" %>
 
 <div class="container">
     <div class="row" align="center">
@@ -86,20 +83,8 @@
                 </div>
             </c:forEach>
 
-            <c:set var="pageCount" scope="page" value="${1}"/><p>
-            <form action="/user/orders/open" method="get" class="form-inline">
-                <b><fmt:message key="page.common.pagination.page"/></b>
-                <select name="page" class="form-control" required>
-                    <c:forEach begin="${pageCount}" end="${pageQuantity}">
-                        <option value="${pageCount}" <c:if
-                                test="${pageCount == param.page}"> selected="selected" </c:if> >${pageCount}</option>
-                        <c:set var="pageCount" scope="page" value="${pageCount+1}"/>
-                    </c:forEach>
-                </select>
-                <input type="submit" class="btn btn-primary"
-                       value="<fmt:message key="page.common.pagination.button"/>"/>
-            </form>
-            <p>
+            <c:set var="action" scope="page" value="/user/orders/open"/>
+            <%@ include file="/WEB-INF/jsp/fragment/common/paginaton.jspf" %>
 
         </div>
     </div>

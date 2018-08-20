@@ -1,0 +1,7 @@
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="content"/>
+<title><fmt:message key="${titleKey}"/></title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>

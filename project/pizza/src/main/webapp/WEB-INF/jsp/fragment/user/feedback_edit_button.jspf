@@ -1,0 +1,5 @@
+<br>
+<form action="/user/feedback/edit" method="post">
+    <input name="feedbackId" type="hidden" value="${feedbackList.id}">
+    <input type="submit" class="btn btn-primary" value="<fmt:message key="page.feedback.button.edit"/>"/>
+</form>

@@ -1,34 +1,28 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
-    <fmt:setLocale value="${sessionScope.locale}"/>
-    <fmt:setBundle basename="content"/>
-    <title><fmt:message key="page.profile.title"/></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
-    <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+    <c:set var="titleKey" scope="page" value="page.profile.title"/>
+    <%@ include file="/WEB-INF/jsp/fragment/common/resource.jspf" %>
 </head>
 <body>
-<%@ include file="/WEB-INF/jsp/fragment/header.jspf" %>
-<%@ include file="/WEB-INF/jsp/fragment/menu.jspf" %>
 
-<c:if test="${sessionScope.user.userRole eq 'ADMIN'}">
-    <c:set var="url" scope="page" value="/admin/profile"/>
-</c:if>
-<c:if test="${sessionScope.user.userRole eq 'USER'}">
-    <c:set var="url" scope="page" value="/user/profile"/>
-</c:if>
+<%@ include file="/WEB-INF/jsp/fragment/common/header.jspf" %>
+<%@ include file="/WEB-INF/jsp/fragment/common/menu.jspf" %>
 
 <div class="container">
     <div class="row" align="center">
         <div class="col-sm-1"></div>
         <div class="col-sm-10" style="background-color:AliceBlue;">
-            <form action="${url}" method="post">
+            <form action="/${fn:toLowerCase(sessionScope.user.userRole)}/profile" method="post">
+
+                <fmt:message key="page.profile.message.error" var="messageText"/>
+                <%@ include file="/WEB-INF/jsp/fragment/common/error_message.jspf" %>
+
                 <table class="table">
                     <thead>
                     <tr style="background-color:PowderBlue;">
@@ -38,15 +32,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:if test="${message}">
-                        <tr>
-                            <td colspan="2">
-                                <div class="alert alert-danger" align="center">
-                                    <fmt:message key="page.profile.message.error"/>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:if>
                     <tr>
                         <td>
                             <h4><b><fmt:message key="page.profile.table.attribute.email"/></b></h4>
@@ -147,7 +132,8 @@
                     </tbody>
                 </table>
             </form>
-            <form action="${url}" method="post">
+
+            <form action="/${fn:toLowerCase(sessionScope.user.userRole)}/profile" method="post">
                 <table class="table">
                     <thead>
                     <tr style="background-color:PowderBlue;">

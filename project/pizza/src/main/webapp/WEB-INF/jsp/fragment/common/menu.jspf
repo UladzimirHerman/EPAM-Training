@@ -1,21 +1,17 @@
-<c:if test="${sessionScope.user.userRole eq 'ADMIN'}">
-    <c:set var="urlPart" scope="page" value="admin"/>
-</c:if>
-<c:if test="${sessionScope.user.userRole eq 'USER'}">
-    <c:set var="urlPart" scope="page" value="user"/>
-</c:if>
 <div class="container">
     <div class="row" align="center">
         <div class="col-sm-1"></div>
         <div class="col-sm-10" style="background-color: #17a2b8">
             <nav class="navbar navbar-expand-sm bg-info navbar-dark">
                 <ul class="navbar-nav">
-                    <form action="/${urlPart}/profile" method="post">
+
+                    <form action="/${fn:toLowerCase(sessionScope.user.userRole)}/profile" method="post">
                         <li class="nav-item">
                             <input type="submit" class="btn btn-info"
                                    value="<fmt:message key="page.fragment.menu.profile"/>">
                         </li>
                     </form>
+
                     <c:if test="${sessionScope.user.userRole eq 'ADMIN'}">
                         <form action="/admin/users" method="get">
                             <li class="nav-item">
@@ -25,20 +21,23 @@
                             </li>
                         </form>
                     </c:if>
-                    <form action="/${urlPart}/news" method="get">
+
+                    <form action="/${fn:toLowerCase(sessionScope.user.userRole)}/news" method="get">
                         <li class="nav-item">
                             <input name="page" type="hidden" value="1">
                             <input type="submit" class="btn btn-info"
                                    value="<fmt:message key="page.fragment.menu.news"/>">
                         </li>
                     </form>
-                    <form action="/${urlPart}/product" method="get">
+
+                    <form action="/${fn:toLowerCase(sessionScope.user.userRole)}/product" method="get">
                         <li class="nav-item">
                             <input name="page" type="hidden" value="1">
                             <input type="submit" class="btn btn-info"
                                    value="<fmt:message key="page.fragment.menu.products"/>">
                         </li>
                     </form>
+
                     <c:if test="${sessionScope.user.userRole eq 'USER'}">
                         <form action="/user/basket" method="post">
                             <li class="nav-item">
@@ -47,27 +46,31 @@
                             </li>
                         </form>
                     </c:if>
-                    <form action="/${urlPart}/orders/open" method="get">
+
+                    <form action="/${fn:toLowerCase(sessionScope.user.userRole)}/orders/open" method="get">
                         <li class="nav-item">
                             <input name="page" type="hidden" value="1">
                             <input type="submit" class="btn btn-info"
                                    value="<fmt:message key="page.fragment.menu.orders"/>">
                         </li>
                     </form>
-                    <form action="/${urlPart}/orders/archive" method="get">
+
+                    <form action="/${fn:toLowerCase(sessionScope.user.userRole)}/orders/archive" method="get">
                         <li class="nav-item">
                             <input name="page" type="hidden" value="1">
                             <input type="submit" class="btn btn-info"
                                    value="<fmt:message key="page.fragment.menu.archive"/>">
                         </li>
                     </form>
-                    <form action="/${urlPart}/feedback" method="get">
+
+                    <form action="/${fn:toLowerCase(sessionScope.user.userRole)}/feedback" method="get">
                         <li class="nav-item">
                             <input name="page" type="hidden" value="1">
                             <input type="submit" class="btn btn-info"
                                    value="<fmt:message key="page.fragment.menu.feedback"/>">
                         </li>
                     </form>
+
                     <c:if test="${sessionScope.user.userRole eq 'ADMIN'}">
                         <form action="/admin/upload" method="post">
                             <li class="nav-item">
@@ -76,6 +79,7 @@
                             </li>
                         </form>
                     </c:if>
+
                     <form action="/registration" method="post">
                         <li class="nav-item">
                             <input name="command" type="hidden" value="logout">
@@ -83,6 +87,7 @@
                                    value="<fmt:message key="page.fragment.menu.logout"/>">
                         </li>
                     </form>
+
                 </ul>
             </nav>
         </div>

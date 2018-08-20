@@ -1,0 +1,13 @@
+<br>
+<table class="table table-borderless">
+    <tbody>
+    <tr>
+        <td align="right">
+            <form action="/user/feedback/create" method="post">
+                <b><fmt:message key="page.feedback.phrase.create"/></b>
+                <input type="submit" class="btn btn-primary" value="<fmt:message key="page.feedback.button.create"/>"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>

@@ -1,39 +1,30 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
-    <fmt:setLocale value="${sessionScope.locale}"/>
-    <fmt:setBundle basename="content"/>
-    <title><fmt:message key="page.productCreate.title"/></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
-    <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+    <c:set var="titleKey" scope="page" value="page.productCreate.title"/>
+    <%@ include file="/WEB-INF/jsp/fragment/common/resource.jspf" %>
 </head>
 <body>
-<%@ include file="/WEB-INF/jsp/fragment/header.jspf" %>
-<%@ include file="/WEB-INF/jsp/fragment/menu.jspf" %>
+
+<%@ include file="/WEB-INF/jsp/fragment/common/header.jspf" %>
+<%@ include file="/WEB-INF/jsp/fragment/common/menu.jspf" %>
 
 <div class="container">
     <div class="row" align="center">
         <div class="col-sm-1"></div>
-        <div class="col-sm-10" style="background-color:AliceBlue;"><br>
-
+        <div class="col-sm-10" style="background-color:AliceBlue;">
             <form action="/admin/product/create" method="post">
+
+                <fmt:message key="page.productCreate.message.error" var="messageText"/>
+                <%@ include file="/WEB-INF/jsp/fragment/common/error_message.jspf" %>
+
                 <table class="table">
                     <tbody>
-                    <c:if test="${message}">
-                        <tr>
-                            <td colspan="2">
-                                <div class="alert alert-danger" align="center">
-                                    <fmt:message key="page.productCreate.message.error"/>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:if>
                     <tr>
                         <td>
                             <h4><b><fmt:message key="page.productCreate.table.attribute.name"/></b></h4>
@@ -96,7 +87,6 @@
                     </tbody>
                 </table>
             </form>
-
         </div>
     </div>
 </div>

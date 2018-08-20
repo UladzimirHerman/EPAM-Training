@@ -1,0 +1,10 @@
+<div class="btn-group">
+    <form action="/admin/news/edit" method="get">
+        <input name="newsId" type="hidden" value="<c:out value="${newsList.id}"/>"/>
+        <input type="submit" class="btn btn-primary" value="<fmt:message key="page.newsView.button.edit"/>"/>
+    </form>
+    <form action="/admin/news/delete" method="get">
+        <input name="newsId" type="hidden" value="<c:out value="${newsList.id}"/>"/>
+        <input type="submit" class="btn btn-primary" value="<fmt:message key="page.newsView.button.delete"/>"/>
+    </form>
+</div>

@@ -1,0 +1,6 @@
+<c:if test="${message}">
+    <br>
+    <div class="alert alert-danger" align="center">
+        <c:out value="${messageText}"/>
+    </div>
+</c:if>
