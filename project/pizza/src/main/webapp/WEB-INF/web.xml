@@ -3,26 +3,16 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <jsp-config>
-        <taglib>
-            <taglib-uri>customtags</taglib-uri>
-            <taglib-location>/WEB-INF/tld/custom.tld</taglib-location>
-        </taglib>
-    </jsp-config>
-
     <servlet>
         <servlet-name>Controller</servlet-name>
         <servlet-class>com.gmail.herman.uladzimir.controller.Controller</servlet-class>
-        <init-param>
-            <param-name>pract123</param-name>
-            <param-value>jdbc:odbc:practODBC</param-value>
-        </init-param>
         <multipart-config>
             <max-file-size>10485760</max-file-size>
             <max-request-size>20971520</max-request-size>
             <file-size-threshold>5242880</file-size-threshold>
         </multipart-config>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/authentication</url-pattern>
@@ -54,8 +44,15 @@
         <listener-class>com.gmail.herman.uladzimir.listener.ContextListener</listener-class>
     </listener>
 
-    <!--<error-page>-->
-        <!--<location>/WEB-INF/jsp/common/error.jsp</location>-->
-    <!--</error-page>-->
+    <error-page>
+        <location>/WEB-INF/jsp/common/error.jsp</location>
+    </error-page>
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>customtags</taglib-uri>
+            <taglib-location>/WEB-INF/tld/custom.tld</taglib-location>
+        </taglib>
+    </jsp-config>
 
 </web-app>
