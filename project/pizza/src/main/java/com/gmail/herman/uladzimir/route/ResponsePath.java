@@ -8,8 +8,6 @@ package com.gmail.herman.uladzimir.route;
  */
 public final class ResponsePath {
 
-    public static final String FORWARD_TO_ADMIN_FEEDBACK_PAGE = "/WEB-INF/jsp/admin/feedback.jsp";
-    public static final String FORWARD_TO_ADMIN_NEWS_PAGE = "/WEB-INF/jsp/admin/news.jsp";
     public static final String FORWARD_TO_ADMIN_NEWS_CREATE_PAGE = "/WEB-INF/jsp/admin/news_create.jsp";
     public static final String FORWARD_TO_ADMIN_NEWS_DELETE_PAGE = "/WEB-INF/jsp/admin/news_delete.jsp";
     public static final String FORWARD_TO_ADMIN_NEWS_EDIT_PAGE = "/WEB-INF/jsp/admin/news_edit.jsp";
@@ -23,14 +21,14 @@ public final class ResponsePath {
     public static final String FORWARD_TO_ADMIN_USERS_DELETE_PAGE = "/WEB-INF/jsp/admin/users_delete.jsp";
     public static final String FORWARD_TO_ADMIN_USERS_EDIT_PAGE = "/WEB-INF/jsp/admin/users_edit.jsp";
     public static final String FORWARD_TO_ERROR_PAGE = "/WEB-INF/jsp/common/error.jsp";
+    public static final String FORWARD_TO_FEEDBACK_PAGE = "/WEB-INF/jsp/common/feedback.jsp";
     public static final String FORWARD_TO_LOGIN_PAGE = "/WEB-INF/jsp/common/login.jsp";
+    public static final String FORWARD_TO_NEWS_PAGE = "/WEB-INF/jsp/common/news.jsp";
     public static final String FORWARD_TO_PROFILE_PAGE = "/WEB-INF/jsp/common/profile.jsp";
     public static final String FORWARD_TO_REGISTRATION_PAGE = "/WEB-INF/jsp/common/registration.jsp";
     public static final String FORWARD_TO_USER_BASKET_PAGE = "/WEB-INF/jsp/user/basket.jsp";
-    public static final String FORWARD_TO_USER_FEEDBACK_PAGE = "/WEB-INF/jsp/user/feedback.jsp";
     public static final String FORWARD_TO_USER_FEEDBACK_CREATE_PAGE = "/WEB-INF/jsp/user/feedback_create.jsp";
     public static final String FORWARD_TO_USER_FEEDBACK_EDIT_PAGE = "/WEB-INF/jsp/user/feedback_edit.jsp";
-    public static final String FORWARD_TO_USER_NEWS_PAGE = "/WEB-INF/jsp/user/news.jsp";
     public static final String FORWARD_TO_USER_ORDERS_ARCHIVE_PAGE = "/WEB-INF/jsp/user/orders_archive.jsp";
     public static final String FORWARD_TO_USER_ORDERS_OPEN_PAGE = "/WEB-INF/jsp/user/orders_open.jsp";
     public static final String FORWARD_TO_USER_PRODUCT_PAGE = "/WEB-INF/jsp/user/product.jsp";
