@@ -8,7 +8,7 @@
     <uri>customtags</uri>
     <tag>
         <name>cost-definition</name>
-        <tag-class>com.gmail.herman.uladzimir.tag.CostDefinitionTag</tag-class>
+        <tag-class>com.epam.herman.uladzimir.tag.CostDefinitionTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>price</name>
