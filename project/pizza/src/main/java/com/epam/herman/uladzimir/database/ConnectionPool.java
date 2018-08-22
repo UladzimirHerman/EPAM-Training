@@ -114,6 +114,7 @@ public class ConnectionPool {
      * Closing all connections in queue
      *
      * @param queue connections queue
+     * @throws SQLException if any error occurred when closing connections
      */
     private void closeConnections(BlockingQueue<PooledConnection> queue)
             throws SQLException {

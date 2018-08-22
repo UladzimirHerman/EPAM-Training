@@ -36,6 +36,7 @@ public class SQLManager {
      * Getting particular SQL element by key
      *
      * @param key key for searching
+     * @return particular SQL element
      * @see SQLElement
      */
     public String getSQL(String key) {

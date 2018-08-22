@@ -66,6 +66,8 @@ public enum CommandType {
 
     /**
      * Constructor, which initializes the command with particular value
+     *
+     * @param command particular command
      */
     CommandType(Command command) {
         this.command = command;

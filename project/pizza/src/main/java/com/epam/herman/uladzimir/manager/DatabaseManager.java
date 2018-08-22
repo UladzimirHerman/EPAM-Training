@@ -38,6 +38,7 @@ public class DatabaseManager {
      * Getting property value by key
      *
      * @param key key for searching
+     * @return particular property
      * @see DatabaseParameter
      */
     public String getProperty(String key) {
